@@ -60,9 +60,20 @@ const entries = [
 var menu = new Vue({
 	el: '#menu',
 	methods: {
+		toggleupdate: function(event) {
+			update.display = !update.display;
+		},
 		togglecreate: function(event) {
 			create.display = !create.display;
 		}
+	}
+});
+
+var update = new Vue({
+	el: '#update',
+	data: {
+		settings: settings,
+		display: false
 	}
 });
 

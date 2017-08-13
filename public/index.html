@@ -11,8 +11,52 @@
     <div class="section">
       <div class="container">
         <div id="menu" v-cloak>
-          <a class="button is-pulled-right" v-on:click="togglecreate">Create</a>
+          <div class="field is-grouped is-pulled-right">
+            <div class="control">
+              <a class="button is-pulled-right" v-on:click="togglecreate">Create</a>
+            </div>
+            <div class="control">
+              <a class="button is-pulled-right" v-on:click="toggleupdate">Update</a>
+            </div>
+          </div>
         </div><br>
+
+        <div id="update" v-if="display" v-cloak><br>
+          <div class="box">
+            <div class="field">
+              <label class="label">Alphabet</label>
+              <div class="control">
+                <input class="input" type="text" maxlength="256" placeholder="Password charset" v-model="settings.alphabet">
+              </div>
+            </div><br>
+            <div class="columns">
+              <div class="field column is-one-fourth">
+                <label class="label">Length</label>
+                <div class="control">
+                  <input class="input" type="number" max="100" placeholder="Password size" v-model="settings.length">
+                </div>
+              </div>
+              <div class="field column is-one-fourth">
+                <label class="label">N</label>
+                <div class="control">
+                  <input class="input" type="number" max="1000000" placeholder="scrypt parameter" v-model="settings.N">
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">r</label>
+                <div class="control">
+                  <input class="input" type="number" max="100" placeholder="scrypt parameter" v-model="settings.r">
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">p</label>
+                <div class="control">
+                  <input class="input" type="number" max="100" placeholder="scrypt parameter" v-model="settings.p">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div id="create" v-if="display" v-cloak><br>
           <div class="box">
