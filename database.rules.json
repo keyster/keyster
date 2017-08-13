@@ -1,0 +1,41 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "services": {
+          "$id": {
+            "title": {
+              ".validate": "newData.isString() && newData.val().length <= 100"
+            },
+            "subtitle": {
+              ".validate": "newData.isString() && newData.val().length <= 100"
+            },
+            "description": {
+              ".validate": "newData.isString() && newData.val().length <= 100"
+            },
+            "salt": {
+              ".validate": "newData.isString() && newData.val().length <= 100"
+            },
+            "alphabet": {
+              ".validate": "newData.isString() && newData.val().length <= 150"
+            },
+            "length": {
+              ".validate": "newData.isNumber() && newData.val() <= 150"
+            },
+            "N": {
+              ".validate": "newData.isNumber()"
+            },
+            "p": {
+              ".validate": "newData.isNumber()"
+            },
+            "r": {
+              ".validate": "newData.isNumber()"
+            }
+          }
+        }
+      }
+    }
+  }
+}

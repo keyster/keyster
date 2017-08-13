@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf8>
+    <title>Generate</title>
+
+    <link type="text/css" rel="stylesheet" href="css/bulma.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="section">
+      <div class="container">
+        <div id="menu" v-cloak>
+          <a class="button is-pulled-right" v-on:click="togglecreate">Create</a>
+        </div><br>
+
+        <div id="create" v-if="display" v-cloak><br>
+          <div class="box">
+            <div class="columns">
+              <div class="field column">
+                <label class="label">Title</label>
+                <div class="control">
+                  <input class="input" type="text" maxlength="500" placeholder="Website name">
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">Subtitle</label>
+                <div class="control">
+                  <input class="input" type="text" maxlength="100" placeholder="Account username">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Description</label>
+              <div class="control">
+                <input class="input" type="text" maxlength="200" placeholder="Additional information">
+              </div>
+            </div>
+            <div v-if="show"><br>
+              <div class="field">
+                <label class="label">Alphabet</label>
+                <div class="control">
+                  <input class="input" type="text" maxlength="256" placeholder="Password charset" v-model="settings.alphabet">
+                </div>
+              </div><br>
+              <div class="columns">
+                <div class="field column is-one-fourth">
+                  <label class="label">Length</label>
+                  <div class="control">
+                    <input class="input" type="number" max="100" placeholder="Password size" v-model="settings.length">
+                  </div>
+                </div>
+                <div class="field column is-one-fourth">
+                  <label class="label">N</label>
+                  <div class="control">
+                    <input class="input" type="number" max="1000000" placeholder="scrypt parameter" v-model="settings.N">
+                  </div>
+                </div>
+                <div class="field column">
+                  <label class="label">r</label>
+                  <div class="control">
+                    <input class="input" type="number" max="100" placeholder="scrypt parameter" v-model="settings.r">
+                  </div>
+                </div>
+                <div class="field column">
+                  <label class="label">p</label>
+                  <div class="control">
+                    <input class="input" type="number" max="100" placeholder="scrypt parameter" v-model="settings.p">
+                  </div>
+                </div>
+              </div>
+            </div><br>
+            <div class="field is-grouped">
+              <div class="control">
+                <a class="button" v-on:click="show=!show">Settings</a>
+              </div>
+              <div class="control">
+                <a class="button is-primary">Submit</a>
+              </div>
+            </div>
+          </div>
+        </div><br>
+
+        <div id="generate" v-cloak>
+          <div class="box">
+            <strong>{{ entry.title }}</strong>&nbsp;
+            <small>{{ entry.subtitle }}</small><br>
+            <small>{{ entry.description }}</small><br><br>
+            <div class="columns">
+              <div class="column is-10">
+                <input class="input" type="password" placeholder="Master key" v-model="master">
+              </div>
+              <div class="column">
+                <a class="button is-primary is-pulled-right is-fullwidth" v-bind:class="{ 'is-loading': loading }" v-on:click="generate" v-if="!notify">Generate</a>
+                <a class="button is-primary is-pulled-right is-fullwidth" v-clipboard:copy="password" v-if="notify">Copy</a>
+              </div>
+            </div>
+            <div class="notification is-primary" v-if="notify">
+              Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
+            </div>
+          </div>
+        </div><br>
+
+        <div id="select" v-cloak>
+          <nav class="panel">
+            <p class="panel-heading">
+              Entries
+            </p>
+            <a class="panel-block" v-for="(entry, index) in entries" v-on:click="select(index)">
+              <strong>{{ entry.title }}</strong>&nbsp;
+              <small>{{ entry.subtitle }}</small>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-clipboard.min.js"></script>
+    <script src="js/BigInteger.min.js"></script>
+    <script src="js/scrypt.js"></script>
+    <script src="js/generate.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
