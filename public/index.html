@@ -5,9 +5,8 @@
     <title>Keyster</title>
 
     <link type="text/css" rel="stylesheet" href="css/bulma.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
     <link type="text/css" rel="stylesheet" href="css/style.css" />
-
-    <script src="https://use.fontawesome.com/dd12348854.js"></script>
   </head>
   <body>
     <div class="section">
@@ -15,54 +14,31 @@
         <div id="menu" v-cloak>
           <div class="field is-grouped is-pulled-right">
             <div class="control">
-              <a class="button is-pulled-right" :class="{ 'is-active': update }" @click="toggleupdate">
+              <a class="button is-pulled-right" :class="{ 'is-active': 'update'===curr }" @click="toggle('update')">
                 <i class="fa fa-cogs"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button is-pulled-right" :class="{ 'is-active': create }" @click="togglecreate">
+              <a class="button is-pulled-right" :class="{ 'is-active': 'create'===curr }" @click="toggle('create')">
                 <i class="fa fa-plus"></i>
               </a>
             </div>
-            <div class="control" v-if="!loggedin">
-              <a class="button is-pulled-right" :class="{ 'is-active': login }" @click="togglelogin">Login</a>
+            <div class="control" v-show="!auth">
+              <a class="button is-pulled-right" :class="{ 'is-active': 'login'===curr }" @click="toggle('login')">
+                <i class="fa fa-sign-in"></i>
+              </a>
             </div>
-            <div class="control" v-if="loggedin">
-              <a class="button is-pulled-right" @click="logout">Logout</a>
+            <div class="control" v-show="auth">
+              <a class="button is-pulled-right" @click="logout">
+                <i class="fa fa-sign-out"></i>
+              </a>
             </div>
           </div>
         </div><br>
 
-        <div id="login" v-if="display" v-cloak><br>
+        <div id="update" v-show="display" v-cloak><br>
           <div class="box">
-            <label class="label">Phone Number</label>
-            <div class="columns">
-              <div class="column is-1">
-                <input class="input" type="text" v-model="credentials.prefix">
-              </div>
-              <div class="column is-9">
-                <input class="input" type="text" placeholder="Phone Number" v-model="credentials.number">
-              </div>
-              <div class="column">
-                <a @click="sendCode" class="button is-primary is-pulled-right is-fullwidth">Send Code</a>
-              </div>
-            </div>
-            <div id="recaptcha"></div>
-            <label class="label">Code</label>
-            <div class="columns">
-              <div class="column is-10">
-                <input class="input" type="tel" placeholder="Code" v-model="credentials.code">
-              </div>
-              <div class="column">
-                <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="update" v-if="display" v-cloak><br>
-          <div class="box">
-            <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
+            <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="settings.alphabet" @change="change"></text-input><br>
             <div class="columns">
               <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
               <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
@@ -72,15 +48,15 @@
           </div>
         </div>
 
-        <div id="create" v-if="display" v-cloak><br>
+        <div id="create" v-show="display" v-cloak><br>
           <div class="box">
             <div class="columns">
               <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
               <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
             </div>
             <text-input class="field" name="description" label="Description" max="200" placeholder="Additional information" @change="change"></text-input>
-            <div v-if="show"><br>
-              <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
+            <div v-show="show"><br>
+              <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="settings.alphabet" @change="change"></text-input><br>
               <div class="columns">
                 <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
                 <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
@@ -93,9 +69,34 @@
                 <a class="button" @click="show=!show">Settings</a>
               </div>
               <div class="control">
-                <a class="button is-primary" @click="createService">Submit</a>
+                <a class="button is-primary" @click="create">Submit</a>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div id="login" v-show="display" v-cloak><br>
+          <div class="modal is-active">
+            <div class="modal-background" @click="clear"></div>
+            <div class="modal-content">
+              <div class="box">
+                <label class="label">Phone Number</label>
+                <div class="columns">
+                  <div class="column is-2">
+                    <input class="input" type="text" v-model="prefix">
+                  </div>
+                  <div class="column">
+                    <input class="input" type="text" placeholder="XXX-XXX-XXXX" v-model="number">
+                  </div>
+                </div>
+                <div id="recaptcha"></div><br>
+                <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
+                <label class="label">Code</label>
+                <input class="input" type="number" placeholder="XXXXXX" v-model="code"><br><br>
+                <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In</a><br><br>
+              </div>
+            </div>
+            <button class="modal-close is-large" @click="clear"></button>
           </div>
         </div>
 
@@ -109,11 +110,11 @@
                 <input class="input" type="password" placeholder="Master key" v-model="master">
               </div>
               <div class="column">
-                <a class="button is-primary is-pulled-right is-fullwidth" :class="{ 'is-loading': loading }" @click="generate" v-if="!notify">Generate</a>
-                <a class="button is-primary is-pulled-right is-fullwidth" v-clipboard:copy="password" v-if="notify">Copy</a>
+                <a class="button is-primary is-pulled-right is-fullwidth" @click="generate" v-show="!notify">Generate</a>
+                <a class="button is-primary is-pulled-right is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a>
               </div>
             </div>
-            <div class="notification is-primary" v-if="notify">
+            <div class="notification is-primary" v-show="notify">
               Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
             </div>
           </div>
@@ -138,7 +139,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script>
-      // Initialize Firebase
       var config = {
         apiKey: "AIzaSyAF1nRCCALm5l38u48t3IcPNkuCIp785HE",
         authDomain: "keyster-faef2.firebaseapp.com",
@@ -149,11 +149,16 @@
       };
       firebase.initializeApp(config);
     </script>
+
     <script src="js/vue.min.js"></script>
     <script src="js/vue-clipboard.min.js"></script>
+
     <script src="js/BigInteger.min.js"></script>
     <script src="js/scrypt.js"></script>
+
     <script src="js/generate.js"></script>
+    <script src="js/create.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
   </body>
 </html>

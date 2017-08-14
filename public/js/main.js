@@ -1,29 +1,10 @@
-var crypto = window.crypto || window.msCrypto;
-
-function genSalt(length) {
-  var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var result = "";
-  values = new Uint32Array(length);
-  crypto.getRandomValues(values);
-  for(var i=0; i<length; i++) {
-      result += charset[values[i] % charset.length];
-  }
-  return result;
-}
-
 const settings = {
-	title: "",
-	subtitle: "",
-	description: "",
-	salt: "",
 	N: 16384,
 	r: 8,
 	p: 1,
 	length: 32,
 	alphabet: 'abcdefghijklmnopqrstuvwxyz'
-}
-
-const entries = [{}];
+};
 
 Vue.component('text-input', {
 	props: ['name', 'label', 'max', 'placeholder', 'value'],
@@ -35,7 +16,7 @@ Vue.component('text-input', {
 			this.$emit('change', this.name, event.target.value);
 		}
 	}
-})
+});
 
 Vue.component('num-input', {
 	props: ['name', 'label', 'max', 'placeholder', 'value'],
@@ -47,67 +28,66 @@ Vue.component('num-input', {
 			this.$emit('change', this.name, event.target.value);
 		}
 	}
-})
+});
 
 var menu = new Vue({
 	el: '#menu',
 	data: {
-		update: false,
-		create: false,
-		login: false,
-		loggedin: false
+		auth: false,
+		curr: ''
 	},
 	methods: {
-		toggleupdate: function(event) {
-			this.update = !this.update;
-			this.create = false;
-			this.login = false;
-		},
-		togglecreate: function(event) {
-			this.update = false;
-			this.create = !this.create;
-			this.login = false;
-		},
-		togglelogin: function(event) {
-			this.update = false;
-			this.create = false;
-			this.login = !this.login;
+		toggle: function(item) {
+			if (this.curr === item) {
+				this.curr = '';
+			} else {
+				this.curr = item;
+			}
 		},
 		logout: function(event) {
-			firebase.auth().signOut()
+			firebase.auth().signOut();
+			select.entries = [{}];
+			generate.entry = select.entries[0];
 		}
 	}
 });
 
-var credentials = {prefix: "+1", number: "", code: ""}
-
 var login = new Vue({
 	el: "#login",
 	data: {
-		credentials: credentials
-	},
-	created: function() {
-		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha')
+		prefix: '+1',
+		number: '',
+		code: ''
 	},
 	computed: {
-		display: function() { return menu.login; }
+		display: function() {return 'login' === menu.curr; }
+	},
+	created: function() {
+		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
+		window.recaptchaVerifier.render();
 	},
 	methods: {
-		confirm: function() {
-			confirmationResult.confirm(credentials.code)
+		clear: function() {
+			menu.curr = '';
 		},
-		sendCode: function() {
-			firebase.auth().signInWithPhoneNumber(credentials.prefix+credentials.number, window.recaptchaVerifier)
+		send: function() {
+			firebase.auth().signInWithPhoneNumber(this.prefix+this.number, window.recaptchaVerifier)
 			.then(function(confirmationResult) {
-				window.confirmationResult = confirmationResult
+				window.confirmationResult = confirmationResult;
 			}).catch(function(error) {
 				window.recaptchaVerifier.render().then(function(widgetId) {
 					grecaptcha.reset(widgetId);
-				})
-			})
+				});
+			});
+			this.prefix = '+1';
+			this.number = '';
+		},
+		confirm: function() {
+			confirmationResult.confirm(this.code);
+			this.code = '';
 		}
 	}
-})
+});
 
 var update = new Vue({
 	el: '#update',
@@ -121,7 +101,7 @@ var update = new Vue({
 		}
 	},
 	computed: {
-		display: function() { return menu.update; }
+		display: function() { return 'update' === menu.curr; }
 	},
 	methods: {
 		change: function(name, value) {
@@ -134,9 +114,9 @@ var create = new Vue({
 	el: '#create',
 	data: {
 		response: {
-			title: settings.title,
-			subtitle: settings.subtitle,
-			description: settings.description,
+			title: '',
+			subtitle: '',
+			description: '',
 			N: settings.N,
 			r: settings.r,
 			p: settings.p,
@@ -146,40 +126,17 @@ var create = new Vue({
 		show: false
 	},
 	computed: {
-		display: function() { return menu.create; }
+		display: function() { return 'create' === menu.curr; }
 	},
 	methods: {
 		change: function(name, value) {
 			this.response[name] = value;
 		},
-		createService: function(event) {
-			var newService = JSON.parse(JSON.stringify(this.response));
-			newService.salt = genSalt(32)
-			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services").push(newService)
-		}
-	}
-});
-
-var generate = new Vue({
-	el: '#generate',
-	data: {
-		entry: entries[0],
-		master: '',
-		password: '',
-		notify: false,
-		loading: false
-	},
-	methods: {
-		generate: function(event) {
-			this.loading = true;
-			this.password = hash(this.entry, this.master);
-			this.loading = false;
-			this.master = '';
-			this.notify = true;
-			setTimeout(()=>{
-				this.notify = false;
-				this.password = '';
-			}, 5000);
+		create: function(event) {
+			var service = JSON.parse(JSON.stringify(this.response));
+			service.salt = salt(32);
+			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services").push(service);
+			menu.curr = '';
 		}
 	}
 });
@@ -187,7 +144,7 @@ var generate = new Vue({
 var select = new Vue({
 	el: '#select',
 	data: {
-		entries: entries,
+		entries: [{}],
 		selected: 0
 	},
 	methods: {
@@ -202,22 +159,23 @@ var select = new Vue({
 	}
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-	menu.login = false
-	select.entries = [{}]
-	generate.entry = entries[0]
-	if (user) {
-		menu.loggedin = true
-		firebase.database().ref("/users/"+user.uid+"/services").on("value", function(snapshot) {
-			var servicesList = []
-			var services = snapshot.val()
-			for (s in services) {
-				servicesList.push(services[s])
-			}
-			select.entries = servicesList
-			generate.entry = select.entries[0]
-		})
-	} else {
-		menu.loggedin = false
+var generate = new Vue({
+	el: '#generate',
+	data: {
+		entry: select.entries[0],
+		master: '',
+		password: '',
+		notify: false
+	},
+	methods: {
+		generate: function(event) {
+			this.password = hash(this.entry, this.master);
+			this.master = '';
+			this.notify = true;
+			setTimeout(()=>{
+				this.notify = false;
+				this.password = '';
+			}, 5000);
+		}
 	}
-})
+});

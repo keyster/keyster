@@ -1,8 +1,6 @@
-var scrypt;
-
 function prepare(N) {
 	scrypt_module_factory(function (s) {
-		scrypt = s;
+		window.scrypt = s;
 	}, { requested_total_memory: N * 2048 });
 }
 
