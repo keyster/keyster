@@ -2,11 +2,11 @@
 	display: none;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 390px) {
 	#recaptcha {
-		transform: scale(0.77);
-		-webkit-transform: scale(0.77);
-		transform-origin:0 0;
-		-webkit-transform-origin:0 0;
+		-webkit-transform: scale(0.78);
+		transform: scale(0.78);
+		-webkit-transform-origin: left center;
+		transform-origin: left center;
 	}
 }
