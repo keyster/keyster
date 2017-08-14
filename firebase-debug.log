@@ -1,0 +1,28 @@
+[debug] [2017-08-14T16:11:56.257Z] ----------------------------------------------------------------------
+[debug] [2017-08-14T16:11:56.258Z] Command:       /home/kevin/.nvm/versions/node/v6.9.1/bin/node /home/kevin/.nvm/versions/node/v6.9.1/bin/firebase serve
+[debug] [2017-08-14T16:11:56.258Z] CLI Version:   3.9.2
+[debug] [2017-08-14T16:11:56.259Z] Platform:      linux
+[debug] [2017-08-14T16:11:56.259Z] Node Version:  v6.9.1
+[debug] [2017-08-14T16:11:56.259Z] Time:          Mon Aug 14 2017 12:11:56 GMT-0400 (EDT)
+[debug] [2017-08-14T16:11:56.259Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-08-14T16:11:56.266Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-08-14T16:11:56.266Z] > authorizing via signed-in user
+[debug] [2017-08-14T16:11:56.267Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/keyster-faef2  
+ Mon Aug 14 2017 12:11:56 GMT-0400 (EDT)
+[debug] [2017-08-14T16:11:57.289Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-14T16:11:57.290Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/keyster-faef2/tokens  
+ Mon Aug 14 2017 12:11:57 GMT-0400 (EDT)
+[debug] [2017-08-14T16:11:57.744Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/run/media/kevin/kmhDrive/Programming/keyster'...
+[info] 
+[debug] [2017-08-14T16:11:57.748Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/keyster-faef2  
+ Mon Aug 14 2017 12:11:57 GMT-0400 (EDT)
+[debug] [2017-08-14T16:11:58.056Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-14T16:11:58.057Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/456632521146/clients/_:getWebAppConfig  
+ Mon Aug 14 2017 12:11:58 GMT-0400 (EDT)
+[debug] [2017-08-14T16:11:58.464Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+

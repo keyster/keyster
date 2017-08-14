@@ -2,7 +2,11 @@
 	display: none;
 }
 
-.modal-content {
-	position: absolute;
-	top: 10vh;
+@media (max-width: 700px) {
+	#recaptcha {
+		transform: scale(0.77);
+		-webkit-transform: scale(0.77);
+		transform-origin:0 0;
+		-webkit-transform-origin:0 0;
+	}
 }
