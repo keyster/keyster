@@ -1,7 +1,4 @@
 language: sass
-before_install:
-- rvm install 2.4.1
-- gem install sass
 script:
   - sass bulma/sass/keyster.sass public/css/bulma.min.css --style compressed
 install:
