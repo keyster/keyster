@@ -9,4 +9,4 @@ after_success:
   - firebase deploy --token ${token} --only database,hosting
 cache:
   directories:
-    - $(npm config get prefix)/bin/firebase-tools
+    - $(npm config get prefix)/bin
