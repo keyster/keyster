@@ -4,7 +4,9 @@ node_js:
 script:
   - echo 'Hello Firebase'
 install:
-  - npm install -g firebase-tools
+  - npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
 after_success:
   - firebase deploy --token ${token} --only database,hosting
-
+cache:
+  directories:
+    - $(npm config get prefix)/bin/firebase-tools
