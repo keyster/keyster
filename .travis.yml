@@ -3,6 +3,7 @@ script:
   - sass bulma/sass/keyster.sass public/css/bulma.min.css --style compressed
 install:
   - nvm install 6.9.4
+  - apt-get install ruby-dev
   - sudo gem install sass --no-user-install
   - npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
 after_success:
