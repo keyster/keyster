@@ -75,31 +75,6 @@
           </div>
         </div>
 
-        <div id="login" v-show="display" v-cloak><br>
-          <div class="modal is-active">
-            <div class="modal-background" @click="clear"></div>
-            <div class="modal-content">
-              <div class="box">
-                <label class="label">Phone Number</label>
-                <div class="columns">
-                  <div class="column is-2">
-                    <input class="input" type="text" v-model="prefix">
-                  </div>
-                  <div class="column">
-                    <input class="input" type="text" placeholder="XXX-XXX-XXXX" v-model="number">
-                  </div>
-                </div>
-                <div id="recaptcha"></div><br>
-                <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
-                <label class="label">Code</label>
-                <input class="input" type="number" placeholder="XXXXXX" v-model="code"><br><br>
-                <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In</a><br><br>
-              </div>
-            </div>
-            <button class="modal-close is-large" @click="clear"></button>
-          </div>
-        </div>
-
         <div id="generate" v-cloak><br>
           <div class="box">
             <strong>{{ entry.title }}</strong>&nbsp;
@@ -134,6 +109,31 @@
             </a>
           </nav>
         </div>
+      </div>
+    </div>
+
+    <div id="login" v-show="display" v-cloak><br>
+      <div class="modal is-active">
+        <div class="modal-background" @click="clear"></div>
+        <div class="modal-content">
+          <div class="box">
+            <label class="label">Phone Number</label>
+            <div class="columns">
+              <div class="column is-2">
+                <input class="input" type="text" v-model="prefix">
+              </div>
+              <div class="column">
+                <input class="input" type="text" placeholder="XXX-XXX-XXXX" v-model="number">
+              </div>
+            </div>
+            <div id="recaptcha"></div><br>
+            <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
+            <label class="label">Code</label>
+            <input class="input" type="number" placeholder="XXXXXX" v-model="code"><br><br>
+            <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In</a><br><br>
+          </div>
+        </div>
+        <button class="modal-close is-large" @click="clear"></button>
       </div>
     </div>
 
