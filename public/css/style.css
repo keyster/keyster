@@ -1,3 +1,8 @@
 [v-cloak] {
 	display: none;
 }
+
+.modal-content {
+	position: absolute;
+	top: 10vh;
+}
