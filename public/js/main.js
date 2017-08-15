@@ -101,6 +101,12 @@ var update = new Vue({
 	methods: {
 		change: function(name, value) {
 			this.response[name] = value;
+		},
+		apply: function(event) {
+			for (r in this.response) {
+				firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/settings/"+r).set(this.response[r])
+			}
+			menu.curr = ''
 		}
 	}
 });

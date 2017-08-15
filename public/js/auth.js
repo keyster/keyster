@@ -12,6 +12,13 @@ firebase.auth().onAuthStateChanged(function(user) {
 			select.entries = entries;
 			generate.entry = select.entries[0];
 		})
+		firebase.database().ref("/users/"+user.uid+"/settings").on("value", function(snapshot) {
+			var settings = snapshot.val()
+			for (s in settings) {
+				update.response[s] = settings[s]
+				create.response[s] = settings[s]
+			}
+		})
 	} else {
 		menu.auth = false;
 	}

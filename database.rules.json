@@ -4,6 +4,23 @@
       "$uid": {
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid",
+        "settings": {
+          "alphabet": {
+            ".validate": "newData.isString() && newData.val().length <= 150"
+          },
+          "length": {
+            ".validate": "newData.isNumber() && newData.val() <= 150"
+          },
+          "N": {
+            ".validate": "newData.isNumber()"
+          },
+          "p": {
+            ".validate": "newData.isNumber()"
+          },
+          "r": {
+            ".validate": "newData.isNumber()"
+          }
+        },
         "services": {
           "$id": {
             "title": {
