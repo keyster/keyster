@@ -4,7 +4,9 @@
       "$uid": {
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid",
+        ".validate": "newData.hasChildren(['settings', 'services'])",
         "settings": {
+          ".validate": "newData.hasChildren(['alphabet', 'length', 'N', 'p', 'r'])",
           "alphabet": {
             ".validate": "newData.isString() && newData.val().length <= 150"
           },
@@ -26,6 +28,7 @@
         },
         "services": {
           "$id": {
+            ".validate": "newData.hasChildren(['title', 'subtitle', 'description', 'salt', 'alphabet', 'length', 'N', 'p', 'r'])",
             "title": {
               ".validate": "newData.isString() && newData.val().length <= 100"
             },
@@ -59,7 +62,7 @@
           }
         },
         "$other": {
-          ".validate": false
+          ".validate": "false"
         }
       }
     }
