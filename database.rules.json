@@ -19,6 +19,9 @@
           },
           "r": {
             ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": "false"
           }
         },
         "services": {
