@@ -10,3 +10,9 @@
 		transform-origin: left center;
 	}
 }
+
+@media (min-width: 768px) {
+	.mobile-spacer {
+		display: none !important;
+	}
+}
