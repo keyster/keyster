@@ -24,11 +24,6 @@
                 <i class="fa fa-plus"></i>
               </a>
             </div>
-            <div class="control" id="loginbtn" v-show="!auth">
-              <a class="button is-pulled-right" :class="{ 'is-active': 'login'===curr }" @click="toggle('login')">
-                <i class="fa fa-sign-in"></i>
-              </a>
-            </div>
             <div class="control" v-show="auth">
               <a class="button is-pulled-right" :class="{ 'is-active': 'profile'===curr }" @click="toggle('profile')">
                 <i class="fa fa-user"></i>

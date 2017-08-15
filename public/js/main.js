@@ -83,9 +83,6 @@ var login = new Vue({
 		number: '',
 		code: ''
 	},
-	computed: {
-		display: function() {return 'login' === menu.curr; }
-	},
 	methods: {
 		clear: function() {
 			menu.curr = '';
