@@ -16,3 +16,7 @@
 		display: none !important;
 	}
 }
+
+#loginbtn {
+	margin-right: 0;
+}
