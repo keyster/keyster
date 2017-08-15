@@ -42,7 +42,7 @@
             <span class="subtitle">Profile</span><a class="button is-danger is-pulled-right" @click="logoutModal">Logout</a>
             <label class="label"><br>Phone Number</label>
             <input type="text" readonly class="input" :value="number">
-            <label class="label"><br>Passwords</label>
+            <label class="label"><br>Entries</label>
             <textarea class="textarea" @input="event => { this.inputJson = event.target.value }" :value="json"></textarea><br>
             <a class="button is-primary" @click="importData">Import</a>
             <a class="button is-primary" @click="exportData" v-show="!notify">Export</a>
@@ -70,7 +70,7 @@
 
         <div id="create" v-show="display" v-cloak><br>
           <div class="box">
-            <h1 class="subtitle">New Password</h1>
+            <h1 class="subtitle">New Entry</h1>
             <div class="columns">
               <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
               <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
