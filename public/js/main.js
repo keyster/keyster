@@ -25,7 +25,7 @@ Vue.component('num-input', {
 	:value="value" @input="change"></div></div>',
 	methods: {
 		change: function(event) {
-			this.$emit('change', this.name, event.target.value);
+			this.$emit('change', this.name, parseInt(event.target.value, 10));
 		}
 	}
 });
