@@ -86,13 +86,13 @@ var login = new Vue({
 	computed: {
 		display: function() {return 'login' === menu.curr; }
 	},
-	created: function() {
-		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
-		window.recaptchaVerifier.render();
-	},
 	methods: {
 		clear: function() {
 			menu.curr = '';
+		},
+		createCaptcha: function() {
+			window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
+			window.recaptchaVerifier.render();
 		},
 		send: function() {
 			firebase.auth().signInWithPhoneNumber(this.prefix+this.number, window.recaptchaVerifier)
@@ -109,6 +109,9 @@ var login = new Vue({
 		confirm: function() {
 			confirmationResult.confirm(this.code);
 			this.code = '';
+			window.recaptchaVerifier.render().then(function(widgetId) {
+				grecaptcha.reset(widgetId);
+			});
 		}
 	}
 });

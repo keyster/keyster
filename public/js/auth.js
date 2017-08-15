@@ -2,6 +2,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	menu.curr = '';
 	select.entries = [];
 	if (user) {
+		document.getElementById("app").style.display = "inherit"
 		menu.auth = true;
 		profile.number = user.phoneNumber
 		firebase.database().ref("/users/"+user.uid+"/services").on("value", function(snapshot) {
@@ -29,6 +30,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 			profile.inputJson = profile.json
 		})
 	} else {
+		document.getElementById("app").style.display = "none"
 		menu.auth = false;
+		login.createCaptcha()
 	}
 })
