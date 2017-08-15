@@ -94,6 +94,7 @@
         <div id="generate" v-show="select.entries.length > 0" v-cloak><br>
           <div class="box">
             <strong>{{ entry.title }}</strong>&nbsp;
+            <a class="button is-pulled-right" @click="edit = !edit">Edit</a>
             <small>{{ entry.subtitle }}</small><br>
             <small>{{ entry.description }}</small><br><br>
             <div class="columns">
@@ -108,6 +109,21 @@
             <br class="mobile-spacer">
             <div class="notification is-primary" v-show="notify">
               Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
+            </div>
+            <div v-show="edit">
+              <div class="columns">
+                <text-input class="field column" name="title" label="Title" max="500" :value="entry.title" @change="change" placeholder="Website name"></text-input>
+                <text-input class="field column" name="subtitle" label="Subtitle" max="100" :value="entry.subtitle" @change="change" placeholder="Account username"></text-input>
+              </div>
+              <text-input class="field" name="description" label="Description" max="200" :value="entry.description" @change="change" placeholder="Additional information"></text-input><br>
+              <div class="field is-grouped">
+                <div class="control">
+                  <a class="button is-primary" @click="apply">Apply</a>
+                </div>
+                <div class="control">
+                  <a class="button is-danger" @click="remove">Delete</a>
+                </div>
+              </div>
             </div>
           </div>
         </div><br>
@@ -182,6 +198,25 @@
           <footer class="modal-card-foot">
             <a class="button" @click="close">Go Back</a>
             <a class="button is-danger" @click="importData">Import Data</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <div id="delete" v-show="display" v-cloak>
+      <div class="modal is-active">
+        <div class="modal-background" @click="close"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Delete Entry</p>
+            <button class="delete" aria-label="close" @click="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <br><p>Are you sure you want to delete that entry? This action cannot be undone.</p><br>
+          </section>
+          <footer class="modal-card-foot">
+            <a class="button" @click="close">Go Back</a>
+            <a class="button is-danger" @click="deleteEntry">Delete</a>
           </footer>
         </div>
       </div>

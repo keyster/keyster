@@ -9,6 +9,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 			var entries = [];
 			var services = snapshot.val();
 			for (s in services) {
+				services[s].id = s
 				entries.push(services[s]);
 			}
 			select.entries = entries;

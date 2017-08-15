@@ -227,9 +227,12 @@ var generate = new Vue({
 	el: '#generate',
 	data: {
 		entry: select.entries[0],
+		newEntry: {},
 		master: '',
 		password: '',
-		notify: false
+		notify: false,
+		edit: false,
+		deleting: false
 	},
 	methods: {
 		generate: function(event) {
@@ -240,6 +243,40 @@ var generate = new Vue({
 				this.notify = false;
 				this.password = '';
 			}, 5000);
+		},
+		change: function(name, value) {
+			this.newEntry[name] = value
+		},
+		apply: function(event) {
+			var updatedEntry = JSON.parse(JSON.stringify(this.entry))
+			for (n in this.newEntry) {
+				updatedEntry[n] = this.newEntry[n]
+			}
+			var id = updatedEntry.id
+			delete updatedEntry.id
+			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services/"+id).set(updatedEntry)
+			this.edit = false
+		},
+		remove: function(event) {
+			this.deleting = true
+			this.deletedEntry = this.entry.id
+			this.edit = false
 		}
 	}
 });
+
+var deleteModal = new Vue({
+	el: "#delete",
+	computed: {
+		display: function() { return generate.deleting }
+	},
+	methods: {
+		deleteEntry: function(event) {
+			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services/"+generate.deletedEntry).remove()
+			this.close()
+		},
+		close: function(event) {
+			generate.deleting = false
+		}
+	}
+})
