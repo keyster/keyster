@@ -3,6 +3,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	select.entries = [];
 	if (user) {
 		menu.auth = true;
+		profile.number = user.phoneNumber
 		firebase.database().ref("/users/"+user.uid+"/services").on("value", function(snapshot) {
 			var entries = [];
 			var services = snapshot.val();
@@ -18,6 +19,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 				update.response[s] = settings[s]
 				create.response[s] = settings[s]
 			}
+		})
+		firebase.database().ref("/users/"+user.uid).on("value", function(snapshot) {
+			profile.json = JSON.stringify(snapshot.val())
+			profile.inputJson = profile.json
 		})
 	} else {
 		menu.auth = false;

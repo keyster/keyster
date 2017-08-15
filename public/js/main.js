@@ -47,6 +47,35 @@ var menu = new Vue({
 	}
 });
 
+var profile = new Vue({
+	el: "#profile",
+	data: {
+		number: "",
+		logout: false,
+		importing: false,
+		notify: false,
+		json: "{}",
+		inputJson: ""
+	},
+	computed: {
+		display: function() { return 'profile' === menu.curr }
+	},
+	methods: {
+		logoutModal: function(event) {
+			this.logout = true
+		},
+		importData: function(event) {
+			this.importing = true
+		},
+		exportData: function(event) {
+			this.notify = true;
+			setTimeout(()=>{
+				this.notify = false;
+			}, 5000);
+		}
+	}
+})
+
 var login = new Vue({
 	el: "#login",
 	data: {
@@ -145,16 +174,33 @@ var create = new Vue({
 var logout = new Vue({
 	el: "#logout",
 	computed: {
-		display: function() { return 'logout' === menu.curr }
+		display: function() { return profile.logout }
 	},
 	methods: {
 		logout: function(event) {
 			firebase.auth().signOut();
 			select.entries = [{}];
 			generate.entry = select.entries[0];
+			this.close()
 		},
 		close: function(event) {
-			menu.curr = ''
+			profile.logout = false
+		}
+	}
+})
+
+var importModal = new Vue({
+	el: "#import",
+	computed: {
+		display: function() { return profile.importing }
+	},
+	methods: {
+		importData: function(event) {
+			firebase.database().ref("/users/"+firebase.auth().currentUser.uid).set(JSON.parse(profile.inputJson))
+			this.close()
+		},
+		close: function(event) {
+			profile.importing = false
 		}
 	}
 })
