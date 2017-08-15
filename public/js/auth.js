@@ -20,8 +20,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 				firebase.database().ref("/users/"+user.uid+"/settings").set(newSettings)
 			}
 			for (s in newSettings) {
-				update.response[s] = settings[s]
-				create.response[s] = settings[s]
+				update.response[s] = newSettings[s]
+				create.response[s] = newSettings[s]
 			}
 		})
 		firebase.database().ref("/users/"+user.uid).on("value", function(snapshot) {
