@@ -14,8 +14,12 @@ firebase.auth().onAuthStateChanged(function(user) {
 			generate.entry = select.entries[0];
 		})
 		firebase.database().ref("/users/"+user.uid+"/settings").on("value", function(snapshot) {
-			var settings = snapshot.val()
-			for (s in settings) {
+			var newSettings = snapshot.val()
+			if (!newSettings) {
+				newSettings = JSON.parse(JSON.stringify(settings))
+				firebase.database().ref("/users/"+user.uid+"/settings").set(newSettings)
+			}
+			for (s in newSettings) {
 				update.response[s] = settings[s]
 				create.response[s] = settings[s]
 			}

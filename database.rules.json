@@ -4,7 +4,7 @@
       "$uid": {
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid",
-        ".validate": "newData.hasChildren(['settings', 'services'])",
+        ".validate": "newData.hasChildren(['settings'])",
         "settings": {
           ".validate": "newData.hasChildren(['alphabet', 'length', 'N', 'p', 'r'])",
           "alphabet": {
