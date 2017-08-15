@@ -43,11 +43,6 @@ var menu = new Vue({
 			} else {
 				this.curr = item;
 			}
-		},
-		logout: function(event) {
-			firebase.auth().signOut();
-			select.entries = [{}];
-			generate.entry = select.entries[0];
 		}
 	}
 });
@@ -140,6 +135,23 @@ var create = new Vue({
 		}
 	}
 });
+
+var logout = new Vue({
+	el: "#logout",
+	computed: {
+		display: function() { return 'logout' === menu.curr }
+	},
+	methods: {
+		logout: function(event) {
+			firebase.auth().signOut();
+			select.entries = [{}];
+			generate.entry = select.entries[0];
+		},
+		close: function(event) {
+			menu.curr = ''
+		}
+	}
+})
 
 var select = new Vue({
 	el: '#select',

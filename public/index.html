@@ -30,7 +30,7 @@
               </a>
             </div>
             <div class="control" v-show="auth">
-              <a class="button is-pulled-right" @click="logout">
+              <a class="button is-pulled-right" :class="{ 'is-active': 'logout'===curr }" @click="toggle('logout')">
                 <i class="fa fa-sign-out"></i>
               </a>
             </div>
@@ -135,6 +135,25 @@
           </div>
         </div>
         <button class="modal-close is-large" @click="clear"></button>
+      </div>
+    </div>
+
+    <div id="logout" v-show="display" v-cloak>
+      <div class="modal is-active">
+        <div class="modal-background" @click="close"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Logout</p>
+            <button class="delete" aria-label="close" @click="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <br><p>Are you sure you want to log out?</p><br>
+          </section>
+          <footer class="modal-card-foot">
+            <a class="button" @click="close">Go Back</a>
+            <a class="button is-danger" @click="logout">Log Out</a>
+          </footer>
+        </div>
       </div>
     </div>
 
