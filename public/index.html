@@ -121,7 +121,7 @@
                   <a class="button is-primary" @click="apply">Apply</a>
                 </div>
                 <div class="control">
-                  <a class="button is-danger" @click="remove">Delete</a>
+                  <a class="button is-danger" @click="remove">Archive</a>
                 </div>
               </div>
             </div>
@@ -208,15 +208,15 @@
         <div class="modal-background" @click="close"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Delete Entry</p>
+            <p class="modal-card-title">Archive Entry</p>
             <button class="delete" aria-label="close" @click="close"></button>
           </header>
           <section class="modal-card-body">
-            <br><p>Are you sure you want to delete that entry? This action cannot be undone.</p><br>
+            <br><p>Are you sure you want to archive that entry?</p><br>
           </section>
           <footer class="modal-card-foot">
             <a class="button" @click="close">Go Back</a>
-            <a class="button is-danger" @click="deleteEntry">Delete</a>
+            <a class="button is-danger" @click="deleteEntry">Archive</a>
           </footer>
         </div>
       </div>

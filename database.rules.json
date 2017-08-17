@@ -56,6 +56,9 @@
             "r": {
               ".validate": "newData.isNumber()"
             },
+            "archived": {
+              ".validate": "newData.isBoolean()"
+            },
             "$other": {
               ".validate": "false"
             }

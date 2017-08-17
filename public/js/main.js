@@ -272,7 +272,7 @@ var deleteModal = new Vue({
 	},
 	methods: {
 		deleteEntry: function(event) {
-			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services/"+generate.deletedEntry).remove()
+			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services/"+generate.deletedEntry+"/archived").set(true)
 			this.close()
 		},
 		close: function(event) {
