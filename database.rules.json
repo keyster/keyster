@@ -30,22 +30,22 @@
           "$id": {
             ".validate": "newData.hasChildren(['title', 'subtitle', 'description', 'salt', 'alphabet', 'length', 'N', 'p', 'r'])",
             "title": {
-              ".validate": "newData.isString() && newData.val().length <= 100"
+              ".validate": "newData.isString() && newData.val().length <= 500"
             },
             "subtitle": {
               ".validate": "newData.isString() && newData.val().length <= 100"
             },
             "description": {
-              ".validate": "newData.isString() && newData.val().length <= 100"
+              ".validate": "newData.isString() && newData.val().length <= 200"
             },
             "salt": {
               ".validate": "newData.isString() && newData.val().length <= 100"
             },
             "alphabet": {
-              ".validate": "newData.isString() && newData.val().length <= 150"
+              ".validate": "newData.isString() && newData.val().length <= 256"
             },
             "length": {
-              ".validate": "newData.isNumber() && newData.val() <= 150"
+              ".validate": "newData.isNumber() && newData.val() <= 100"
             },
             "N": {
               ".validate": "newData.isNumber()"
