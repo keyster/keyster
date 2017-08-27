@@ -128,12 +128,16 @@
           </div>
         </div><br>
 
-        <div id="select" v-cloak>
+        <div id="select" v-show="loaded" v-cloak>
           <nav class="panel">
             <p class="panel-heading">
               Entries
             </p>
-            <div class="notification is-primary" v-if="entries.length == 0" v-cloak>You have no entries. To make your first entry, click on the <a class="button example-button"><i class="fa fa-plus"></i></a> button.</div>
+            <div class="notification is-primary" v-show="entries.length===0" v-cloak>
+              You have no entries. To make your first entry, click on the
+              <a class="button example-button"><i class="fa fa-plus"></i></a>
+              button.
+            </div>
             <a class="panel-block" v-for="(entry, index) in entries" :class="{ 'is-active': index===selected }" @click="select(index)">
               <span class="panel-icon">
                 <i class="fa fa-key"></i>
@@ -146,7 +150,7 @@
       </div>
     </div>
 
-    <div id="login" v-show="!menu.auth" v-cloak class="section container"><br><br>
+    <div id="login" v-show="menu.auth===false" v-cloak class="section container"><br><br>
       <div class="box">
         <label class="label">Phone Number</label>
         <div class="columns">
@@ -160,7 +164,7 @@
         <div id="recaptcha"></div><br>
         <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
         <label class="label">Code</label>
-        <input class="input" type="number" placeholder="XXXXXX" v-model="code"><br><br>
+        <input class="input" type="text" placeholder="XXXXXX" v-model="code"><br><br>
         <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In/Sign Up</a><br><br>
       </div>
     </div>

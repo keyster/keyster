@@ -1,11 +1,3 @@
-const settings = {
-	N: 16384,
-	r: 8,
-	p: 1,
-	length: 32,
-	alphabet: 'abcdefghijklmnopqrstuvwxyz'
-};
-
 Vue.component('text-input', {
 	props: ['name', 'label', 'max', 'placeholder', 'value'],
 	template: '<div><label class="label">{{ label }}</label><div class="control">\
@@ -33,7 +25,7 @@ Vue.component('num-input', {
 var menu = new Vue({
 	el: '#menu',
 	data: {
-		auth: false,
+		auth: null,
 		curr: ''
 	},
 	methods: {
@@ -117,11 +109,11 @@ var update = new Vue({
 	el: '#update',
 	data: {
 		response: {
-			N: settings.N,
-			r: settings.r,
-			p: settings.p,
-			length: settings.length,
-			alphabet: settings.alphabet
+			N: null,
+			r: null,
+			p: null,
+			length: null,
+			alphabet: null
 		}
 	},
 	computed: {
@@ -147,11 +139,11 @@ var create = new Vue({
 			title: '',
 			subtitle: '',
 			description: '',
-			N: settings.N,
-			r: settings.r,
-			p: settings.p,
-			length: settings.length,
-			alphabet: settings.alphabet
+			N: null,
+			r: null,
+			p: null,
+			length: null,
+			alphabet: null
 		},
 		show: false
 	},
@@ -209,6 +201,7 @@ var select = new Vue({
 	el: '#select',
 	data: {
 		entries: [{}],
+		loaded: false,
 		selected: 0
 	},
 	methods: {

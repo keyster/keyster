@@ -16,25 +16,26 @@ firebase.auth().onAuthStateChanged(function(user) {
 			}
 			select.entries = entries;
 			generate.entry = select.entries[0];
+			select.loaded = true;
 		})
 		firebase.database().ref("/users/"+user.uid+"/settings").on("value", function(snapshot) {
 			var newSettings = snapshot.val()
 			if (!newSettings) {
-				newSettings = JSON.parse(JSON.stringify(settings))
-				firebase.database().ref("/users/"+user.uid+"/settings").set(newSettings)
+				newSettings = JSON.parse(JSON.stringify(settings));
+				firebase.database().ref("/users/"+user.uid+"/settings").set(newSettings);
 			}
 			for (s in newSettings) {
-				update.response[s] = newSettings[s]
-				create.response[s] = newSettings[s]
+				update.response[s] = newSettings[s];
+				create.response[s] = newSettings[s];
 			}
 		})
 		firebase.database().ref("/users/"+user.uid).on("value", function(snapshot) {
-			profile.json = JSON.stringify(snapshot.val())
-			profile.inputJson = profile.json
+			profile.json = JSON.stringify(snapshot.val());
+			profile.inputJson = profile.json;
 		})
 	} else {
-		document.getElementById("app").style.display = "none"
+		document.getElementById("app").style.display = "none";
 		menu.auth = false;
-		login.createCaptcha()
+		login.createCaptcha();
 	}
 })
