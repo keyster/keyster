@@ -17,7 +17,7 @@ Vue.component('num-input', {
 	:value="value" @input="change"></div></div>',
 	methods: {
 		change: function(event) {
-			this.$emit('change', this.name, parseInt(event.target.value, 10));
+			this.$emit('change', this.name, event.target.value);
 		}
 	}
 });
@@ -39,72 +39,6 @@ var menu = new Vue({
 	}
 });
 
-var profile = new Vue({
-	el: "#profile",
-	data: {
-		number: "",
-		logout: false,
-		importing: false,
-		notify: false,
-		json: "{}",
-		inputJson: ""
-	},
-	computed: {
-		display: function() { return 'profile' === menu.curr }
-	},
-	methods: {
-		logoutModal: function(event) {
-			this.logout = true
-		},
-		importData: function(event) {
-			this.importing = true
-		},
-		exportData: function(event) {
-			this.notify = true;
-			setTimeout(()=>{
-				this.notify = false;
-			}, 5000);
-		}
-	}
-})
-
-var login = new Vue({
-	el: "#login",
-	data: {
-		prefix: '+1',
-		number: '',
-		code: ''
-	},
-	methods: {
-		clear: function() {
-			menu.curr = '';
-		},
-		createCaptcha: function() {
-			window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
-			window.recaptchaVerifier.render();
-		},
-		send: function() {
-			firebase.auth().signInWithPhoneNumber(this.prefix+this.number, window.recaptchaVerifier)
-			.then(function(confirmationResult) {
-				window.confirmationResult = confirmationResult;
-			}).catch(function(error) {
-				window.recaptchaVerifier.render().then(function(widgetId) {
-					grecaptcha.reset(widgetId);
-				});
-			});
-			this.prefix = '+1';
-			this.number = '';
-		},
-		confirm: function() {
-			confirmationResult.confirm(this.code);
-			this.code = '';
-			window.recaptchaVerifier.render().then(function(widgetId) {
-				grecaptcha.reset(widgetId);
-			});
-		}
-	}
-});
-
 var update = new Vue({
 	el: '#update',
 	data: {
@@ -117,17 +51,15 @@ var update = new Vue({
 		}
 	},
 	computed: {
-		display: function() { return 'update' === menu.curr; }
+		display: function() { return menu.curr === 'update'; }
 	},
 	methods: {
 		change: function(name, value) {
 			this.response[name] = value;
 		},
-		apply: function(event) {
-			for (r in this.response) {
-				firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/settings/"+r).set(this.response[r])
-			}
-			menu.curr = ''
+		update: function(event) {
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/settings').set(this.response);
+			menu.curr = '';
 		}
 	}
 });
@@ -148,60 +80,61 @@ var create = new Vue({
 		show: false
 	},
 	computed: {
-		display: function() { return 'create' === menu.curr; }
+		display: function() { return menu.curr === 'create'; }
 	},
 	methods: {
 		change: function(name, value) {
 			this.response[name] = value;
 		},
 		create: function(event) {
-			var service = JSON.parse(JSON.stringify(this.response));
+			var service = {}
+			Object.assign(service, this.response);
 			service.salt = salt(32);
-			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services").push(service);
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services').push(service);
 			menu.curr = '';
 		}
 	}
 });
 
-var logout = new Vue({
-	el: "#logout",
+var profile = new Vue({
+	el: '#profile',
+	data: {
+		number: null,
+		raw: null
+	},
 	computed: {
-		display: function() { return profile.logout }
+		display: function() { return menu.curr === 'profile'; }
 	},
 	methods: {
 		logout: function(event) {
 			firebase.auth().signOut();
 			select.entries = [{}];
 			generate.entry = select.entries[0];
-			this.close()
 		},
-		close: function(event) {
-			profile.logout = false
+		confirmLogout: function(event) {
+			confirm.title = 'Log Out';
+			confirm.message = 'Are you sure you want to log out?';
+			confirm.callback = this.logout;
+			confirm.display = true;
+		},
+		import: function(event) {
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid).set(JSON.parse(profile.raw));
+			menu.curr = '';
+		},
+		confirmImport: function(event) {
+			confirm.title = 'Import Data';
+			confirm.message = 'Are you sure you want to import this data? You will \
+			have 30 days to revert changes.';
+			confirm.callback = this.import;
+			confirm.display = true;
 		}
 	}
-})
-
-var importModal = new Vue({
-	el: "#import",
-	computed: {
-		display: function() { return profile.importing }
-	},
-	methods: {
-		importData: function(event) {
-			firebase.database().ref("/users/"+firebase.auth().currentUser.uid).set(JSON.parse(profile.inputJson))
-			this.close()
-		},
-		close: function(event) {
-			profile.importing = false
-		}
-	}
-})
+});
 
 var select = new Vue({
 	el: '#select',
 	data: {
 		entries: [{}],
-		loaded: false,
 		selected: 0
 	},
 	methods: {
@@ -220,12 +153,11 @@ var generate = new Vue({
 	el: '#generate',
 	data: {
 		entry: select.entries[0],
-		newEntry: {},
+		new: {},
 		master: '',
 		password: '',
 		notify: false,
-		edit: false,
-		deleting: false
+		edit: false
 	},
 	methods: {
 		generate: function(event) {
@@ -238,38 +170,80 @@ var generate = new Vue({
 			}, 5000);
 		},
 		change: function(name, value) {
-			this.newEntry[name] = value
+			this.new[name] = value;
 		},
-		apply: function(event) {
-			var updatedEntry = JSON.parse(JSON.stringify(this.entry))
-			for (n in this.newEntry) {
-				updatedEntry[n] = this.newEntry[n]
-			}
-			var id = updatedEntry.id
-			delete updatedEntry.id
-			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services/"+id).set(updatedEntry)
-			this.edit = false
+		update: function(event) {
+			var updated = {};
+			Object.assign(updated, this.entry);
+			Object.assign(updated, this.new);
+			delete updated.id;
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).set(updated);
+			this.edit = false;
 		},
-		remove: function(event) {
-			this.deleting = true
-			this.deletedEntry = this.entry.id
-			this.edit = false
+		archive: function(event) {
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).remove();
+			select.select(0);
+			this.edit = false;
+		},
+		confirmArchive: function(event) {
+			confirm.title = 'Archive Entry';
+			confirm.message = 'Are you sure you want to archive this entry? You will \
+			have 30 days to revert changes.';
+			confirm.callback = this.archive;
+			confirm.display = true;
 		}
 	}
 });
 
-var deleteModal = new Vue({
-	el: "#delete",
-	computed: {
-		display: function() { return generate.deleting }
+var login = new Vue({
+	el: "#login",
+	data: {
+		prefix: '+1',
+		number: '',
+		code: ''
+	},
+	created: function() {
+		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
+		window.recaptchaVerifier.render();
 	},
 	methods: {
-		deleteEntry: function(event) {
-			firebase.database().ref("/users/"+firebase.auth().currentUser.uid+"/services/"+generate.deletedEntry+"/archived").set(true)
-			this.close()
+		clear: function() {
+			menu.curr = '';
 		},
-		close: function(event) {
-			generate.deleting = false
+		send: function() {
+			firebase.auth().signInWithPhoneNumber(this.prefix+this.number, window.recaptchaVerifier)
+			.then(function(confirmationResult) {
+				window.confirmationResult = confirmationResult;
+			}).catch(function(error) {
+				window.recaptchaVerifier.render().then(function(widgetId) {
+					grecaptcha.reset(widgetId);
+				});
+			});
+			this.prefix = '+1';
+			this.number = '';
+		},
+		confirm: function() {
+			confirmationResult.confirm(this.code);
+			this.code = '';
 		}
 	}
-})
+});
+
+var confirm = new Vue({
+	el: '#confirm',
+	data: {
+		display: false,
+		title: null,
+		message: null,
+		callback: null
+	},
+	methods: {
+		close: function(event) {
+			this.display = false;
+		},
+		confirm: function(event) {
+			this.callback();
+			this.close();
+		}
+	}
+});

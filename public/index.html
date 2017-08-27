@@ -10,17 +10,17 @@
     <link type="text/css" rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div class="section" id="app">
+    <div class="section">
       <div class="container">
-        <div id="menu" v-cloak>
+        <div id="menu" v-show="auth" v-cloak>
           <div class="field is-grouped is-pulled-right">
             <div class="control">
-              <a class="button is-pulled-right" :class="{ 'is-active': 'update'===curr }" @click="toggle('update')">
+              <a class="button is-pulled-right" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
                 <i class="fa fa-cogs"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button is-pulled-right" :class="{ 'is-active': 'create'===curr }" @click="toggle('create')">
+              <a class="button is-pulled-right" :class="{ 'is-active': curr==='create' }" @click="toggle('create')">
                 <i class="fa fa-plus"></i>
               </a>
             </div>
@@ -32,23 +32,6 @@
           </div>
         </div><br>
 
-        <div id="profile" v-show="display" v-cloak><br>
-          <div class="box">
-            <span class="subtitle">Profile</span><a class="button is-danger is-pulled-right" @click="logoutModal">Log Out</a>
-            <label class="label"><br>Phone Number</label>
-            <input type="text" readonly class="input" :value="number">
-            <label class="label"><br>Entries</label>
-            <textarea class="textarea" @input="event => { this.inputJson = event.target.value }" :value="json"></textarea><br>
-            <a class="button is-primary" @click="importData">Import</a>
-            <a class="button is-primary" @click="exportData" v-show="!notify">Export</a>
-            <a class="button is-primary" v-clipboard:copy="json" v-show="notify">Copy</a>
-            <br><br>
-            <div class="notification is-primary" v-show="notify">
-              Success! You have 5 seconds to copy the exported data to the clipboard.
-            </div>
-          </div>
-        </div>
-
         <div id="update" v-show="display" v-cloak><br>
           <div class="box">
             <h1 class="subtitle">Settings</h1>
@@ -59,7 +42,7 @@
               <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
               <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
             </div>
-            <a class="button is-primary" @click="apply">Apply</a>
+            <a class="button is-primary" @click="update">Update</a>
           </div>
         </div>
 
@@ -82,7 +65,7 @@
             </div><br>
             <div class="field is-grouped">
               <div class="control">
-                <a class="button" @click="show=!show">Settings</a>
+                <a class="button" @click="show=!show">Advanced</a>
               </div>
               <div class="control">
                 <a class="button is-primary" @click="create">Submit</a>
@@ -91,10 +74,31 @@
           </div>
         </div>
 
-        <div id="generate" v-show="select.entries.length > 0" v-cloak><br>
+        <div id="profile" v-show="display" v-cloak><br>
           <div class="box">
-            <strong>{{ entry.title }}</strong>&nbsp;
-            <a class="button is-pulled-right" @click="edit = !edit">Edit</a>
+            <div>
+              <span class="subtitle">Profile</span>
+              <a class="button is-danger is-pulled-right" @click="confirmLogout">Log Out</a>
+            </div><br>
+            <b>Phone Number</b>&nbsp;
+            {{ number }}<br><br>
+            <label class="label">Raw Entry Data</label>
+            <textarea class="textarea" v-model="raw"></textarea><br>
+            <div class="field is-grouped">
+              <div class="control">
+                <a class="button is-primary" @click="confirmImport">Import</a>
+              </div>
+              <div class="control">
+                <a class="button is-primary" v-clipboard:copy="raw">Copy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="generate" v-show="menu.auth" v-cloak><br>
+          <div class="box">
+            <strong>{{ entry.title }}</strong>
+            <a class="button is-pulled-right" @click="edit=!edit">Edit</a>
             <small>{{ entry.subtitle }}</small><br>
             <small>{{ entry.description }}</small><br><br>
             <div class="columns">
@@ -106,7 +110,6 @@
                 <a class="button is-primary is-pulled-right is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a>
               </div>
             </div>
-            <br class="mobile-spacer">
             <div class="notification is-primary" v-show="notify">
               Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
             </div>
@@ -118,26 +121,21 @@
               <text-input class="field" name="description" label="Description" max="200" :value="entry.description" @change="change" placeholder="Additional information"></text-input><br>
               <div class="field is-grouped">
                 <div class="control">
-                  <a class="button is-primary" @click="apply">Apply</a>
+                  <a class="button is-primary" @click="update">Update</a>
                 </div>
                 <div class="control">
-                  <a class="button is-danger" @click="remove">Archive</a>
+                  <a class="button is-danger" @click="confirmArchive">Archive</a>
                 </div>
               </div>
             </div>
           </div>
         </div><br>
 
-        <div id="select" v-show="loaded" v-cloak>
+        <div id="select" v-show="menu.auth" v-cloak>
           <nav class="panel">
             <p class="panel-heading">
               Entries
             </p>
-            <div class="notification is-primary" v-show="entries.length===0" v-cloak>
-              You have no entries. To make your first entry, click on the
-              <a class="button example-button"><i class="fa fa-plus"></i></a>
-              button.
-            </div>
             <a class="panel-block" v-for="(entry, index) in entries" :class="{ 'is-active': index===selected }" @click="select(index)">
               <span class="panel-icon">
                 <i class="fa fa-key"></i>
@@ -148,79 +146,42 @@
           </nav>
         </div>
       </div>
-    </div>
 
-    <div id="login" v-show="menu.auth===false" v-cloak class="section container"><br><br>
-      <div class="box">
-        <label class="label">Phone Number</label>
-        <div class="columns">
-          <div class="column is-2">
-            <input class="input" type="text" v-model="prefix">
+      <div id="login" v-show="menu.auth === false" v-cloak>
+        <div class="container">
+          <div class="box">
+            <label class="label">Phone Number</label>
+            <div class="columns">
+              <div class="column is-2">
+                <input class="input" type="text" v-model="prefix">
+              </div>
+              <div class="column">
+                <input class="input" type="text" placeholder="XXX-XXX-XXXX" v-model="number">
+              </div>
+            </div>
+            <div id="recaptcha"></div><br>
+            <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
+            <label class="label">Code</label>
+            <input class="input" type="text" placeholder="XXXXXX" v-model="code"><br><br>
+            <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In/Sign Up</a><br><br>
           </div>
-          <div class="column">
-            <input class="input" type="text" placeholder="XXX-XXX-XXXX" v-model="number">
-          </div>
-        </div>
-        <div id="recaptcha"></div><br>
-        <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
-        <label class="label">Code</label>
-        <input class="input" type="text" placeholder="XXXXXX" v-model="code"><br><br>
-        <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In/Sign Up</a><br><br>
-      </div>
-    </div>
-
-    <div id="logout" v-show="display" v-cloak>
-      <div class="modal is-active">
-        <div class="modal-background" @click="close"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Log Out</p>
-            <button class="delete" aria-label="close" @click="close"></button>
-          </header>
-          <section class="modal-card-body">
-            <br><p>Are you sure you want to log out?</p><br>
-          </section>
-          <footer class="modal-card-foot">
-            <a class="button" @click="close">Go Back</a>
-            <a class="button is-danger" @click="logout">Log Out</a>
-          </footer>
         </div>
       </div>
     </div>
 
-    <div id="import" v-show="display" v-cloak>
+    <div id="confirm" v-show="display" v-cloak>
       <div class="modal is-active">
         <div class="modal-background" @click="close"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Import Data</p>
-            <button class="delete" aria-label="close" @click="close"></button>
+            <p class="modal-card-title">{{ title }}</p>
           </header>
           <section class="modal-card-body">
-            <br><p>Are you sure you want to import this data? All current passwords and settings will be lost <strong>forever</strong>.</p><br>
+            <br><p>{{ message }}</p><br>
           </section>
           <footer class="modal-card-foot">
-            <a class="button" @click="close">Go Back</a>
-            <a class="button is-danger" @click="importData">Import Data</a>
-          </footer>
-        </div>
-      </div>
-    </div>
-
-    <div id="delete" v-show="display" v-cloak>
-      <div class="modal is-active">
-        <div class="modal-background" @click="close"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Archive Entry</p>
-            <button class="delete" aria-label="close" @click="close"></button>
-          </header>
-          <section class="modal-card-body">
-            <br><p>Are you sure you want to archive that entry?</p><br>
-          </section>
-          <footer class="modal-card-foot">
-            <a class="button" @click="close">Go Back</a>
-            <a class="button is-danger" @click="deleteEntry">Archive</a>
+            <a class="button" @click="close">Back</a>
+            <a class="button is-primary" @click="confirm">Confirm</a>
           </footer>
         </div>
       </div>
