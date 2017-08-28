@@ -85,24 +85,28 @@
               <span class="subtitle">Archive</span>
               <a v-show="changes.length > 0" class="button is-danger is-pulled-right">Revert</a>
             </div><br>
-            <div v-show="changes.length > 0">
-              {{ message }}<br><br>
-              <code v-for="edit in edits">
-                <b>{{ edit[0] }}</b>:&nbsp;
-                {{ edit[1] }}<br>
-              </code><hr>
-            </div>
-            <nav class="panel">
-              <div v-if="changes.length === 0">
-                Nothing here!
+            <div class="columns">
+              <div class="column">
+                <nav class="panel">
+                  <div v-if="changes.length === 0">
+                    Nothing here!
+                  </div>
+                  <a class="panel-block" v-for="(change, index) in changes" :class="{ 'is-active': index===selected }" @click="select(index)">
+                    <span class="panel-icon">
+                      <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
+                    </span>
+                    <strong>{{ titles[change.id] }}</strong>
+                  </a>
+                </nav>
               </div>
-              <a class="panel-block" v-for="(change, index) in changes" :class="{ 'is-active': index===selected }" @click="select(index)">
-                <span class="panel-icon">
-                  <i class="fa fa-pencil"></i>
-                </span>
-                <strong>{{ titles[change.id] }}</strong>
-              </a>
-            </nav>
+              <div class="column" v-show="changes.length > 0">
+                {{ message }}<br><br>
+                <code v-for="edit in edits">
+                  <b>{{ edit[0] }}</b>:&nbsp;
+                  {{ edit[1] }}<br>
+                </code>
+              </div>
+            </div>
           </div>
         </div>
 
