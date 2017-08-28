@@ -108,7 +108,7 @@
               <div class="column">
                 <a class="button is-primary is-pulled-right is-fullwidth" @click="generate" v-show="!notify">Generate</a>
                 <a class="button is-primary is-pulled-right is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a>
-              </div>
+              </div><br>
             </div>
             <div class="notification is-primary" v-show="notify">
               Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.

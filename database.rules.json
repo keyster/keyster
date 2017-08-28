@@ -2,32 +2,30 @@
   "rules": {
     "users": {
       "$uid": {
-        ".validate": "newData.hasChildren(['settings'])",
+        ".read": "$uid === auth.uid",
         "settings": {
-          ".read": "$uid === auth.uid",
           ".write": "$uid === auth.uid",
           ".validate": "newData.hasChildren(['alphabet', 'length', 'N', 'p', 'r'])",
-          "alphabet": {
-            ".validate": "newData.isString() && newData.val().length <= 150"
-          },
-          "length": {
-            ".validate": "newData.isNumber() && newData.val() <= 150"
-          },
           "N": {
+            ".validate": "newData.isNumber()"
+          },
+          "r": {
             ".validate": "newData.isNumber()"
           },
           "p": {
             ".validate": "newData.isNumber()"
           },
-          "r": {
-            ".validate": "newData.isNumber()"
+          "length": {
+            ".validate": "newData.isNumber() && newData.val() <= 150"
+          },
+          "alphabet": {
+            ".validate": "newData.isString() && newData.val().length <= 150"
           },
           "$other": {
             ".validate": "false"
           }
         },
         "services": {
-          ".read": "$uid === auth.uid",
           ".write": "$uid === auth.uid",
           "$id": {
             ".validate": "newData.hasChildren(['title', 'subtitle', 'description', 'salt', 'alphabet', 'length', 'N', 'p', 'r'])",
@@ -43,20 +41,20 @@
             "salt": {
               ".validate": "newData.isString() && newData.val().length <= 100"
             },
-            "alphabet": {
-              ".validate": "newData.isString() && newData.val().length <= 256"
-            },
-            "length": {
-              ".validate": "newData.isNumber() && newData.val() <= 100"
-            },
             "N": {
+              ".validate": "newData.isNumber()"
+            },
+            "r": {
               ".validate": "newData.isNumber()"
             },
             "p": {
               ".validate": "newData.isNumber()"
             },
-            "r": {
-              ".validate": "newData.isNumber()"
+            "length": {
+              ".validate": "newData.isNumber() && newData.val() <= 100"
+            },
+            "alphabet": {
+              ".validate": "newData.isString() && newData.val().length <= 256"
             },
             "$other": {
               ".validate": "false"
@@ -64,24 +62,7 @@
           }
         },
         "archive": {
-          ".read": "$uid === auth.uid",
-          "$id": {
-            "title": {},
-            "subtitle": {},
-            "description": {},
-            "salt": {},
-            "alphabet": {},
-            "length": {},
-            "N": {},
-            "p": {},
-            "r": {},
-            "$other": {
-              ".validate": "false"
-            }
-          },
-          "$other": {
-            ".validate": "false"
-          }
+          "$id": {}
         },
         "$other": {
           ".validate": "false"

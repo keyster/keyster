@@ -91,6 +91,7 @@ var create = new Vue({
 			Object.assign(service, this.response);
 			service.salt = salt(32);
 			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services').push(service);
+			this.show = false;
 			menu.curr = '';
 		}
 	}
@@ -125,24 +126,6 @@ var profile = new Vue({
 			have 30 days to revert changes.';
 			confirm.callback = this.import;
 			confirm.display = true;
-		}
-	}
-});
-
-var select = new Vue({
-	el: '#select',
-	data: {
-		entries: [],
-		selected: 0
-	},
-	methods: {
-		select: function(index) {
-			this.selected = index;
-			generate.entry = this.entries[index];
-			generate.master = '';
-			generate.password = '';
-			generate.notify = false;
-			generate.loading = false;
 		}
 	}
 });
@@ -189,6 +172,24 @@ var generate = new Vue({
 			have 30 days to revert changes.';
 			confirm.callback = this.archive;
 			confirm.display = true;
+		}
+	}
+});
+
+var select = new Vue({
+	el: '#select',
+	data: {
+		entries: [],
+		selected: 0
+	},
+	methods: {
+		select: function(index) {
+			this.selected = index;
+			generate.entry = this.entries[index];
+			generate.master = '';
+			generate.password = '';
+			generate.notify = false;
+			generate.loading = false;
 		}
 	}
 });

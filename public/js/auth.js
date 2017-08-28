@@ -1,5 +1,5 @@
 function newuser() {
-	default = {
+	var settings = {
 		N: 16384,
 		r: 8,
 		p: 1,
@@ -8,7 +8,27 @@ function newuser() {
 				   abcdefghijklmnopqrztuvwxyz\
 				   0123456789!@#$%^&*()'
 	}
-	firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/settings').set(default);
+	firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/settings').set(settings);
+}
+
+function choose() {
+	if (select.entries) {
+		var none = true;
+		if (generate.entry) {
+			for (e in select.entries) {
+				if (generate.entry.id === select.entries[e].id) {
+					none = false;
+					select.select(Number(e));
+					break;
+				}
+			}
+		}
+		if (none) {
+			select.select(0);
+		}
+	} else {
+		generate.entry = null;
+	}
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -26,11 +46,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 				entries.push(services[s]);
 			}
 			select.entries = entries;
-			if (entries) {
-				generate.entry = select.entries[0];
-			} else {
-				generate.entry = null;
-			}
+			choose();
 
 			var settings = result.settings;
 			if (settings) {
