@@ -2,10 +2,10 @@
   "rules": {
     "users": {
       "$uid": {
-        ".read": "$uid === auth.uid",
-        ".write": "$uid === auth.uid",
         ".validate": "newData.hasChildren(['settings'])",
         "settings": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid",
           ".validate": "newData.hasChildren(['alphabet', 'length', 'N', 'p', 'r'])",
           "alphabet": {
             ".validate": "newData.isString() && newData.val().length <= 150"
@@ -27,6 +27,8 @@
           }
         },
         "services": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid",
           "$id": {
             ".validate": "newData.hasChildren(['title', 'subtitle', 'description', 'salt', 'alphabet', 'length', 'N', 'p', 'r'])",
             "title": {
@@ -56,12 +58,29 @@
             "r": {
               ".validate": "newData.isNumber()"
             },
-            "archived": {
-              ".validate": "newData.isBoolean()"
-            },
             "$other": {
               ".validate": "false"
             }
+          }
+        },
+        "archive": {
+          ".read": "$uid === auth.uid",
+          "$id": {
+            "title": {},
+            "subtitle": {},
+            "description": {},
+            "salt": {},
+            "alphabet": {},
+            "length": {},
+            "N": {},
+            "p": {},
+            "r": {},
+            "$other": {
+              ".validate": "false"
+            }
+          },
+          "$other": {
+            ".validate": "false"
           }
         },
         "$other": {
