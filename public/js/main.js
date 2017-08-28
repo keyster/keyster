@@ -108,8 +108,6 @@ var profile = new Vue({
 	methods: {
 		logout: function(event) {
 			firebase.auth().signOut();
-			select.entries = [{}];
-			generate.entry = select.entries[0];
 		},
 		confirmLogout: function(event) {
 			confirm.title = 'Log Out';
@@ -134,7 +132,7 @@ var profile = new Vue({
 var select = new Vue({
 	el: '#select',
 	data: {
-		entries: [{}],
+		entries: [],
 		selected: 0
 	},
 	methods: {
@@ -152,7 +150,7 @@ var select = new Vue({
 var generate = new Vue({
 	el: '#generate',
 	data: {
-		entry: select.entries[0],
+		entry: null,
 		new: {},
 		master: '',
 		password: '',

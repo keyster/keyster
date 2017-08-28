@@ -95,7 +95,7 @@
           </div>
         </div>
 
-        <div id="generate" v-show="menu.auth" v-cloak><br>
+        <div id="generate" v-if="menu.auth && select.entries.length > 0" v-cloak><br>
           <div class="box">
             <strong>{{ entry.title }}</strong>
             <a class="button is-pulled-right" @click="edit=!edit">Edit</a>
@@ -131,11 +131,15 @@
           </div>
         </div><br>
 
-        <div id="select" v-show="menu.auth" v-cloak>
+        <div id="select" v-if="menu.auth" v-cloak>
           <nav class="panel">
             <p class="panel-heading">
               Entries
             </p>
+            <div class="panel-block is-primary" v-show="entries.length === 0" v-cloak>
+              You have no entries. To make your first entry, click on the&nbsp;&nbsp;
+              <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
+            </div>
             <a class="panel-block" v-for="(entry, index) in entries" :class="{ 'is-active': index===selected }" @click="select(index)">
               <span class="panel-icon">
                 <i class="fa fa-key"></i>
