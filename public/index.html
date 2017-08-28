@@ -15,17 +15,22 @@
         <div id="menu" v-show="auth" v-cloak>
           <div class="field is-grouped is-pulled-right">
             <div class="control">
-              <a class="button is-pulled-right" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
+              <a class="button" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
                 <i class="fa fa-cogs"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button is-pulled-right" :class="{ 'is-active': curr==='create' }" @click="toggle('create')">
+              <a class="button" :class="{ 'is-active': curr==='create' }" @click="toggle('create')">
                 <i class="fa fa-plus"></i>
               </a>
             </div>
+            <div class="control">
+              <a class="button" :class="{ 'is-active': curr==='archive' }" @click="toggle('archive')">
+                <i class="fa fa-archive"></i>
+              </a>
+            </div>
             <div class="control" v-show="auth">
-              <a class="button is-pulled-right" :class="{ 'is-active': 'profile'===curr }" @click="toggle('profile')">
+              <a class="button" :class="{ 'is-active': 'profile'===curr }" @click="toggle('profile')">
                 <i class="fa fa-user"></i>
               </a>
             </div>
@@ -71,6 +76,33 @@
                 <a class="button is-primary" @click="create">Submit</a>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div id="archive" v-show="display" v-cloak><br>
+          <div class="box">
+            <div>
+              <span class="subtitle">Archive</span>
+              <a v-show="changes.length > 0" class="button is-danger is-pulled-right">Revert</a>
+            </div><br>
+            <div v-show="changes.length > 0">
+              {{ message }}<br><br>
+              <code v-for="edit in edits">
+                <b>{{ edit[0] }}</b>:&nbsp;
+                {{ edit[1] }}<br>
+              </code><hr>
+            </div>
+            <nav class="panel">
+              <div v-if="changes.length === 0">
+                Nothing here!
+              </div>
+              <a class="panel-block" v-for="(change, index) in changes" :class="{ 'is-active': index===selected }" @click="select(index)">
+                <span class="panel-icon">
+                  <i class="fa fa-pencil"></i>
+                </span>
+                <strong>{{ titles[change.id] }}</strong>
+              </a>
+            </nav>
           </div>
         </div>
 
@@ -136,7 +168,7 @@
             <p class="panel-heading">
               Entries
             </p>
-            <div class="panel-block" v-show="entries.length === 0">
+            <div class="panel-block" v-if="entries.length === 0">
               You have no entries. To make your first entry, click on the&nbsp;&nbsp;
               <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
             </div>

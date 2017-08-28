@@ -9,6 +9,7 @@ exports.archive = functions.database.ref('/users/{uid}/services/{id}')
     	} else if (!event.data.exists()) {
     		previous = event.data.previous.val();
     		delta = {};
+    		delta.status = 'deletion';
     		Object.assign(delta, previous);
     		delta.timestamp = event.timestamp;
     		admin.database().ref('/users/'+event.params.uid+'/archive/'+event.params.id).push(delta);
@@ -16,8 +17,12 @@ exports.archive = functions.database.ref('/users/{uid}/services/{id}')
     		previous = event.data.previous.val();
     		current = event.data.val();
     		delta = {};
+    		delta.status = 'edit';
     		for (x in current) {
     			if (previous[x] !== current[x]) {
+    				if (['salt', 'N', 'r', 'p', 'length', 'alphabet'].indexOf(x) >= 0) {
+    					delta.status = 'error';
+    				}
     				delta[x] = previous[x];
     			}
     		}

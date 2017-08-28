@@ -97,6 +97,51 @@ var create = new Vue({
 	}
 });
 
+var archive = new Vue({
+	el: '#archive',
+	data: {
+		changes: [],
+		titles: [],
+		selected: 0
+	},
+	computed: {
+		display: function() { return menu.curr === 'archive'; },
+		active: function() {
+			if (this.changes[this.selected]) {
+				return this.changes[this.selected];
+			}
+			return {};
+		},
+		message: function() {
+			if (this.active.status === 'edit') {
+				return 'Revert this edit to update its entry with the values below.';
+			} else if (this.active.status === 'deletion') {
+				return 'Revert this deletion to add its entry back. You will be able\
+								to revert edits concerning the entry afterwards.';
+			} else if (this.active.status === 'error') {
+				return 'Either something on our end malfunctioned or someone has \
+								tampered with your account. This change\'s entry will not \
+								generate the correct password and we highly advise reverting \
+								this.';
+			}
+		},
+		edits: function() {
+			var edits = [];
+			for (x in this.active) {
+				if (['status', 'timestamp', 'id'].indexOf(x) === -1) {
+					edits.push([x, this.active[x]]);
+				}
+			}
+			return edits;
+		}
+	},
+	methods: {
+		select: function(index) {
+			this.selected = index;
+		}
+	}
+});
+
 var profile = new Vue({
 	el: '#profile',
 	data: {
