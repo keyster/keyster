@@ -22,7 +22,26 @@ firebase.auth().onAuthStateChanged(function(user) {
 			Object.assign(create.response, snapshot.val());
 		});
 		firebase.database().ref("/users/"+user.uid).on("value", function(snapshot) {
-			profile.raw = JSON.stringify(snapshot.val());
+			var result = snapshot.val();
+
+			var entries = [];
+			var services = result.services;
+			for (s in services) {
+				services[s].id = s;
+				entries.push(services[s]);
+			}
+			select.entries = entries;
+			if (entries) {
+				generate.entry = select.entries[0];
+			} else {
+				generate.entry = null;
+			}
+
+			var settings = result.settings;
+			Object.assign(update.response, settings);
+			Object.assign(create.response, settings);
+
+			profile.raw = JSON.stringify(result);
 			menu.auth = true;
 		});
 	} else {
