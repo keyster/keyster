@@ -138,7 +138,23 @@ var archive = new Vue({
 	methods: {
 		select: function(index) {
 			this.selected = index;
-		}
+		},
+		revert: function(event) {
+			var reverted = {};
+			if (this.active.status !== 'deletion') {
+				for (e in select.entries) {
+					if (this.active.id === select.entries[e].id) {
+						Object.assign(reverted, select.entries[e]);
+						break;
+					}
+				}
+			}
+			Object.assign(reverted, this.active);
+			delete reverted.status;
+			delete reverted.timestamp;
+			delete reverted.id;
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
+		},
 	}
 });
 
