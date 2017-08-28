@@ -16,7 +16,7 @@
             ".validate": "newData.isNumber()"
           },
           "length": {
-            ".validate": "newData.isNumber() && newData.val() <= 150"
+            ".validate": "newData.isNumber() && newData.val() <= 100"
           },
           "alphabet": {
             ".validate": "newData.isString() && newData.val().length <= 150"
