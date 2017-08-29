@@ -57,7 +57,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 		firebase.database().ref("/users/"+user.uid).on("value", function(snapshot) {
 			var result = snapshot.val();
 
-			var services = result.services;
+			var services = {};
+			if (result.services) {
+				services = result.services;
+			}
 			var entries = [];
 			for (s in services) {
 				services[s].id = s;
@@ -67,7 +70,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 			select.select(0);
 			choose();
 
-			var settings = result.settings;
+			var settings = null;
+			if (result.settings) {
+				settings = result.settings;
+			}
 			if (settings) {
 				Object.assign(update.response, settings);
 				Object.assign(create.response, settings);
@@ -75,7 +81,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 				newuser();
 			}
 
-			var archived = result.archive;
+			var archived = {};
+			if (result.archive) {
+				archived = result.archive;
+			}
 			var changes = [];
 			for (s in archived) {
 				for (c in archived[s]) {
