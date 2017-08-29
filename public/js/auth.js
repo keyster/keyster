@@ -87,7 +87,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 			archive.select(0);
 			titles();
 
-			profile.raw = JSON.stringify(result);
+			var exported = {};
+			Object.assign(exported, result);
+			delete exported.archive;
+			profile.raw = JSON.stringify(exported);
 			menu.auth = true;
 		});
 	} else {
