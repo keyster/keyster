@@ -9,4 +9,9 @@
 		-webkit-transform-origin: left center;
 		transform-origin: left center;
 	}
+
+	#recaptcha div {
+		width: 237px !important;
+		height: 61px !important;
+	}
 }
