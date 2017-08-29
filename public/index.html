@@ -17,27 +17,27 @@
         <div id="menu" v-show="auth" v-cloak>
           <div class="field is-grouped is-pulled-right">
             <div class="control">
-              <a class="button" data-balloon="Settings" data-balloon-pos="up" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
-                <i class="fa fa-cogs"></i>
-              </a>
-            </div>
-            <div class="control">
-              <a class="button" data-balloon="New Entry" data-balloon-pos="up" :class="{ 'is-active': curr==='create' }" @click="toggle('create')">
-                <i class="fa fa-plus"></i>
-              </a>
-            </div>
-            <div class="control">
-              <a class="button" data-balloon="Archive" data-balloon-pos="up" :class="{ 'is-active': curr==='archive' }" @click="toggle('archive')">
+              <a class="button" data-balloon="Archive" data-balloon-pos="up" :class="{ 'is-active': tab==='archive' }" @click="toggle('archive')">
                 <i class="fa fa-archive"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button" data-balloon="Profile" data-balloon-pos="up" :class="{ 'is-active': curr==='profile' }" @click="toggle('profile')">
+              <a class="button" data-balloon="Settings" data-balloon-pos="up" :class="{ 'is-active': tab==='settings' }" @click="toggle('settings')">
+                <i class="fa fa-cogs"></i>
+              </a>
+            </div>
+            <div class="control">
+              <a class="button" data-balloon="New Entry" data-balloon-pos="up" :class="{ 'is-active': tab==='create' }" @click="toggle('create')">
+                <i class="fa fa-plus"></i>
+              </a>
+            </div>
+            <div class="control">
+              <a class="button" data-balloon="Profile" data-balloon-pos="up" :class="{ 'is-active': tab==='profile' }" @click="toggle('profile')">
                 <i class="fa fa-user"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button" data-balloon="Home" data-balloon-pos="up" :class="{ 'is-active': curr==='' }" @click="toggle('')">
+              <a class="button" data-balloon="Home" data-balloon-pos="up" :class="{ 'is-active': tab==='home' }" @click="toggle('home')">
                 <i class="fa fa-home"></i>
               </a>
             </div>
@@ -54,7 +54,7 @@
             <input class="input" type="password" placeholder="Master key" v-model="master"><br><br>
             <a class="button is-primary is-fullwidth" @click="generate" v-show="!notify">Generate</a>
             <div v-show="notify">
-              <a class="button is-primary is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a><br>
+              <a class="button is-info is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a><br>
               <div class="notification is-primary" v-show="notify">
                 Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
               </div>
@@ -82,13 +82,13 @@
             <p class="panel-heading">
               Entries
             </p>
-            <div class="panel-block" v-if="entries.length === 0">
+            <div class="panel-block" v-if="all.length === 0">
               You have no entries. To make your first entry, click on the&nbsp;&nbsp;
               <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
             </div>
-            <div class="panel-block" v-if="entries.length > 0">
+            <div class="panel-block" v-if="all.length > 0">
               <p class="control has-icons-left">
-                <input class="input is-small" type="text" placeholder="search" @input="search">
+                <input class="input is-small" type="text" placeholder="search" @input="search" v-model="query">
                 <span class="icon is-small is-left">
                   <i class="fa fa-search"></i>
                 </span>
@@ -102,83 +102,6 @@
               <small>{{ entry.subtitle }}</small>
             </a>
           </nav>
-        </div>
-
-        <div id="update" v-if="display" v-cloak>
-          <div class="box">
-            <h1 class="subtitle">Settings</h1>
-            <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
-            <div class="columns">
-              <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
-              <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
-              <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
-              <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
-            </div>
-            <a class="button is-primary" @click="update">Update</a>
-          </div>
-        </div>
-
-        <div id="create" v-if="display" v-cloak>
-          <div class="box">
-            <h1 class="subtitle">New Entry</h1>
-            <div class="columns">
-              <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
-              <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
-            </div>
-            <text-input class="field" name="description" label="Description" max="200" placeholder="Additional information" @change="change"></text-input>
-            <div v-show="show"><br>
-              <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
-              <div class="columns">
-                <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
-                <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
-                <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
-                <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
-              </div>
-            </div><br>
-            <div class="field is-grouped">
-              <div class="control">
-                <a class="button" @click="show=!show">Advanced</a>
-              </div>
-              <div class="control">
-                <a class="button is-primary" @click="create">Submit</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="archive" v-if="display" v-cloak>
-          <div class="box">
-            <div>
-              <span class="subtitle">Archive</span>
-              <a v-show="changes.length > 0" class="button is-danger is-pulled-right" :disabled="disabled" @click="revert">Revert</a>
-            </div><br>
-            <div v-show="changes.length > 0">
-              {{ message }}<br><br>
-              <code v-for="edit in edits">
-                <b>{{ edit[0] }}</b>:&nbsp;
-                {{ edit[1] }}<br>
-              </code><hr>
-            </div>
-            <nav class="panel">
-              <div v-if="changes.length === 0">
-                Nothing here!
-              </div>
-              <div class="panel-block" v-if="changes.length > 0">
-                <p class="control has-icons-left">
-                  <input class="input is-small" type="text" placeholder="search" @input="search">
-                  <span class="icon is-small is-left">
-                    <i class="fa fa-search"></i>
-                  </span>
-                </p>
-              </div>
-              <a class="panel-block" v-for="(change, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
-                <span class="panel-icon">
-                  <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
-                </span>
-                <strong>{{ change.display }}</strong>
-              </a>
-            </nav>
-          </div>
         </div>
 
         <div id="profile" v-if="display" v-cloak>
@@ -199,6 +122,83 @@
                 <a class="button is-primary" v-clipboard:copy="raw">Copy</a>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div id="create" v-if="display" v-cloak>
+          <div class="box">
+            <h1 class="subtitle">New Entry</h1>
+            <div class="columns">
+              <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
+              <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
+            </div>
+            <text-input class="field" name="description" label="Description" max="200" placeholder="Additional information" @change="change"></text-input>
+            <div v-show="advanced"><br>
+              <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
+              <div class="columns">
+                <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
+                <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
+                <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
+                <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+              </div>
+            </div><br>
+            <div class="field is-grouped">
+              <div class="control">
+                <a class="button" @click="advanced=!advanced">Advanced</a>
+              </div>
+              <div class="control">
+                <a class="button is-primary" @click="create">Submit</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="settings" v-if="display" v-cloak>
+          <div class="box">
+            <h1 class="subtitle">Settings</h1>
+            <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
+            <div class="columns">
+              <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
+              <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
+              <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
+              <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+            </div>
+            <a class="button is-primary" @click="update">Update</a>
+          </div>
+        </div>
+
+        <div id="archive" v-if="display" v-cloak>
+          <div class="box">
+            <div>
+              <span class="subtitle">Archive</span>
+              <a v-if="active" class="button is-danger is-pulled-right" :disabled="disabled" @click="revert">Revert</a>
+            </div><br>
+            <div v-if="active">
+              {{ message }}<br><br>
+              <code v-for="edit in edits">
+                <b>{{ edit[0] }}</b>:&nbsp;
+                {{ edit[1] }}<br>
+              </code><hr>
+            </div>
+            <nav class="panel">
+              <div v-if="all.length === 0">
+                Nothing here!
+              </div>
+              <div class="panel-block" v-if="all.length > 0">
+                <p class="control has-icons-left">
+                  <input class="input is-small" type="text" placeholder="search" @input="search">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-search"></i>
+                  </span>
+                </p>
+              </div>
+              <a class="panel-block" v-for="(change, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
+                <span class="panel-icon">
+                  <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
+                </span>
+                <strong>{{ change.display }}</strong>
+              </a>
+            </nav>
           </div>
         </div>
       </div>
@@ -235,15 +235,19 @@
       firebase.initializeApp(config);
     </script>
 
-    <script src="js/vue.min.js"></script>
-    <script src="js/vue-clipboard.min.js"></script>
-    <script src="js/fuse.min.js"></script>
-    <script src="js/BigInteger.min.js"></script>
-    <script src="js/scrypt.js"></script>
+    <script src="/lib/vue.min.js"></script>
+    <script src="/lib/vue-clipboard.min.js"></script>
+    <script src="/lib/fuse.min.js"></script>
+    <script src="/lib/BigInteger.min.js"></script>
+    <script src="/lib/scrypt.js"></script>
 
-    <script src="js/generate.js"></script>
-    <script src="js/create.js"></script>
+    <script src="js/keyster.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/create.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/archive.js"></script>
     <script src="js/auth.js"></script>
   </body>
 </html>
