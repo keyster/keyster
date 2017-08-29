@@ -64,6 +64,11 @@ firebase.auth().onAuthStateChanged(function(user) {
 				services[s].id = s;
 				entries.push(services[s]);
 			}
+			entries.sort(function(a, b) {
+				if (a.title < b.title) { return -1 }
+				if (a.title > b.title) { return 1 }
+				return 0
+			})
 			select.entries = entries;
 			select.select(0);
 			choose();
@@ -90,6 +95,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 					changes.push(archived[s][c]);
 				}
 			}
+			changes.sort(function(a, b) {
+				return (new Date(b.timestamp)).getTime() - (new Date(a.timestamp)).getTime()
+			})
 			archive.changes = changes;
 			archive.select(0);
 			titles();
