@@ -248,7 +248,9 @@ var profile = new Vue({
 			confirm.display = true;
 		},
 		import: function(event) {
-			firebase.database().ref('/users/'+firebase.auth().currentUser.uid).set(JSON.parse(profile.raw));
+			var imported = JSON.parse(profile.raw);
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/settings').set(imported.settings);
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services').set(imported.services);
 			menu.curr = '';
 		},
 		confirmImport: function(event) {
