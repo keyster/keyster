@@ -9,18 +9,20 @@ function clean(uid) {
         var archive = result.archive;
         var equal;
         for (id in archive) {
-            if (services[id]) {
-                for (eid in archive[id]) {
-                    equal = true;
-                    for (x in archive[id][eid]) {
-                        if (['status', 'timestamp'].indexOf(x) === -1 && archive[id][eid][x] !== services[id][x]) {
-                            equal = false;
-                            break;
-                        }
+            for (eid in archive[id]) {
+                clone = true;
+                for (x in archive[id][eid]) {
+                    if (['status', 'timestamp'].indexOf(x) === -1 && archive[id][eid][x] !== services[id][x]) {
+                        clone = false;
+                        break;
                     }
-                    if (equal) {
-                        admin.database().ref('/users/'+uid+'/archive/'+id+'/'+eid).remove();
-                    }
+                }
+                expired = false;
+                if (Date.now() - Date.parse(archive[id][eid].timestamp) > 2629746000) {
+                    expired = true;
+                }
+                if (clone || expired) {
+                    admin.database().ref('/users/'+uid+'/archive/'+id+'/'+eid).remove();
                 }
             }
         }
