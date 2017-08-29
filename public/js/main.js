@@ -30,11 +30,7 @@ var menu = new Vue({
 	},
 	methods: {
 		toggle: function(item) {
-			if (this.curr === item) {
-				this.curr = '';
-			} else {
-				this.curr = item;
-			}
+			this.curr = item;
 		}
 	}
 });
