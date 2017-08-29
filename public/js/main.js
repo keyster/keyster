@@ -99,7 +99,7 @@ var select = new Vue({
 		selected: 0
 	},
 	computed: {
-		display: function() { return menu.auth && select.entries.length > 0 && menu.curr === ''; },
+		display: function() { return menu.auth && menu.curr === ''; },
 	},
 	methods: {
 		select: function(index) {

@@ -4,9 +4,7 @@ function newuser() {
 		r: 8,
 		p: 1,
 		length: 32,
-		alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-				   abcdefghijklmnopqrztuvwxyz\
-				   0123456789!@#$%^&*()'
+		alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrztuvwxyz0123456789!@#$%^&*()'
 	}
 	firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/settings').set(settings);
 }
@@ -58,7 +56,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 			var result = snapshot.val();
 
 			var services = {};
-			if (result.services) {
+			if (result && result.services) {
 				services = result.services;
 			}
 			var entries = [];
@@ -71,7 +69,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 			choose();
 
 			var settings = null;
-			if (result.settings) {
+			if (result && result.settings) {
 				settings = result.settings;
 			}
 			if (settings) {
@@ -82,7 +80,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 			}
 
 			var archived = {};
-			if (result.archive) {
+			if (result && result.archive) {
 				archived = result.archive;
 			}
 			var changes = [];
