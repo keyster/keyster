@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf8>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Keyster</title>
+
+    <link type="text/css" rel="stylesheet" href="../css/bulma.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="login" v-cloak>
+      <section class="hero is-fullheight">
+        <div class="hero-body">
+          <div class="container">
+            <div class="box">
+              <label class="label">Phone Number</label>
+              <div class="columns">
+                <div class="column is-2">
+                  <input class="input" type="text" v-model="prefix">
+                </div>
+                <div class="column">
+                  <input class="input" type="text" placeholder="XXX-XXX-XXXX" v-model="number">
+                </div>
+              </div>
+              <div id="recaptcha"></div><br>
+              <a class="button is-primary is-fullwidth" @click="send">Send Code</a><br>
+              <label class="label">Code</label>
+              <input class="input" type="text" placeholder="XXXXXX" v-model="code"><br><br>
+              <a class="button is-primary is-pulled-right is-fullwidth" @click="confirm">Log In/Sign Up</a><br><br>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyAF1nRCCALm5l38u48t3IcPNkuCIp785HE",
+        authDomain: "keyster-faef2.firebaseapp.com",
+        databaseURL: "https://keyster-faef2.firebaseio.com",
+        projectId: "keyster-faef2",
+        storageBucket: "keyster-faef2.appspot.com",
+        messagingSenderId: "456632521146"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <script src="../js/vue.min.js"></script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

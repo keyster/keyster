@@ -94,6 +94,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 			menu.auth = true;
 		});
 	} else {
-		menu.auth = false;
+		window.location.href = '/login/';
 	}
 })
