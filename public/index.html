@@ -86,7 +86,15 @@
               You have no entries. To make your first entry, click on the&nbsp;&nbsp;
               <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
             </div>
-            <a class="panel-block" v-for="(entry, index) in entries" :class="{ 'is-active': index===selected }" @click="select(index)">
+            <div class="panel-block" v-if="entries.length > 0">
+              <p class="control has-icons-left">
+                <input class="input is-small" type="text" placeholder="search" @input="search">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-search"></i>
+                </span>
+              </p>
+            </div>
+            <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
               <span class="panel-icon">
                 <i class="fa fa-key"></i>
               </span>
@@ -155,11 +163,19 @@
               <div v-if="changes.length === 0">
                 Nothing here!
               </div>
-              <a class="panel-block" v-for="(change, index) in changes" :class="{ 'is-active': index===selected }" @click="select(index)">
+              <div class="panel-block" v-if="changes.length > 0">
+                <p class="control has-icons-left">
+                  <input class="input is-small" type="text" placeholder="search" @input="search">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-search"></i>
+                  </span>
+                </p>
+              </div>
+              <a class="panel-block" v-for="(change, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
                 <span class="panel-icon">
                   <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
                 </span>
-                <strong>{{ titles[change.id] }}</strong>
+                <strong>{{ change.display }}</strong>
               </a>
             </nav>
           </div>
@@ -221,7 +237,7 @@
 
     <script src="js/vue.min.js"></script>
     <script src="js/vue-clipboard.min.js"></script>
-
+    <script src="js/fuse.min.js"></script>
     <script src="js/BigInteger.min.js"></script>
     <script src="js/scrypt.js"></script>
 

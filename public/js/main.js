@@ -54,7 +54,7 @@ var generate = new Vue({
 		edit: false
 	},
 	computed: {
-		display: function() { return menu.auth && select.entries.length > 0 && menu.curr === ''; },
+		display: function() { return menu.auth && select.shown.length > 0 && menu.curr === ''; },
 	},
 	methods: {
 		generate: function(event) {
@@ -96,7 +96,9 @@ var select = new Vue({
 	el: '#select',
 	data: {
 		entries: [],
-		selected: 0
+		shown: [],
+		selected: 0,
+		fuse: null
 	},
 	computed: {
 		display: function() { return menu.auth && menu.curr === ''; },
@@ -104,11 +106,19 @@ var select = new Vue({
 	methods: {
 		select: function(index) {
 			this.selected = index;
-			generate.entry = this.entries[index];
+			generate.entry = this.shown[index];
 			generate.master = '';
 			generate.password = '';
 			generate.notify = false;
 			generate.loading = false;
+		},
+		search: function(event) {
+			if (event.target.value) {
+				this.shown = this.fuse.search(event.target.value);
+			} else {
+				this.shown = this.entries;
+			}
+			this.select(0);
 		}
 	}
 });
@@ -175,14 +185,15 @@ var archive = new Vue({
 	el: '#archive',
 	data: {
 		changes: [],
-		titles: [],
-		selected: 0
+		shown: [],
+		selected: 0,
+		fuse: null
 	},
 	computed: {
 		display: function() { return menu.curr === 'archive'; },
 		active: function() {
-			if (this.changes[this.selected]) {
-				return this.changes[this.selected];
+			if (this.shown[this.selected]) {
+				return this.shown[this.selected];
 			}
 			return {};
 		},
@@ -201,7 +212,7 @@ var archive = new Vue({
 		edits: function() {
 			var edits = [];
 			for (x in this.active) {
-				if (['status', 'timestamp', 'id'].indexOf(x) === -1) {
+				if (['display', 'status', 'timestamp', 'id'].indexOf(x) === -1) {
 					edits.push([x, this.active[x]]);
 				}
 			}
@@ -211,6 +222,14 @@ var archive = new Vue({
 	methods: {
 		select: function(index) {
 			this.selected = index;
+		},
+		search: function(event) {
+			if (event.target.value) {
+				this.shown = this.fuse.search(event.target.value);
+			} else {
+				this.shown = this.changes;
+			}
+			this.select(0);
 		},
 		revert: function(event) {
 			if (this.disabled) {
@@ -226,6 +245,7 @@ var archive = new Vue({
 				}
 			}
 			Object.assign(reverted, this.active);
+			delete reverted.display;
 			delete reverted.status;
 			delete reverted.timestamp;
 			delete reverted.id;

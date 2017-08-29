@@ -1,3 +1,28 @@
+const selectFuse = {
+	shouldSort: true,
+	threshold: 0.6,
+	location: 0,
+	distance: 100,
+	maxPatternLength: 16,
+	minMatchCharLength: 1,
+	keys: [
+		"title",
+		"subtitle"
+	]
+};
+
+const archiveFuse = {
+	shouldSort: true,
+	threshold: 0.6,
+	location: 0,
+	distance: 100,
+	maxPatternLength: 16,
+	minMatchCharLength: 1,
+	keys: [
+		"display"
+	]
+};
+
 function newuser() {
 	var settings = {
 		N: 16384,
@@ -44,7 +69,10 @@ function titles() {
 			}
 		}
 	}
-	archive.titles = titles;
+	for (c in archive.changes) {
+		curr = archive.changes[c];
+		curr.display = titles[curr.id];
+	}
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -68,8 +96,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 				if (a.title < b.title) { return -1 }
 				if (a.title > b.title) { return 1 }
 				return 0
-			})
+			});
+			select.fuse = new Fuse(entries, selectFuse);
 			select.entries = entries;
+			select.shown = entries;
 			select.select(0);
 			choose();
 
@@ -107,8 +137,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 			}
 			changes.sort(function(a, b) {
 				return (new Date(b.timestamp)).getTime() - (new Date(a.timestamp)).getTime()
-			})
+			});
+			archive.fuse = new Fuse(changes, archiveFuse);
 			archive.changes = changes;
+			archive.shown = changes;
 			archive.select(0);
 			titles();
 
