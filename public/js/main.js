@@ -1,3 +1,11 @@
+const messages = {
+	edit: 'Reverting will update the existing entry to the values below.',
+	delete: 'Reverting will restore the entry below.',
+	error: 'Either something on our end malfunctioned or someone has \
+	tampered with your account. We highly recommend reverting to fix \
+	this entry.'
+}
+
 Vue.component('text-input', {
 	props: ['name', 'label', 'max', 'placeholder', 'value'],
 	template: '<div><label class="label">{{ label }}</label><div class="control">\
@@ -178,19 +186,18 @@ var archive = new Vue({
 			}
 			return {};
 		},
-		message: function() {
-			if (this.active.status === 'edit') {
-				return 'Revert this edit to update its entry with the values below.';
-			} else if (this.active.status === 'deletion') {
-				return 'Revert this deletion to add its entry back. You will be able\
-								to revert edits concerning the entry afterwards.';
-			} else if (this.active.status === 'error') {
-				return 'Either something on our end malfunctioned or someone has \
-								tampered with your account. This change\'s entry will not \
-								generate the correct password and we highly advise reverting \
-								this.';
+		disabled: function() {
+			if (this.active.status !== 'deletion') {
+				for (e in select.entries) {
+					if (this.active.id === select.entries[e].id) {
+						return false;
+					}
+				}
+				return true;
 			}
+			return false;
 		},
+		message: function() { return messages[this.active.status]; },
 		edits: function() {
 			var edits = [];
 			for (x in this.active) {
@@ -206,6 +213,9 @@ var archive = new Vue({
 			this.selected = index;
 		},
 		revert: function(event) {
+			if (this.disabled) {
+				return;
+			}
 			var reverted = {};
 			if (this.active.status !== 'deletion') {
 				for (e in select.entries) {

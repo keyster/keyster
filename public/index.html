@@ -142,7 +142,7 @@
           <div class="box">
             <div>
               <span class="subtitle">Archive</span>
-              <a v-show="changes.length > 0" class="button is-danger is-pulled-right" @click="revert">Revert</a>
+              <a v-show="changes.length > 0" class="button is-danger is-pulled-right" :disabled="disabled" @click="revert">Revert</a>
             </div><br>
             <div v-show="changes.length > 0">
               {{ message }}<br><br>
