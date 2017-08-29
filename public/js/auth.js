@@ -91,8 +91,18 @@ firebase.auth().onAuthStateChanged(function(user) {
 			var changes = [];
 			for (s in archived) {
 				for (c in archived[s]) {
-					archived[s][c].id = s;
-					changes.push(archived[s][c]);
+					if (services[s]) {
+			            for (x in archived[s][c]) {
+			                if (['status', 'timestamp'].indexOf(x) === -1 && archived[s][c][x] !== services[s][x]) {
+			                	archived[s][c].id = s;
+								changes.push(archived[s][c]);
+			                    break;
+			                }
+			            }
+					} else {
+						archived[s][c].id = s;
+						changes.push(archived[s][c]);
+					}
 				}
 			}
 			changes.sort(function(a, b) {

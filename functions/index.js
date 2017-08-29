@@ -10,18 +10,7 @@ function clean(uid) {
         var equal;
         for (id in archive) {
             for (eid in archive[id]) {
-                clone = true;
-                for (x in archive[id][eid]) {
-                    if (['status', 'timestamp'].indexOf(x) === -1 && archive[id][eid][x] !== services[id][x]) {
-                        clone = false;
-                        break;
-                    }
-                }
-                expired = false;
                 if (Date.now() - Date.parse(archive[id][eid].timestamp) > 2629746000) {
-                    expired = true;
-                }
-                if (clone || expired) {
                     admin.database().ref('/users/'+uid+'/archive/'+id+'/'+eid).remove();
                 }
             }
