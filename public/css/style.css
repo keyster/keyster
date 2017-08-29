@@ -9,3 +9,9 @@
 	width: 2em;
 	font-size: 0.8em;
 }
+
+@media (max-width: 768px) {
+	[data-balloon]:hover:before, [data-balloon]:hover:after, [data-balloon][data-balloon-visible]:before, [data-balloon][data-balloon-visible]:after {
+		opacity: 0;
+	}
+}
