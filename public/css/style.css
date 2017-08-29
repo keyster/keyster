@@ -2,10 +2,6 @@
 	display: none;
 }
 
-body {
-	word-wrap: break-word;
-}
-
 @media (max-width: 390px) {
 	#recaptcha {
 		-webkit-transform: scale(0.78);

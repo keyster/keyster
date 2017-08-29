@@ -13,7 +13,7 @@
     <div class="section">
       <div class="container">
         <div id="menu" v-show="auth" v-cloak>
-          <div class="field is-grouped">
+          <div class="field is-grouped is-pulled-right">
             <div class="control">
               <a class="button" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
                 <i class="fa fa-cogs"></i>
@@ -30,74 +30,93 @@
               </a>
             </div>
             <div class="control">
-              <a class="button" :class="{ 'is-active': 'profile'===curr }" @click="toggle('profile')">
+              <a class="button" :class="{ 'is-active': curr==='profile' }" @click="toggle('profile')">
                 <i class="fa fa-user"></i>
               </a>
+            </div>
+            <div class="control">
+              <a class="button" :class="{ 'is-active': curr==='' }" @click="toggle('')">
+                <i class="fa fa-home"></i>
+              </a>
+            </div>
+          </div>
+          <br><br>
+        </div>
+
+        <div id="generate" v-if="display" v-cloak>
+          <div class="box">
+            <strong>{{ entry.title }}</strong>
+            <a class="button is-pulled-right" @click="edit=!edit">Edit</a>
+            <small>{{ entry.subtitle }}</small><br>
+            <small>{{ entry.description }}</small><br><br>
+            <input class="input" type="password" placeholder="Master key" v-model="master"><br><br>
+            <a class="button is-primary is-fullwidth" @click="generate" v-show="!notify">Generate</a>
+            <div v-show="notify">
+              <a class="button is-primary is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a><br>
+              <div class="notification is-primary" v-show="notify">
+                Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
+              </div>
+            </div>
+            <div v-show="edit"><br>
+              <div class="columns">
+                <text-input class="field column" name="title" label="Title" max="500" :value="entry.title" @change="change" placeholder="Website name"></text-input>
+                <text-input class="field column" name="subtitle" label="Subtitle" max="100" :value="entry.subtitle" @change="change" placeholder="Account username"></text-input>
+              </div>
+              <text-input class="field" name="description" label="Description" max="200" :value="entry.description" @change="change" placeholder="Additional information"></text-input><br>
+              <div class="field is-grouped">
+                <div class="control">
+                  <a class="button is-primary" @click="update">Update</a>
+                </div>
+                <div class="control">
+                  <a class="button is-danger" @click="confirmArchive">Archive</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="columns">
-          <div class="column">
-            <div id="generate" v-if="menu.auth && select.entries.length > 0" v-cloak><br>
-              <div class="box">
-                <strong>{{ entry.title }}</strong>
-                <a class="button is-pulled-right" @click="edit=!edit">Edit</a>
-                <small>{{ entry.subtitle }}</small><br>
-                <small>{{ entry.description }}</small><br><br>
-                <div class="columns">
-                  <div class="column">
-                    <input class="input" type="password" placeholder="Master key" v-model="master">
-                  </div>
-                  <div class="column is-3">
-                    <a class="button is-primary is-pulled-right is-fullwidth" @click="generate" v-show="!notify">Generate</a>
-                    <a class="button is-primary is-pulled-right is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a>
-                  </div><br>
-                </div>
-                <div class="notification is-primary" v-show="notify">
-                  Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
-                </div>
-                <div v-show="edit">
-                  <div class="columns">
-                    <text-input class="field column" name="title" label="Title" max="500" :value="entry.title" @change="change" placeholder="Website name"></text-input>
-                    <text-input class="field column" name="subtitle" label="Subtitle" max="100" :value="entry.subtitle" @change="change" placeholder="Account username"></text-input>
-                  </div>
-                  <text-input class="field" name="description" label="Description" max="200" :value="entry.description" @change="change" placeholder="Additional information"></text-input><br>
-                  <div class="field is-grouped">
-                    <div class="control">
-                      <a class="button is-primary" @click="update">Update</a>
-                    </div>
-                    <div class="control">
-                      <a class="button is-danger" @click="confirmArchive">Archive</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div><br>
-
-            <div id="select" v-if="menu.auth" v-cloak>
-              <nav class="panel">
-                <p class="panel-heading">
-                  Entries
-                </p>
-                <div class="panel-block" v-if="entries.length === 0">
-                  You have no entries. To make your first entry, click on the&nbsp;&nbsp;
-                  <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
-                </div>
-                <a class="panel-block" v-for="(entry, index) in entries" :class="{ 'is-active': index===selected }" @click="select(index)">
-                  <span class="panel-icon">
-                    <i class="fa fa-key"></i>
-                  </span>
-                  <strong>{{ entry.title }}</strong>&nbsp;
-                  <small>{{ entry.subtitle }}</small>
-                </a>
-              </nav>
+        <div id="select" v-if="display" v-cloak><br>
+          <nav class="panel">
+            <p class="panel-heading">
+              Entries
+            </p>
+            <div class="panel-block" v-if="entries.length === 0">
+              You have no entries. To make your first entry, click on the&nbsp;&nbsp;
+              <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
             </div>
-          </div>
+            <a class="panel-block" v-for="(entry, index) in entries" :class="{ 'is-active': index===selected }" @click="select(index)">
+              <span class="panel-icon">
+                <i class="fa fa-key"></i>
+              </span>
+              <strong>{{ entry.title }}</strong>&nbsp;
+              <small>{{ entry.subtitle }}</small>
+            </a>
+          </nav>
+        </div>
 
-          <div id="update" class="column is-half" v-if="display" v-cloak><br>
-            <div class="box">
-              <h1 class="subtitle">Settings</h1>
+        <div id="update" v-if="display" v-cloak>
+          <div class="box">
+            <h1 class="subtitle">Settings</h1>
+            <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
+            <div class="columns">
+              <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
+              <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
+              <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
+              <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+            </div>
+            <a class="button is-primary" @click="update">Update</a>
+          </div>
+        </div>
+
+        <div id="create" v-if="display" v-cloak>
+          <div class="box">
+            <h1 class="subtitle">New Entry</h1>
+            <div class="columns">
+              <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
+              <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
+            </div>
+            <text-input class="field" name="description" label="Description" max="200" placeholder="Additional information" @change="change"></text-input>
+            <div v-show="show"><br>
               <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
               <div class="columns">
                 <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
@@ -105,82 +124,61 @@
                 <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
                 <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
               </div>
-              <a class="button is-primary" @click="update">Update</a>
-            </div>
-          </div>
-
-          <div id="create" class="column is-half" v-if="display" v-cloak><br>
-            <div class="box">
-              <h1 class="subtitle">New Entry</h1>
-              <div class="columns">
-                <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
-                <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
+            </div><br>
+            <div class="field is-grouped">
+              <div class="control">
+                <a class="button" @click="show=!show">Advanced</a>
               </div>
-              <text-input class="field" name="description" label="Description" max="200" placeholder="Additional information" @change="change"></text-input>
-              <div v-show="show"><br>
-                <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
-                <div class="columns">
-                  <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
-                  <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
-                  <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
-                  <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
-                </div>
-              </div><br>
-              <div class="field is-grouped">
-                <div class="control">
-                  <a class="button" @click="show=!show">Advanced</a>
-                </div>
-                <div class="control">
-                  <a class="button is-primary" @click="create">Submit</a>
-                </div>
+              <div class="control">
+                <a class="button is-primary" @click="create">Submit</a>
               </div>
             </div>
           </div>
+        </div>
 
-          <div id="archive" class="column is-half" v-if="display" v-cloak><br>
-            <div class="box">
-              <div>
-                <span class="subtitle">Archive</span>
-                <a v-show="changes.length > 0" class="button is-danger is-pulled-right" @click="revert">Revert</a>
-              </div><br>
-              <div v-show="changes.length > 0">
-                {{ message }}<br><br>
-                <code v-for="edit in edits">
-                  <b>{{ edit[0] }}</b>:&nbsp;
-                  {{ edit[1] }}<br>
-                </code><hr>
-              </div>
-              <nav class="panel">
-                <div v-if="changes.length === 0">
-                  Nothing here!
-                </div>
-                <a class="panel-block" v-for="(change, index) in changes" :class="{ 'is-active': index===selected }" @click="select(index)">
-                  <span class="panel-icon">
-                    <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
-                  </span>
-                  <strong>{{ titles[change.id] }}</strong>
-                </a>
-              </nav>
+        <div id="archive" v-if="display" v-cloak>
+          <div class="box">
+            <div>
+              <span class="subtitle">Archive</span>
+              <a v-show="changes.length > 0" class="button is-danger is-pulled-right" @click="revert">Revert</a>
+            </div><br>
+            <div v-show="changes.length > 0">
+              {{ message }}<br><br>
+              <code v-for="edit in edits">
+                <b>{{ edit[0] }}</b>:&nbsp;
+                {{ edit[1] }}<br>
+              </code><hr>
             </div>
+            <nav class="panel">
+              <div v-if="changes.length === 0">
+                Nothing here!
+              </div>
+              <a class="panel-block" v-for="(change, index) in changes" :class="{ 'is-active': index===selected }" @click="select(index)">
+                <span class="panel-icon">
+                  <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
+                </span>
+                <strong>{{ titles[change.id] }}</strong>
+              </a>
+            </nav>
           </div>
+        </div>
 
-          <div id="profile" class="column is-half" v-if="display" v-cloak><br>
-            <div class="box">
-              <div>
-                <span class="subtitle">Profile</span>
-                <a class="button is-danger is-pulled-right" @click="confirmLogout">Log Out</a>
-              </div><br>
-              <b>Phone Number</b>&nbsp;
-              {{ number }}<br><br>
-              <label class="label">Raw Entry Data</label>
-              <textarea class="textarea" v-model="raw"></textarea><br>
-              <div class="field is-grouped">
-                <div class="control">
-                  <a class="button is-primary" @click="confirmImport">Import</a>
-                </div>
-                <div class="control">
-                  <a class="button is-primary" v-clipboard:copy="raw">Copy</a>
-                </div>
+        <div id="profile" v-if="display" v-cloak>
+          <div class="box">
+            <div>
+              <span class="subtitle">Profile</span>
+              <a class="button is-danger is-pulled-right" @click="confirmLogout">Log Out</a>
+            </div><br>
+            <b>Phone Number</b>&nbsp;
+            {{ number }}<br><br>
+            <label class="label">Raw Entry Data</label>
+            <textarea class="textarea" v-model="raw"></textarea><br>
+            <div class="field is-grouped">
+              <div class="control">
+                <a class="button is-primary" @click="confirmImport">Import</a>
+              </div>
+              <div class="control">
+                <a class="button is-primary" v-clipboard:copy="raw">Copy</a>
               </div>
             </div>
           </div>

@@ -39,6 +39,76 @@ var menu = new Vue({
 	}
 });
 
+var generate = new Vue({
+	el: '#generate',
+	data: {
+		entry: null,
+		new: {},
+		master: '',
+		password: '',
+		notify: false,
+		edit: false
+	},
+	computed: {
+		display: function() { return menu.auth && select.entries.length > 0 && menu.curr === ''; },
+	},
+	methods: {
+		generate: function(event) {
+			this.password = hash(this.entry, this.master);
+			this.master = '';
+			this.notify = true;
+			setTimeout(()=>{
+				this.notify = false;
+				this.password = '';
+			}, 5000);
+		},
+		change: function(name, value) {
+			this.new[name] = value;
+		},
+		update: function(event) {
+			var updated = {};
+			Object.assign(updated, this.entry);
+			Object.assign(updated, this.new);
+			delete updated.id;
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).set(updated);
+			this.edit = false;
+		},
+		archive: function(event) {
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).remove();
+			select.select(0);
+			this.edit = false;
+		},
+		confirmArchive: function(event) {
+			confirm.title = 'Archive Entry';
+			confirm.message = 'Are you sure you want to archive this entry? You will \
+			have 30 days to revert changes.';
+			confirm.callback = this.archive;
+			confirm.display = true;
+		}
+	}
+});
+
+var select = new Vue({
+	el: '#select',
+	data: {
+		entries: [],
+		selected: 0
+	},
+	computed: {
+		display: function() { return menu.auth && select.entries.length > 0 && menu.curr === ''; },
+	},
+	methods: {
+		select: function(index) {
+			this.selected = index;
+			generate.entry = this.entries[index];
+			generate.master = '';
+			generate.password = '';
+			generate.notify = false;
+			generate.loading = false;
+		}
+	}
+});
+
 var update = new Vue({
 	el: '#update',
 	data: {
@@ -187,70 +257,6 @@ var profile = new Vue({
 			have 30 days to revert changes.';
 			confirm.callback = this.import;
 			confirm.display = true;
-		}
-	}
-});
-
-var generate = new Vue({
-	el: '#generate',
-	data: {
-		entry: null,
-		new: {},
-		master: '',
-		password: '',
-		notify: false,
-		edit: false
-	},
-	methods: {
-		generate: function(event) {
-			this.password = hash(this.entry, this.master);
-			this.master = '';
-			this.notify = true;
-			setTimeout(()=>{
-				this.notify = false;
-				this.password = '';
-			}, 5000);
-		},
-		change: function(name, value) {
-			this.new[name] = value;
-		},
-		update: function(event) {
-			var updated = {};
-			Object.assign(updated, this.entry);
-			Object.assign(updated, this.new);
-			delete updated.id;
-			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).set(updated);
-			this.edit = false;
-		},
-		archive: function(event) {
-			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).remove();
-			select.select(0);
-			this.edit = false;
-		},
-		confirmArchive: function(event) {
-			confirm.title = 'Archive Entry';
-			confirm.message = 'Are you sure you want to archive this entry? You will \
-			have 30 days to revert changes.';
-			confirm.callback = this.archive;
-			confirm.display = true;
-		}
-	}
-});
-
-var select = new Vue({
-	el: '#select',
-	data: {
-		entries: [],
-		selected: 0
-	},
-	methods: {
-		select: function(index) {
-			this.selected = index;
-			generate.entry = this.entries[index];
-			generate.master = '';
-			generate.password = '';
-			generate.notify = false;
-			generate.loading = false;
 		}
 	}
 });
