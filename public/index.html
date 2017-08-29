@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Keyster</title>
 
+    <link type="text/css" rel="stylesheet" href="css/balloon.min.css" />
     <link type="text/css" rel="stylesheet" href="css/bulma.min.css" />
     <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
     <link type="text/css" rel="stylesheet" href="css/style.css" />
@@ -15,27 +16,27 @@
         <div id="menu" v-show="auth" v-cloak>
           <div class="field is-grouped is-pulled-right">
             <div class="control">
-              <a class="button" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
+              <a class="button" data-balloon="Settings" data-balloon-pos="up" :class="{ 'is-active': curr==='update' }" @click="toggle('update')">
                 <i class="fa fa-cogs"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button" :class="{ 'is-active': curr==='create' }" @click="toggle('create')">
+              <a class="button" data-balloon="New Entry" data-balloon-pos="up" :class="{ 'is-active': curr==='create' }" @click="toggle('create')">
                 <i class="fa fa-plus"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button" :class="{ 'is-active': curr==='archive' }" @click="toggle('archive')">
+              <a class="button" data-balloon="Archive" data-balloon-pos="up" :class="{ 'is-active': curr==='archive' }" @click="toggle('archive')">
                 <i class="fa fa-archive"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button" :class="{ 'is-active': curr==='profile' }" @click="toggle('profile')">
+              <a class="button" data-balloon="Profile" data-balloon-pos="up" :class="{ 'is-active': curr==='profile' }" @click="toggle('profile')">
                 <i class="fa fa-user"></i>
               </a>
             </div>
             <div class="control">
-              <a class="button" :class="{ 'is-active': curr==='' }" @click="toggle('')">
+              <a class="button" data-balloon="Home" data-balloon-pos="up" :class="{ 'is-active': curr==='' }" @click="toggle('')">
                 <i class="fa fa-home"></i>
               </a>
             </div>
