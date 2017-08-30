@@ -170,6 +170,7 @@ function archiveUpdate() {
 			archive.all.push(all[a])
 		}
 	}
+	archive.shown = {}
 	Object.assign(archive.shown, archive.all)
 	archive.fuse = new Fuse(all, archiveFuse);
 	archiveDisplay();
