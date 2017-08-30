@@ -19,8 +19,8 @@ var archive = new Vue({
 		display: function() { return menu.tab === 'archive'; },
 		disabled: function() {
 			if (this.active.status !== 'deletion') {
-				for (e in select.entries) {
-					if (this.active.id === select.entries[e].id) {
+				for (e in select.shown) {
+					if (this.active.id === select.shown[e].id) {
 						return false;
 					}
 				}
@@ -60,20 +60,20 @@ var archive = new Vue({
 				return;
 			}
 			var reverted = {};
-			if (this.active.status !== 'deletion') {
-				for (e in select.entries) {
-					if (this.active.id === select.entries[e].id) {
-						Object.assign(reverted, select.entries[e]);
-						break;
-					}
-				}
-			}
 			Object.assign(reverted, this.active);
+			var revertedStatus = reverted.status
 			delete reverted.display;
 			delete reverted.status;
 			delete reverted.timestamp;
 			delete reverted.id;
-			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
+			if (revertedStatus === "edit") {
+				for (r in reverted) {
+					firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id+"/"+r).set(reverted[r]);
+				}
+			} else {
+				firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
+			}
+			archiveUpdate()
 		},
 	}
 });
@@ -114,21 +114,23 @@ function archiveDisplay() {
 }
 
 function archiveUpdate() {
-	var a = {};
-	Object.assign(a, archiveCurrent);
+	var archives = {};
+	Object.assign(archives, archiveCurrent);
 	var all = [];
-	for (s in a) {
-		for (c in a[s]) {
-			a[s][c].id = s;
-			if (servicesCurrent[s]) {
-				for (x in a[s][c]) {
-					if (['status', 'timestamp', 'id'].indexOf(x) === -1 && a[s][c][x] !== servicesCurrent[s][x]) {
-							all.push(a[s][c]);
-							break;
+	for (id in archives) {
+		for (changeId in archives[id]) {
+			archives[id][changeId].id = id;
+			if (servicesCurrent[id] ) {
+				if (archives[id][changeId].status === "edit") {
+					for (prop in archives[id][changeId]) {
+						if (['status', 'timestamp', 'id'].indexOf(prop) === -1 && archives[id][changeId][prop] !== servicesCurrent[id][prop]) {
+								all.push(archives[id][changeId]);
+								break;
+						}
 					}
 				}
 			} else {
-				all.push(a[s][c]);
+				all.push(archives[id][changeId]);
 			}
 		}
 	}
@@ -136,7 +138,39 @@ function archiveUpdate() {
 		return (new Date(b.timestamp)).getTime() - (new Date(a.timestamp)).getTime();
 	});
 	archive.all = all;
-	archive.shown = all;
+	archive.shown = []
+	for (a in archive.all) {
+		duplicate = false
+		var check1 = {}
+		Object.assign(check1, archive.all[a])
+		delete check1.timestamp
+		for (s in archive.shown) {
+			var check2 = {}
+			Object.assign(check2, archive.shown[s])
+			delete check2.timestamp
+			equal = true
+			for (c1 in check1) {
+				if (check1[c1] !== check2[c1]) {
+					equal = false
+				}
+			}
+			for (c2 in check2) {
+				if (check1[c2] !== check2[c2]) {
+					equal = false
+				}
+			}
+			if (check1.status === "deletion" && check2.status === "deletion" && check1.id === check2.id) {
+				equal = true
+			}
+			if (equal) {
+				duplicate = true
+				break
+			}
+		}
+		if (!duplicate) {
+			archive.shown.push(archive.all[a])
+		}
+	}
 	archive.fuse = new Fuse(all, archiveFuse);
 	archiveDisplay();
 	archive.reset();

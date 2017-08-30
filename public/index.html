@@ -185,10 +185,10 @@
               </div><hr>
             </div>
             <nav class="panel">
-              <div v-if="all.length === 0">
+              <div v-if="shown.length === 0">
                 Nothing here!
               </div>
-              <div class="panel-block" v-if="all.length > 0">
+              <div class="panel-block" v-if="shown.length > 0">
                 <p class="control has-icons-left">
                   <input class="input is-small" type="text" placeholder="search" @input="search">
                   <span class="icon is-small is-left">
@@ -201,7 +201,7 @@
                   <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
                 </span>
                 <div class="x-scroll">
-                  <strong>{{ change.display }}</strong>
+                  <strong>{{ change.display }}</strong> <small>{{ timeago().format(change.timestamp) }}</small>
                 </div>
               </a>
             </nav>
@@ -246,6 +246,7 @@
     <script src="/lib/fuse.min.js"></script>
     <script src="/lib/BigInteger.min.js"></script>
     <script src="/lib/scrypt.js"></script>
+    <script src="/lib/timeago.min.js"
 
     <script src="js/keyster.js"></script>
     <script src="js/main.js"></script>
