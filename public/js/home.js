@@ -77,7 +77,16 @@ var select = new Vue({
 			} else {
 				this.shown = this.all;
 			}
-			this.reset();
+			var i = 0;
+			if (generate.entry) {
+				for (e in this.shown) {
+					if (generate.entry.id === this.shown[e].id) {
+						i = Number(e);
+						break;
+					}
+				}
+			}
+			this.select(i);
 		}
 	}
 });
@@ -94,20 +103,6 @@ const selectFuse = {
 		"subtitle"
 	]
 };
-
-function servicesMaintain() {
-  select.search();
-	var i = 0;
-	if (generate.entry) {
-		for (e in select.shown) {
-			if (generate.entry.id === select.shown[e].id) {
-        i = Number(e);
-				break;
-			}
-		}
-	}
-	select.select(i);
-}
 
 function servicesListen(uid) {
   firebase.database().ref('/users/'+uid+'/services').on("value", function(snapshot) {
@@ -130,7 +125,7 @@ function servicesListen(uid) {
       select.all = all;
       select.shown = all;
       select.fuse = new Fuse(all, selectFuse);
-      servicesMaintain();
+      select.search();
 			profileUpdate();
 			archiveUpdate();
     }
