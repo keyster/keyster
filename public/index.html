@@ -185,10 +185,10 @@
               </div><hr>
             </div>
             <nav class="panel">
-              <div v-if="shown.length === 0">
+              <div v-if="all.length === 0">
                 Nothing here!
               </div>
-              <div class="panel-block" v-if="shown.length > 0">
+              <div class="panel-block" v-if="all.length > 0">
                 <p class="control has-icons-left">
                   <input class="input is-small" type="text" placeholder="search" @input="search">
                   <span class="icon is-small is-left">

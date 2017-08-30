@@ -137,16 +137,15 @@ function archiveUpdate() {
 	all.sort(function(a, b) {
 		return (new Date(b.timestamp)).getTime() - (new Date(a.timestamp)).getTime();
 	});
-	archive.all = all;
-	archive.shown = []
-	for (a in archive.all) {
+	archive.all = [];
+	for (a in all) {
 		duplicate = false
 		var check1 = {}
-		Object.assign(check1, archive.all[a])
+		Object.assign(check1, all[a])
 		delete check1.timestamp
-		for (s in archive.shown) {
+		for (s in archive.all) {
 			var check2 = {}
-			Object.assign(check2, archive.shown[s])
+			Object.assign(check2, archive.all[s])
 			delete check2.timestamp
 			equal = true
 			for (c1 in check1) {
@@ -168,9 +167,10 @@ function archiveUpdate() {
 			}
 		}
 		if (!duplicate) {
-			archive.shown.push(archive.all[a])
+			archive.all.push(all[a])
 		}
 	}
+	Object.assign(archive.shown, archive.all)
 	archive.fuse = new Fuse(all, archiveFuse);
 	archiveDisplay();
 	archive.reset();
