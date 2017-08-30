@@ -21,7 +21,7 @@ var archive = new Vue({
 		disabled: function() {
 			if (this.active.status !== 'deletion') {
 				var entry = select.all.filter(function (entry) { return entry.id === archive.active.id })[0]
-				if (!entry) { return false }
+				if (!entry) { return true }
 				for (prop in this.active) {
 					if (['status', 'timestamp', 'id', 'display'].indexOf(prop) === -1 && this.active[prop] !== entry[prop]) {
 						return false
