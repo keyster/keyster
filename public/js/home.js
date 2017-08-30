@@ -71,22 +71,25 @@ var select = new Vue({
     reset: function() {
       this.select(0);
     },
+    maintain: function() {
+    	var i = 0;
+		if (generate.entry) {
+			for (e in this.shown) {
+				if (generate.entry.id === this.shown[e].id) {
+					i = Number(e);
+					break;
+				}
+			}
+		}
+		this.select(i);
+    }
 		search: function(event) {
 			if (this.query) {
 				this.shown = this.fuse.search(this.query);
 			} else {
 				this.shown = this.all;
 			}
-			var i = 0;
-			if (generate.entry) {
-				for (e in this.shown) {
-					if (generate.entry.id === this.shown[e].id) {
-						i = Number(e);
-						break;
-					}
-				}
-			}
-			this.select(i);
+			this.maintain();
 		}
 	}
 });
