@@ -19,9 +19,10 @@ var archive = new Vue({
 		display: function() { return menu.tab === 'archive'; },
 		disabled: function() {
 			if (this.active.status !== 'deletion') {
-				for (e in select.shown) {
-					if (this.active.id === select.shown[e].id) {
-						return false;
+				var entry = select.all.filter(function (entry) { return entry.id === archive.active.id })[0]
+				for (prop in this.active) {
+					if (['status', 'timestamp', 'id', 'display'].indexOf(prop) === -1 && this.active[prop] !== entry[prop]) {
+						return false
 					}
 				}
 				return true;
@@ -60,19 +61,13 @@ var archive = new Vue({
 				return;
 			}
 			var reverted = {};
+			Object.assign(reverted, select.all.filter(function(entry) { return entry.id === archive.active.id })[0])
 			Object.assign(reverted, this.active);
-			var revertedStatus = reverted.status
 			delete reverted.display;
 			delete reverted.status;
 			delete reverted.timestamp;
 			delete reverted.id;
-			if (revertedStatus === "edit") {
-				for (r in reverted) {
-					firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id+"/"+r).set(reverted[r]);
-				}
-			} else {
-				firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
-			}
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
 			archiveUpdate()
 		},
 	}
@@ -122,12 +117,13 @@ function archiveUpdate() {
 			archives[id][changeId].id = id;
 			if (servicesCurrent[id] ) {
 				if (archives[id][changeId].status === "edit") {
-					for (prop in archives[id][changeId]) {
+					all.push(archives[id][changeId]);
+					/*for (prop in archives[id][changeId]) {
 						if (['status', 'timestamp', 'id'].indexOf(prop) === -1 && archives[id][changeId][prop] !== servicesCurrent[id][prop]) {
 								all.push(archives[id][changeId]);
 								break;
 						}
-					}
+					}*/
 				}
 			} else {
 				all.push(archives[id][changeId]);
