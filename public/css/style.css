@@ -2,6 +2,16 @@
 	display: none;
 }
 
+.x-scroll {
+	overflow-x: scroll;
+	white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+	height: 0px;
+	background: transparent;
+}
+
 .example-button {
 	font-size: inherit;
 	pointer-events: none;

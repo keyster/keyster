@@ -98,8 +98,10 @@
               <span class="panel-icon">
                 <i class="fa fa-key"></i>
               </span>
-              <strong>{{ entry.title }}</strong>&nbsp;
-              <small>{{ entry.subtitle }}</small>
+              <div class="x-scroll">
+                <strong>{{ entry.title }}</strong>&nbsp;
+                <small>{{ entry.subtitle }}</small>
+              </div>
             </a>
           </nav>
         </div>
@@ -196,7 +198,9 @@
                 <span class="panel-icon">
                   <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
                 </span>
-                <strong>{{ change.display }}</strong>
+                <div class="x-scroll">
+                  <strong>{{ change.display }}</strong>
+                </div>
               </a>
             </nav>
           </div>
