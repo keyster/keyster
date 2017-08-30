@@ -25,17 +25,17 @@ var create = new Vue({
 			Object.assign(service, this.response);
 			service.salt = salt(32);
 			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services').push(service);
-      this.reset();
+			this.reset();
 			menu.toggle('home');
 		},
-    reset: function(event) {
-      Object.assign(this.response, settingsCurrent);
-      Object.assign(this.response, {
-        title: '',
-        subtitle: '',
-        description: ''
-      });
-      this.advanced = false;
-    }
+		reset: function(event) {
+			Object.assign(this.response, settingsCurrent);
+			Object.assign(this.response, {
+				title: '',
+				subtitle: '',
+				description: ''
+			});
+			this.advanced = false;
+		}
 	}
 });

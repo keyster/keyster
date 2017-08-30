@@ -12,9 +12,9 @@ var profile = new Vue({
 			firebase.auth().signOut();
 		},
 		confirmLogout: function(event) {
-      confirm.call('Log Out',
-        'Are you sure you want to log out?',
-        this.logout);
+			confirm.call('Log Out',
+				'Are you sure you want to log out?',
+				this.logout);
 		},
 		import: function(event) {
 			var imported = JSON.parse(profile.raw);
@@ -33,9 +33,9 @@ var profile = new Vue({
 });
 
 function profileUpdate() {
-  var raw = {
+	var raw = {
 		services: servicesCurrent,
 		settings: settingsCurrent
 	};
-  profile.raw = JSON.stringify(raw);
+	profile.raw = JSON.stringify(raw);
 }

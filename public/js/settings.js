@@ -28,24 +28,24 @@ var settings = new Vue({
 
 function settingsDefault(uid) {
 	firebase.database().ref('/users/'+uid+'/settings').set({
-    N: 16384,
-    r: 8,
-    p: 1,
-    length: 32,
-    alphabet: 'abcdefghijklmnopqrztuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()'
+		N: 16384,
+		r: 8,
+		p: 1,
+		length: 32,
+		alphabet: 'abcdefghijklmnopqrztuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()'
 	});
 }
 
 function settingsListen(uid) {
-  firebase.database().ref('/users/'+uid+'/settings').on("value", function(snapshot) {
-    var s = snapshot.val();
-    if (s) {
+	firebase.database().ref('/users/'+uid+'/settings').on("value", function(snapshot) {
+		var s = snapshot.val();
+		if (s) {
 			settingsCurrent = s;
 			settings.reset();
 			create.reset();
 			profileUpdate();
-    } else {
-      settingsDefault(uid);
-    }
-  });
+		} else {
+			settingsDefault(uid);
+		}
+	});
 }

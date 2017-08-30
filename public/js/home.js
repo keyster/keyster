@@ -21,11 +21,11 @@ var generate = new Vue({
 				this.password = '';
 			}, 5000);
 		},
-    reset: function(event) {
-      this.master = '';
-      this.password = '';
-      this.notify = false;
-    },
+		reset: function(event) {
+			this.master = '';
+			this.password = '';
+			this.notify = false;
+		},
 		change: function(name, value) {
 			this.new[name] = value;
 		},
@@ -40,12 +40,12 @@ var generate = new Vue({
 		archive: function(event) {
 			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).remove();
 			select.reset();
-      this.edit = false;
+			this.edit = false;
 		},
 		confirmArchive: function(event) {
-      confirm.call('Archive Entry',
-      	'Are you sure you want to archive this entry? You will have 30 days to revert changes.',
-      	this.archive);
+			confirm.call('Archive Entry',
+				'Are you sure you want to archive this entry? You will have 30 days to revert changes.',
+				this.archive);
 		}
 	}
 });
@@ -55,7 +55,7 @@ var select = new Vue({
 	data: {
 		all: [],
 		shown: [],
-    query: '',
+		query: '',
 		selected: 0,
 		fuse: null
 	},
@@ -68,11 +68,11 @@ var select = new Vue({
 			generate.entry = this.shown[index];
 			generate.reset();
 		},
-    reset: function() {
-      this.select(0);
-    },
-    maintain: function() {
-    	var i = 0;
+		reset: function() {
+			this.select(0);
+		},
+		maintain: function() {
+			var i = 0;
 		if (generate.entry) {
 			for (e in this.shown) {
 				if (generate.entry.id === this.shown[e].id) {
@@ -82,7 +82,7 @@ var select = new Vue({
 			}
 		}
 		this.select(i);
-    },
+		},
 		search: function(event) {
 			if (this.query) {
 				this.shown = this.fuse.search(this.query);
@@ -108,29 +108,29 @@ const selectFuse = {
 };
 
 function servicesListen(uid) {
-  firebase.database().ref('/users/'+uid+'/services').on("value", function(snapshot) {
-    var s = snapshot.val();
-    if (s) {
-      servicesCurrent = s;
-      var all = [];
-      var entry;
-      for (e in s) {
-        entry = {};
-        Object.assign(entry, s[e]);
-        entry.id = e;
-        all.push(entry);
-      }
-      all.sort(function(a, b) {
-        if (a.title < b.title) { return -1; }
-        if (a.title > b.title) { return 1; }
-        return 0;
-      });
-      select.all = all;
-      select.shown = all;
-      select.fuse = new Fuse(all, selectFuse);
-      select.search();
+	firebase.database().ref('/users/'+uid+'/services').on("value", function(snapshot) {
+		var s = snapshot.val();
+		if (s) {
+			servicesCurrent = s;
+			var all = [];
+			var entry;
+			for (e in s) {
+				entry = {};
+				Object.assign(entry, s[e]);
+				entry.id = e;
+				all.push(entry);
+			}
+			all.sort(function(a, b) {
+				if (a.title < b.title) { return -1; }
+				if (a.title > b.title) { return 1; }
+				return 0;
+			});
+			select.all = all;
+			select.shown = all;
+			select.fuse = new Fuse(all, selectFuse);
+			select.search();
 			profileUpdate();
 			archiveUpdate();
-    }
-  });
+		}
+	});
 }
