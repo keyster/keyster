@@ -13,7 +13,8 @@ var archive = new Vue({
 		shown: [],
 		active: null,
 		selected: 0,
-		fuse: null
+		fuse: null,
+		query: ''
 	},
 	computed: {
 		display: function() { return menu.tab === 'archive'; },
@@ -49,12 +50,21 @@ var archive = new Vue({
 			this.select(0);
 		},
 		search: function(event) {
-			if (event.target.value) {
-				this.shown = this.fuse.search(event.target.value);
+			if (this.query) {
+				this.shown = this.fuse.search(this.query);
 			} else {
 				this.shown = this.all;
 			}
-			this.reset();
+			var i = 0;
+			if (this.active) {
+				for (e in this.shown) {
+					if (this.active.id === this.shown[e].id) {
+						i = Number(e);
+						break;
+					}
+				}
+			}
+			this.select(i);
 		},
 		revert: function(event) {
 			if (this.disabled) {
@@ -115,7 +125,7 @@ function archiveUpdate() {
 	for (id in archives) {
 		for (changeId in archives[id]) {
 			archives[id][changeId].id = id;
-			if (servicesCurrent[id] ) {
+			if (servicesCurrent[id]) {
 				if (archives[id][changeId].status === "edit") {
 					all.push(archives[id][changeId]);
 					/*for (prop in archives[id][changeId]) {
@@ -153,7 +163,7 @@ function archiveUpdate() {
 	Object.assign(archive.shown, archive.all)
 	archive.fuse = new Fuse(all, archiveFuse);
 	archiveDisplay();
-	archive.reset();
+	archive.search();
 }
 
 function archiveListen(uid) {
