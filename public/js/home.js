@@ -82,7 +82,7 @@ var select = new Vue({
 			}
 		}
 		this.select(i);
-    }
+    },
 		search: function(event) {
 			if (this.query) {
 				this.shown = this.fuse.search(this.query);
