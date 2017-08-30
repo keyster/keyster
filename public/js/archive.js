@@ -128,12 +128,6 @@ function archiveUpdate() {
 			if (servicesCurrent[id]) {
 				if (archives[id][changeId].status === "edit") {
 					all.push(archives[id][changeId]);
-					/*for (prop in archives[id][changeId]) {
-						if (['status', 'timestamp', 'id'].indexOf(prop) === -1 && archives[id][changeId][prop] !== servicesCurrent[id][prop]) {
-								all.push(archives[id][changeId]);
-								break;
-						}
-					}*/
 				}
 			} else {
 				all.push(archives[id][changeId]);
