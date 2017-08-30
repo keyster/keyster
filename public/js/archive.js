@@ -142,28 +142,11 @@ function archiveUpdate() {
 		duplicate = false
 		var check1 = {}
 		Object.assign(check1, all[a])
-		delete check1.timestamp
 		for (s in archive.all) {
 			var check2 = {}
 			Object.assign(check2, archive.all[s])
-			delete check2.timestamp
-			equal = true
-			for (c1 in check1) {
-				if (check1[c1] !== check2[c1]) {
-					equal = false
-				}
-			}
-			for (c2 in check2) {
-				if (check1[c2] !== check2[c2]) {
-					equal = false
-				}
-			}
 			if (check1.status === "deletion" && check2.status === "deletion" && check1.id === check2.id) {
-				equal = true
-			}
-			if (equal) {
 				duplicate = true
-				break
 			}
 		}
 		if (!duplicate) {
