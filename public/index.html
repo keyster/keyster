@@ -190,7 +190,7 @@
               </div>
               <div class="panel-block" v-if="all.length > 0">
                 <p class="control has-icons-left">
-                  <input class="input is-small" type="text" placeholder="search" @input="search">
+                  <input class="input is-small" type="text" placeholder="search" @input="search" v-model="query">
                   <span class="icon is-small is-left">
                     <i class="fa fa-search"></i>
                   </span>
