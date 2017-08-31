@@ -1,9 +1,6 @@
 const messages = {
 	edit: 'Reverting will update the existing entry to the values below.',
-	deletion: 'Reverting will restore the entry below.',
-	error: 'Either something on our end malfunctioned or someone has \
-	tampered with your account. We highly recommend reverting to fix \
-	this entry.'
+	deletion: 'Reverting will restore the entry below.'
 }
 
 var archive = new Vue({

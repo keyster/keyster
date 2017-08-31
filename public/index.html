@@ -48,7 +48,7 @@
         <div id="generate" v-if="display" v-cloak>
           <div class="box">
             <strong>{{ entry.title }}</strong>
-            <a class="button is-pulled-right" @click="edit=!edit">Edit</a>
+            <a class="button is-pulled-right" @click="edit=!edit">Edit</a><br class="mobile-break">
             <small>{{ entry.subtitle }}</small><br>
             <small>{{ entry.description }}</small><br><br>
             <div class="field has-addons">
@@ -140,7 +140,7 @@
           <div class="box">
             <h1 class="subtitle">New Entry</h1>
             <div class="columns">
-              <text-input class="field column" name="title" label="Title" max="500" placeholder="Website name" @change="change"></text-input>
+              <text-input class="field column" name="title" label="Title" max="100" placeholder="Website name" @change="change"></text-input>
               <text-input class="field column" name="subtitle" label="Subtitle" max="100" placeholder="Account username" @change="change"></text-input>
             </div>
             <text-input class="field" name="description" label="Description" max="200" placeholder="Additional information" @change="change"></text-input>

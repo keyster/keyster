@@ -37,9 +37,6 @@ exports.archive = functions.database.ref('/users/{uid}/services/{id}')
     		delta.status = 'edit';
     		for (x in current) {
     			if (previous[x] !== current[x]) {
-    				if (['salt', 'N', 'r', 'p', 'length', 'alphabet'].indexOf(x) >= 0) {
-    					delta.status = 'error';
-    				}
     				delta[x] = previous[x];
     			}
     		}

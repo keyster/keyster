@@ -29,6 +29,10 @@ html {
 	background-color: #444;
 }
 
+.mobile-break {
+	display: none;
+}
+
 .example-button {
 	font-size: inherit;
 	pointer-events: none;
@@ -49,5 +53,9 @@ html {
 	}
 	.section {
 		padding-top: 0.8rem;
+	}
+
+	.mobile-break {
+		display: inline;
 	}
 }
