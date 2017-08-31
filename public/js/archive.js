@@ -14,7 +14,8 @@ var archive = new Vue({
 		active: null,
 		selected: 0,
 		fuse: null,
-		query: ''
+		query: '',
+		tab: ''
 	},
 	computed: {
 		display: function() { return menu.tab === 'archive'; },
@@ -41,6 +42,9 @@ var archive = new Vue({
 			}
 			return edits;
 		}
+	},
+	mounted: function() {
+		this.changeTab('edits')
 	},
 	methods: {
 		select: function(index) {
@@ -84,6 +88,11 @@ var archive = new Vue({
 			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
 			archiveUpdate()
 		},
+		changeTab: function(toTab) {
+			this.tab = toTab
+			var index = this.shown.indexOf(this.shown.filter(function(e) { return e.status === archive.tab.slice(0, -1)})[0])
+			this.select(index != -1 ? index : 0)
+		}
 	}
 });
 

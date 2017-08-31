@@ -194,6 +194,11 @@ html {
 	color: $button-color;
 }
 
+.panel-tabs-heading {
+	background-color: $panel-heading-background-color;
+	border-radius: $panel-heading-radius $panel-heading-radius 0 0;
+}
+
 .code-block {
 	background-color: $white-ter;
 	color: $black-ter;
