@@ -39,7 +39,7 @@
               ".validate": "newData.isString() && newData.val().length <= 200"
             },
             "salt": {
-              ".validate": "newData.isString() && newData.val().length <= 100 && (!data.exists() || newData.val() === data.val()"
+              ".validate": "newData.isString() && newData.val().length <= 100 && (!data.exists() || newData.val() === data.val())"
             },
             "N": {
               ".validate": "newData.isNumber() && (!data.exists() || newData.val() === data.val())"
