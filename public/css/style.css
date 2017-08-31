@@ -7,13 +7,22 @@
 }
 
 .x-scroll {
-	overflow-x: scroll;
+	overflow-x: auto;
 	white-space: nowrap;
 }
 
+.x-scroll::-webkit-scrollbar {
+	display: none;
+}
+
 ::-webkit-scrollbar {
-	height: 0px;
-	background: transparent;
+	width: 0.7em;
+	height: 0.7em;
+	background-color: rgb(200, 200, 200);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #444;
 }
 
 .example-button {
@@ -22,6 +31,12 @@
 	height: 2em;
 	width: 2em;
 	font-size: 0.8em;
+}
+
+.archive-changes {
+	min-height: 14em;
+	overflow: auto;
+	white-space: nowrap;
 }
 
 @media (max-width: 768px) {
