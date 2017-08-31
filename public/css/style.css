@@ -2,6 +2,10 @@
 	display: none;
 }
 
+.columns-flex {
+	display: flex;
+}
+
 .x-scroll {
 	overflow-x: scroll;
 	white-space: nowrap;

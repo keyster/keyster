@@ -2,6 +2,16 @@
 	display: none;
 }
 
+.columns-flex {
+	display: flex;
+}
+
+.column-mini {
+	flex: none;
+	width: 16.6666666667%;
+	min-width: 100px;
+}
+
 @media (max-width: 390px) {
 	#recaptcha {
 		-webkit-transform: scale(0.78);

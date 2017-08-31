@@ -138,10 +138,14 @@
             <div v-show="advanced"><br>
               <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
               <div class="columns">
-                <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
-                <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
-                <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
-                <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+                <div class="column columns columns-flex">
+                  <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
+                  <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
+                </div>
+                <div class="column columns columns-flex">
+                  <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
+                  <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+                </div>
               </div>
             </div><br>
             <div class="field is-grouped">
@@ -160,10 +164,14 @@
             <h1 class="subtitle">Settings</h1>
             <text-input class="field" name="alphabet" label="Alphabet" max="256" placeholder="Password charset" :value="response.alphabet" @change="change"></text-input><br>
             <div class="columns">
-              <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
-              <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
-              <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
-              <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+              <div class="column columns columns-flex">
+                <num-input class="field column is-one-fourth" name="length" label="Length" max="100" placeholder="Password size" :value="response.length" @change="change"></num-input>
+                <num-input class="field column is-one-fourth" name="N" label="N" max="1000000" placeholder="scrypt parameter" :value="response.N" @change="change"></num-input>
+              </div>
+              <div class="column columns columns-flex">
+                <num-input class="field column is-one-fourth" name="r" label="r" max="100" placeholder="scrypt parameter" :value="response.r" @change="change"></num-input>
+                <num-input class="field column is-one-fourth" name="p" label="p" max="100" placeholder="scrypt parameter" :value="response.p" @change="change"></num-input>
+              </div>
             </div>
             <a class="button is-primary" @click="update">Update</a>
           </div>
@@ -177,7 +185,7 @@
             </div><br>
             <div v-if="active">
               {{ message }}<br><br>
-              <div class="code-block">
+              <div class="code-block x-scroll">
 	              <span v-for="edit in edits">
 	                <b>{{ edit[0] }}</b>:&nbsp;
 	                {{ edit[1] }}<br>
