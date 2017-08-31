@@ -39,22 +39,22 @@
               ".validate": "newData.isString() && newData.val().length <= 200"
             },
             "salt": {
-              ".validate": "newData.isString() && newData.val().length <= 100 && !data.exists()"
+              ".validate": "newData.isString() && newData.val().length <= 100 && (!data.exists() || newData.val() === data.val()"
             },
             "N": {
-              ".validate": "newData.isNumber() && !data.exists()"
+              ".validate": "newData.isNumber() && (!data.exists() || newData.val() === data.val())"
             },
             "r": {
-              ".validate": "newData.isNumber() && !data.exists()"
+              ".validate": "newData.isNumber() && (!data.exists() || newData.val() === data.val())"
             },
             "p": {
-              ".validate": "newData.isNumber() && !data.exists()"
+              ".validate": "newData.isNumber() && (!data.exists() || newData.val() === data.val())"
             },
             "length": {
-              ".validate": "newData.isNumber() && newData.val() <= 100 && !data.exists()"
+              ".validate": "newData.isNumber() && newData.val() <= 100 && (!data.exists() || newData.val() === data.val())"
             },
             "alphabet": {
-              ".validate": "newData.isString() && newData.val().length <= 256 && !data.exists()"
+              ".validate": "newData.isString() && newData.val().length <= 256 && (!data.exists() || newData.val() === data.val())"
             },
             "$other": {
               ".validate": "false"
