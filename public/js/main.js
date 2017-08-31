@@ -30,14 +30,11 @@ var menu = new Vue({
 	el: '#menu',
 	data: {
 		auth: null,
-		tab: 'home'
-	},
-	methods: {
-		toggle: function(item) {
-			this.tab = item;
-		}
+		tab: location.hash.slice(1)
 	}
 });
+
+window.onhashchange = function() { menu.tab = location.hash.slice(1) }
 
 var confirm = new Vue({
 	el: '#confirm',
