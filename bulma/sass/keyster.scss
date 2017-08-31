@@ -180,6 +180,18 @@ html {
   }
 }
 
+.navbutton.is-active {
+	color: $button-hover-color;
+}
+
+.navbutton {
+	color: $button-active-color;
+}
+
+.navbutton:hover {
+	color: $button-color;
+}
+
 .code-block {
 	background-color: $white-ter;
 	color: $primary;
