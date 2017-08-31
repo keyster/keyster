@@ -19,8 +19,7 @@ var generate = new Vue({
 			this.type = 'password';
 			this.notify = true;
 			setTimeout(()=>{
-				this.notify = false;
-				this.password = '';
+				this.reset();
 			}, 5000);
 		},
 		reset: function(event) {

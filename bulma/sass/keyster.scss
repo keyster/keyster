@@ -10,9 +10,10 @@ $primary: #2A9FD6 !default;
 $primary-light: lighten($primary, 10);
 
 $white-ter:    #f5f5f5;
+$black-ter:    #333;
 
 $body-background-color: #000;
-$background: $grey-darker;
+$background: #222;
 
 $border: $grey-dark;
 
@@ -31,7 +32,7 @@ $link-hover-border: $grey-dark;
 $link-active-border: $grey;
 
 $button-color: $text;
-$button-background-color: #111;
+$button-background-color: $background;
 $button-border-color: $grey-darker;
 $button-hover-color: $grey-lighter;
 $button-focus: $grey-light;
@@ -59,7 +60,7 @@ $dropdown-item-color: $text;
 
 .section,
 html {
-  background-color: #111;
+  background-color: $background;
 }
 
 .hero {
@@ -127,11 +128,12 @@ html {
 }
 
 .modal-card-body {
-  background-color: $black-ter;
+  background-color: $background;
 }
 
 .modal-card-foot,
 .modal-card-head {
+  background-color: $black-ter;
   border-color: $black-ter;
 }
 
@@ -194,7 +196,7 @@ html {
 
 .code-block {
 	background-color: $white-ter;
-	color: $primary;
+	color: $black-ter;
 	font-size: .875em;
 	font-weight: normal;
 	font-family: monospace;
