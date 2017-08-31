@@ -30,7 +30,7 @@ var menu = new Vue({
 	el: '#menu',
 	data: {
 		auth: null,
-		tab: location.hash.slice(1)
+		tab: ["home", "archive", "create", "profile", "settings"].indexOf(location.hash.slice(1)) === -1 ? "home" : location.hash.slice(1)
 	}
 });
 
