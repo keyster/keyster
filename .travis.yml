@@ -1,6 +1,6 @@
 language: sass
 script:
-  - sass --sourcemap=none bulma/sass/keyster.sass public/css/bulma.min.css --style compressed
+  - scss --sourcemap=none bulma/sass/keyster.sass public/css/bulma.min.css --style compressed
 install:
   - nvm install 6.9.4
   - sudo apt-get install ruby-dev -y
