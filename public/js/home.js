@@ -73,15 +73,15 @@ var select = new Vue({
 		},
 		maintain: function() {
 			var i = 0;
-		if (generate.entry) {
-			for (e in this.shown) {
-				if (generate.entry.id === this.shown[e].id) {
-					i = Number(e);
-					break;
+			if (generate.entry) {
+				for (e in this.shown) {
+					if (generate.entry.id === this.shown[e].id) {
+						i = Number(e);
+						break;
+					}
 				}
 			}
-		}
-		this.select(i);
+			this.select(i);
 		},
 		search: function(event) {
 			if (this.query) {

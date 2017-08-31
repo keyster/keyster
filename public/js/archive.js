@@ -50,12 +50,7 @@ var archive = new Vue({
 		reset: function(event) {
 			this.select(0);
 		},
-		search: function(event) {
-			if (this.query) {
-				this.shown = this.fuse.search(this.query);
-			} else {
-				this.shown = this.all;
-			}
+		maintain: function(event) {
 			var i = 0;
 			if (this.active) {
 				for (e in this.shown) {
@@ -66,6 +61,14 @@ var archive = new Vue({
 				}
 			}
 			this.select(i);
+		},
+		search: function(event) {
+			if (this.query) {
+				this.shown = this.fuse.search(this.query);
+			} else {
+				this.shown = this.all;
+			}
+			this.maintain();
 		},
 		revert: function(event) {
 			if (this.disabled) {
@@ -140,22 +143,22 @@ function archiveUpdate() {
 	});
 	archive.all = [];
 	for (a in all) {
-		duplicate = false
-		var check1 = {}
-		Object.assign(check1, all[a])
+		duplicate = false;
+		var check1 = {};
+		Object.assign(check1, all[a]);
 		for (s in archive.all) {
-			var check2 = {}
-			Object.assign(check2, archive.all[s])
+			var check2 = {};
+			Object.assign(check2, archive.all[s]);
 			if (check1.status === "deletion" && check2.status === "deletion" && check1.id === check2.id) {
-				duplicate = true
+				duplicate = true;
 			}
 		}
 		if (!duplicate) {
-			archive.all.push(all[a])
+			archive.all.push(all[a]);
 		}
 	}
-	archive.shown = {}
-	Object.assign(archive.shown, archive.all)
+	archive.shown = {};
+	Object.assign(archive.shown, archive.all);
 	archive.fuse = new Fuse(all, archiveFuse);
 	archiveDisplay();
 	archive.search();
