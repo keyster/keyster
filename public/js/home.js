@@ -6,7 +6,8 @@ var generate = new Vue({
 		master: '',
 		password: '',
 		notify: false,
-		edit: false
+		edit: false,
+		type: 'password'
 	},
 	computed: {
 		display: function() { return menu.auth && select.shown.length > 0 && menu.tab === 'home'; },
@@ -15,6 +16,7 @@ var generate = new Vue({
 		generate: function(event) {
 			this.password = hash(this.entry, this.master);
 			this.master = '';
+			this.type = 'password';
 			this.notify = true;
 			setTimeout(()=>{
 				this.notify = false;
@@ -22,12 +24,20 @@ var generate = new Vue({
 			}, 5000);
 		},
 		reset: function(event) {
-			this.master = '';
 			this.password = '';
+			this.master = '';
+			this.type = 'password';
 			this.notify = false;
 		},
 		change: function(name, value) {
 			this.new[name] = value;
+		},
+		toggle: function(event) {
+			if (this.type === 'password') {
+				this.type = 'text';
+			} else {
+				this.type = 'password';
+			}
 		},
 		update: function(event) {
 			var updated = {};

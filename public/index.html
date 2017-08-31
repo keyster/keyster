@@ -51,7 +51,16 @@
             <a class="button is-pulled-right" @click="edit=!edit">Edit</a>
             <small>{{ entry.subtitle }}</small><br>
             <small>{{ entry.description }}</small><br><br>
-            <input class="input" type="password" placeholder="Master key" v-model="master"><br><br>
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <input class="input" :type="type" placeholder="Master key" v-model="master">
+              </div>
+              <div class="control">
+                <a class="button" :class="{ 'is-primary': type==='text' }" @click="toggle">
+                  <i class="fa fa-eye"></i>
+                </a>
+              </div>
+            </div><br>
             <a class="button is-primary is-fullwidth" @click="generate" v-show="!notify">Generate</a>
             <div v-show="notify">
               <a class="button is-info is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a><br>
