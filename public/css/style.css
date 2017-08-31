@@ -2,6 +2,10 @@
 	display: none;
 }
 
+html {
+	overflow-y: auto;
+}
+
 .columns-flex {
 	display: flex;
 }
@@ -15,13 +19,13 @@
 	display: none;
 }
 
-::-webkit-scrollbar {
+.custom-scroll::-webkit-scrollbar {
 	width: 0.7em;
 	height: 0.7em;
 	background-color: rgb(200, 200, 200);
 }
 
-::-webkit-scrollbar-thumb {
+.custom-scroll::-webkit-scrollbar-thumb {
 	background-color: #444;
 }
 

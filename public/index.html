@@ -124,7 +124,7 @@
             <b>Phone Number</b>&nbsp;
             {{ number }}<br><br>
             <label class="label">Raw Entry Data</label>
-            <textarea class="textarea" v-model="raw"></textarea><br>
+            <textarea class="custom-scroll textarea" v-model="raw"></textarea><br>
             <div class="field is-grouped">
               <div class="control">
                 <a class="button is-primary" @click="confirmImport">Import</a>
@@ -194,7 +194,7 @@
             </div><br>
             <div v-if="active">
               {{ message }}<br><br>
-              <div class="code-block archive-changes">
+              <div class="code-block archive-changes custom-scroll">
 	              <span v-for="edit in edits">
 	                <b>{{ edit[0] }}</b>:&nbsp;
 	                {{ edit[1] }}<br>
