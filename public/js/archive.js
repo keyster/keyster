@@ -15,7 +15,7 @@ var archive = new Vue({
 		selected: 0,
 		fuse: null,
 		query: '',
-		tab: ''
+		tab: 'edits'
 	},
 	computed: {
 		display: function() { return menu.tab === 'archive'; },
@@ -43,16 +43,14 @@ var archive = new Vue({
 			return edits;
 		}
 	},
-	mounted: function() {
-		this.changeTab('edits')
-	},
 	methods: {
 		select: function(index) {
 			this.selected = index;
 			this.active = this.shown[index];
 		},
 		reset: function(event) {
-			this.select(0);
+			var index = this.shown.indexOf(this.shown.filter(function(e) { return e.status === archive.tab.slice(0, -1)})[0])
+			this.select(index != -1 ? index : 0)
 		},
 		maintain: function(event) {
 			var i = 0;
@@ -90,8 +88,7 @@ var archive = new Vue({
 		},
 		changeTab: function(toTab) {
 			this.tab = toTab
-			var index = this.shown.indexOf(this.shown.filter(function(e) { return e.status === archive.tab.slice(0, -1)})[0])
-			this.select(index != -1 ? index : 0)
+			this.reset()
 		}
 	}
 });
@@ -171,6 +168,7 @@ function archiveUpdate() {
 	archive.fuse = new Fuse(all, archiveFuse);
 	archiveDisplay();
 	archive.search();
+	archive.changeTab(archive.tab)
 }
 
 function archiveListen(uid) {
