@@ -181,8 +181,8 @@ html {
 }
 
 .code-block {
-	background-color: #F5F5F5;
-	color: #B23AEE;
+	background-color: $grey-lighter;
+	color: $primary;
 	font-size: .875em;
 	font-weight: normal;
 	font-family: monospace;
