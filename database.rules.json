@@ -39,22 +39,22 @@
               ".validate": "newData.isString() && newData.val().length <= 200"
             },
             "salt": {
-              ".validate": "newData.isString() && newData.val().length <= 100"
+              ".validate": "newData.isString() && newData.val().length <= 100 && !data.exists()"
             },
             "N": {
-              ".validate": "newData.isNumber()"
+              ".validate": "newData.isNumber() && !data.exists()"
             },
             "r": {
-              ".validate": "newData.isNumber()"
+              ".validate": "newData.isNumber() && !data.exists()"
             },
             "p": {
-              ".validate": "newData.isNumber()"
+              ".validate": "newData.isNumber() && !data.exists()"
             },
             "length": {
-              ".validate": "newData.isNumber() && newData.val() <= 100"
+              ".validate": "newData.isNumber() && newData.val() <= 100 && !data.exists()"
             },
             "alphabet": {
-              ".validate": "newData.isString() && newData.val().length <= 256"
+              ".validate": "newData.isString() && newData.val().length <= 256 && !data.exists()"
             },
             "$other": {
               ".validate": "false"
