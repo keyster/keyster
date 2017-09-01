@@ -177,6 +177,13 @@ function servicesListen(uid) {
 			select.search();
 			profileUpdate();
 			archiveUpdate();
+		} else {
+			servicesCurrent = {};
+			select.all = [];
+			select.shown = [];
+			select.fuse = null;
+			profileUpdate();
+			archiveUpdate();
 		}
 	});
 }
