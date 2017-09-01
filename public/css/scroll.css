@@ -32,6 +32,17 @@ html {
 	border-radius: 0;
 }
 
+.archive-scroll::-webkit-scrollbar {
+	background-color: rgba(0, 0, 0, 0);
+	width: 0.4em;
+	border-right: 1px solid #4a4a4a;
+}
+
+.archive-scroll::-webkit-scrollbar-thumb {
+	background-color: #444;
+	border-radius: 0;
+}
+
 @media (min-width: 1025px) {
 	::-webkit-scrollbar {
 		background-color: rgba(0, 0, 0, 0);

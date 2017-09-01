@@ -115,7 +115,7 @@
                 </div>
               </a>
             </div>
-            <div class="panel-line">
+            <div class="panel-line"></div>
           </nav>
         </div>
 
@@ -224,14 +224,17 @@
                   </p>
                 </div>
               </div>
-              <a class="panel-block" v-for="(change, index) in shown" v-show="change.status === tab.slice(0,-1)" :class="{ 'is-active': index===selected }" @click="select(index)">
-                <span class="panel-icon">
-                  <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
-                </span>
-                <div class="x-scroll">
-                  <strong>{{ change.display }}</strong> <small>{{ timeago().format(change.timestamp) }}</small>
-                </div>
-              </a>
+							<div class="archive-scroll panel-list" :style="{ 'max-height': heightpx }" ref="archivelist"  @scroll="scroll">
+								<a class="panel-block" v-for="(change, index) in shown" :class="{ 'is-active': index===selected, 'hide-top-border': index===0, 'hide-bottom-border': index+1===shown.length || index+1===scrolled || index+1===height+scrolled }" @click="select(index)">
+	                <span class="panel-icon">
+	                  <i class="fa" :class="{ 'fa-pencil': change.status==='edit', 'fa-eraser': change.status==='deletion', 'fa-exclamation-triangle': change.status==='error' }"></i>
+	                </span>
+	                <div class="x-scroll">
+	                  <strong>{{ change.display }}</strong> <small>{{ timeago().format(change.timestamp) }}</small>
+	                </div>
+	              </a>
+							</div>
+							<div class="panel-line"></div>
             </nav>
           </div>
         </div>

@@ -12,7 +12,22 @@ var archive = new Vue({
 		selected: 0,
 		fuse: null,
 		query: '',
-		tab: 'edits'
+		height: 8,
+		tab: 'edits',
+		scrolled: Math.round(document.getElementsByClassName('archive-scroll')[0].scrollTop/41)
+	},
+	updated: function() {
+		if (!this.$refs.homelist) {
+			return;
+		}
+		var diff = window.innerHeight -
+			(this.$refs.archivelist.getBoundingClientRect().top + window.pageYOffset || document.documentElement.scrollTop) -
+			(document.body.getBoundingClientRect().bottom - archive.$refs.archivelist.getBoundingClientRect().bottom);
+		if (diff > 410) {
+			this.height = Math.floor(diff / 41);
+		} else {
+			this.height = 8;
+		}
 	},
 	computed: {
 		display: function() { return menu.tab === 'archive'; },
@@ -38,7 +53,8 @@ var archive = new Vue({
 				}
 			}
 			return edits;
-		}
+		},
+		heightpx: function() { return this.height*41 + 'px' }
 	},
 	methods: {
 		select: function(index) {
@@ -63,9 +79,9 @@ var archive = new Vue({
 		},
 		search: function(event) {
 			if (this.query) {
-				this.shown = this.fuse.search(this.query);
+				this.shown = this.fuse.search(this.query).filter(function(e) { return e.status === archive.tab.slice(0, -1) });
 			} else {
-				this.shown = this.all;
+				this.shown = this.all.filter(function(e) { return e.status === archive.tab.slice(0, -1) });
 			}
 			this.maintain();
 		},
@@ -86,6 +102,24 @@ var archive = new Vue({
 		changeTab: function(toTab) {
 			this.tab = toTab
 			this.reset()
+			this.search()
+		},
+		scroll: function(event) {
+			var fromBottom = archive.$refs.archivelist.scrollTop - (archive.$refs.archivelist.scrollHeight - archive.$refs.archivelist.offsetHeight)
+			if (fromBottom < 1 && fromBottom >= 0) {
+				var exact = archive.$refs.archivelist.scrollTop / 41;
+				var rounded = Math.round(exact);
+				archive.scrolled = rounded;
+			} else {
+				var exact = archive.$refs.archivelist.scrollTop / 41;
+				var rounded = Math.round(exact);
+				var diff = Math.abs(rounded-exact);
+				if (diff < .03) {
+					archive.scrolled = rounded;
+				} else {
+					archive.scrolled = NaN;
+				}
+			}
 		}
 	}
 });
