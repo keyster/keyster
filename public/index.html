@@ -199,27 +199,30 @@
             <div v-if="active">
               {{ message }}<br><br>
               <div class="code-block archive-changes custom-scroll">
-	              <span v-for="edit in edits">
-	                <b>{{ edit[0] }}</b>:&nbsp;
-	                {{ edit[1] }}<br>
-	              </span>
+                <span v-for="edit in edits">
+                  <b>{{ edit[0] }}</b>:&nbsp;
+                  {{ edit[1] }}<br>
+                </span>
               </div><hr>
             </div>
             <nav class="panel">
               <div v-if="all.length === 0">
                 Nothing here!
               </div>
-							<p class="panel-tabs panel-tabs-heading">
-								<a :class="{ 'is-active': tab === 'edits' }" @click="changeTab('edits')">Edits</a>
-								<a :class="{ 'is-active': tab === 'deletions' }" @click="changeTab('deletions')">Deletions</a>
-							</p>
-              <div class="panel-block" v-if="all.length > 0">
-                <p class="control has-icons-left">
-                  <input class="input is-small" type="text" placeholder="search" @input="search" v-model="query">
-                  <span class="icon is-small is-left">
-                    <i class="fa fa-search"></i>
-                  </span>
+              <div>
+              <div v-if="all.length > 0">
+                <p class="panel-tabs panel-tabs-heading">
+                  <a :class="{ 'is-active': tab === 'edits' }" @click="changeTab('edits')">Edits</a>
+                  <a :class="{ 'is-active': tab === 'deletions' }" @click="changeTab('deletions')">Deletions</a>
                 </p>
+                <div class="panel-block">
+                  <p class="control has-icons-left">
+                    <input class="input is-small" type="text" placeholder="search" @input="search" v-model="query">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-search"></i>
+                    </span>
+                  </p>
+                </div>
               </div>
               <a class="panel-block" v-for="(change, index) in shown" v-show="change.status === tab.slice(0,-1)" :class="{ 'is-active': index===selected }" @click="select(index)">
                 <span class="panel-icon">
