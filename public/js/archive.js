@@ -99,10 +99,10 @@ var archive = new Vue({
 			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.active.id).set(reverted);
 			archiveUpdate()
 		},
-		changeTab: function(toTab) {
-			this.tab = toTab
-			this.reset()
-			this.search()
+		changeTab: function(tab) {
+			this.tab = tab;
+			this.reset();
+			this.search();
 		},
 		scroll: function(event) {
 			var fromBottom = archive.$refs.archivelist.scrollTop - (archive.$refs.archivelist.scrollHeight - archive.$refs.archivelist.offsetHeight)
