@@ -15,7 +15,7 @@
 }
 
 .panel-list {
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .panel-line {
