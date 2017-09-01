@@ -73,9 +73,6 @@ var select = new Vue({
 	computed: {
 		display: function() { return menu.auth && menu.tab === 'home'; },
 	},
-	mounted: function() {
-
-	},
 	updated: function() {
 		var diff = window.innerHeight -
 			(this.$refs.homelist.getBoundingClientRect().top + window.pageYOffset || document.documentElement.scrollTop) -
@@ -88,7 +85,7 @@ var select = new Vue({
 		document.getElementById("entriesList").onscroll = function() {
 			var exact = document.getElementsByClassName('entries-scroll')[0].scrollTop/41;
 			var rounded = Math.round(exact)
-			select.entriesScrolled = rounded-exact < 0.05 && rounded-exact >= 0 || exact-rounded < 0.03 && exact-rounded >= 0 ? rounded : 999999999999999999999999999999999999999999999999999999
+			select.entriesScrolled = rounded-exact < 0.05 && rounded-exact >= 0 || exact-rounded < 0.03 && exact-rounded >= 0 ? rounded : 1e+200
 		}
 	},
 	methods: {
