@@ -31,6 +31,11 @@ var menu = new Vue({
 	data: {
 		auth: null,
 		tab: ["home", "archive", "create", "profile", "settings"].indexOf(location.hash.slice(1)) === -1 ? "home" : location.hash.slice(1)
+	},
+	methods: {
+		toggle: function(item) {
+			location.hash = "#"+item
+		}
 	}
 });
 
