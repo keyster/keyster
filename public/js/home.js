@@ -74,9 +74,8 @@ var select = new Vue({
 	},
 	updated: function() {
 		var diff = window.innerHeight -
-			select.$refs.homelist.getBoundingClientRect().top -
-			(window.pageYOffset || document.documentElement.scrollTop);
-		console.log(diff);
+			(this.$refs.homelist.getBoundingClientRect().top + window.pageYOffset || document.documentElement.scrollTop) -
+			(document.body.getBoundingClientRect().bottom - select.$refs.homelist.getBoundingClientRect().bottom);
 		if (diff > 410) {
 			this.height = (Math.floor(diff / 41) * 41) + 'px';
 		} else {
