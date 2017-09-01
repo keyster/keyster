@@ -67,10 +67,14 @@ var select = new Vue({
 		query: '',
 		selected: 0,
 		fuse: null,
-		height: '410px'
+		height: '410px',
+		entriesScrolled: Math.round(document.getElementsByClassName('entries-scroll')[0].scrollTop/41)
 	},
 	computed: {
 		display: function() { return menu.auth && menu.tab === 'home'; },
+	},
+	mounted: function() {
+
 	},
 	updated: function() {
 		var diff = window.innerHeight -
@@ -80,6 +84,11 @@ var select = new Vue({
 			this.height = (Math.floor(diff / 41) * 41) + 'px';
 		} else {
 			this.height = '410px';
+		}
+		document.getElementById("entriesList").onscroll = function() {
+			var exact = document.getElementsByClassName('entries-scroll')[0].scrollTop/41;
+			var rounded = Math.round(exact)
+			select.entriesScrolled = rounded-exact < 0.05 && rounded-exact >= 0 || exact-rounded < 0.03 && exact-rounded >= 0 ? rounded : 999999999999999999999999999999999999999999999999999999
 		}
 	},
 	methods: {

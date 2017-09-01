@@ -103,8 +103,8 @@
                 </span>
               </p>
             </div>
-            <div ref="homelist" class="panel-list entries-scroll" :style="{ 'max-height': height }">
-              <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
+            <div ref="homelist" id="entriesList" class="panel-list entries-scroll" :style="{ 'max-height': height }">
+              <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected, 'hide-top-border': index===0, 'hide-bottom-border': index===shown.length-1 || (index+1-entriesScrolled===0) || Math.floor(parseInt(height.slice(0,-2))/41)+entriesScrolled===index+1 }" @click="select(index)">
                 <span class="panel-icon">
                   <i class="fa fa-key"></i>
                 </span>

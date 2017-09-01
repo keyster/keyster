@@ -10,6 +10,14 @@ html {
 	display: flex;
 }
 
+.hide-top-border {
+	border-top: 0px !important;
+}
+
+.hide-bottom-border {
+	border-bottom: 0px !important;
+}
+
 .x-scroll {
 	overflow-x: auto;
 	white-space: nowrap;
