@@ -14,11 +14,14 @@ html {
 .custom-scroll::-webkit-scrollbar {
 	width: 0.7em;
 	height: 0.7em;
-	background-color: rgb(200, 200, 200);
+	background-color: rgba(0, 0, 0, 0);
+	padding-bottom: 0.2em;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-	background-color: #444;
+	background-color: rgba(100, 100, 100, 0.8);
+	border-radius: 500000px;
+	margin-bottom: 0.2em;
 }
 
 .entries-scroll::-webkit-scrollbar {
