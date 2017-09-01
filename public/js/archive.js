@@ -208,6 +208,9 @@ function archiveListen(uid) {
 		if (a) {
 			archiveCurrent = a;
 			archiveUpdate();
+		} else {
+			archiveCurrent = {};
+			archiveUpdate();
 		}
 	});
 }

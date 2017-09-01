@@ -93,8 +93,9 @@
               Entries
             </p>
             <div class="panel-block hide-bottom-border" v-if="all.length === 0">
-              You have no entries. To make your first entry, click on the&nbsp;&nbsp;
-              <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
+              <span>You have no entries. To make your first entry, click on the
+              <a class="button example-button"><i class="fa fa-plus"></i></a>
+              button.</span>
             </div>
             <div class="panel-block" v-if="all.length > 0">
               <p class="control has-icons-left">
@@ -234,7 +235,7 @@
 	                </div>
 	              </a>
 							</div>
-							<div class="panel-line"></div>
+							<div class="panel-line" v-if="all.length > 0"></div>
             </nav>
           </div>
         </div>

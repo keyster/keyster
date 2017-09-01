@@ -31,10 +31,7 @@
 }
 
 .example-button {
-	font-size: inherit;
 	pointer-events: none;
-	height: 2em;
-	width: 2em;
 	font-size: 0.8em;
 }
 
