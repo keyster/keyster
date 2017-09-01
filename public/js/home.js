@@ -121,13 +121,20 @@ var select = new Vue({
 			}
 		},
 		scroll: function(event) {
-			var exact = select.$refs.homelist.scrollTop / 41;
-			var rounded = Math.round(exact);
-			var diff = Math.abs(rounded-exact);
-			if (diff < .03) {
+			var fromBottom = select.$refs.homelist.scrollTop - (select.$refs.homelist.scrollHeight - select.$refs.homelist.offsetHeight)
+			if (fromBottom < 1 && fromBottom >= 0) {
+				var exact = select.$refs.homelist.scrollTop / 41;
+				var rounded = Math.round(exact);
 				select.scrolled = rounded;
 			} else {
-				select.scrolled = NaN;
+				var exact = select.$refs.homelist.scrollTop / 41;
+				var rounded = Math.round(exact);
+				var diff = Math.abs(rounded-exact);
+				if (diff < .03) {
+					select.scrolled = rounded;
+				} else {
+					select.scrolled = NaN;
+				}
 			}
 		}
 	}
