@@ -17,7 +17,7 @@ var archive = new Vue({
 		scrolled: Math.round(document.getElementsByClassName('archive-scroll')[0].scrollTop/41)
 	},
 	updated: function() {
-		if (!this.$refs.homelist) {
+		if (!this.$refs.archivelist) {
 			return;
 		}
 		var diff = window.innerHeight -
