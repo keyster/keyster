@@ -103,15 +103,18 @@
                 </span>
               </p>
             </div>
-            <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
-              <span class="panel-icon">
-                <i class="fa fa-key"></i>
-              </span>
-              <div class="x-scroll">
-                <strong>{{ entry.title }}</strong>&nbsp;
-                <small>{{ entry.subtitle }}</small>
-              </div>
-            </a>
+            <div class="panel-list">
+              <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected }" @click="select(index)">
+                <span class="panel-icon">
+                  <i class="fa fa-key"></i>
+                </span>
+                <div class="x-scroll">
+                  <strong>{{ entry.title }}</strong>&nbsp;
+                  <small>{{ entry.subtitle }}</small>
+                </div>
+              </a>
+            </div>
+            <div class="panel-line">
           </nav>
         </div>
 
