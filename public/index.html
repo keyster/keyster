@@ -10,6 +10,7 @@
     <link type="text/css" rel="stylesheet" href="css/balloon.min.css" />
 
     <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <link type="text/css" rel="stylesheet" href="css/scroll.css" />
   </head>
   <body>
     <div class="section">
@@ -91,7 +92,7 @@
             <p class="panel-heading">
               Entries
             </p>
-            <div class="panel-block" v-if="all.length === 0">
+            <div class="panel-block hide-bottom-border" v-if="all.length === 0">
               You have no entries. To make your first entry, click on the&nbsp;&nbsp;
               <a class="button example-button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;button.
             </div>
@@ -103,8 +104,8 @@
                 </span>
               </p>
             </div>
-            <div ref="homelist" id="entriesList" class="panel-list entries-scroll" :style="{ 'max-height': height }">
-              <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected, 'hide-top-border': index===0, 'hide-bottom-border': index===shown.length-1 || (index+1-entriesScrolled===0) || Math.floor(parseInt(height.slice(0,-2))/41)+entriesScrolled===index+1 }" @click="select(index)">
+            <div ref="homelist" class="panel-list entries-scroll" :style="{ 'max-height': heightpx }" @scroll=scroll>
+              <a class="panel-block" v-for="(entry, index) in shown" :class="{ 'is-active': index===selected, 'hide-top-border': index===0, 'hide-bottom-border': index+1===shown.length || index+1===scrolled || index+1===height+scrolled }" @click="select(index)">
                 <span class="panel-icon">
                   <i class="fa fa-key"></i>
                 </span>

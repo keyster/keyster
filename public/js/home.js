@@ -67,25 +67,21 @@ var select = new Vue({
 		query: '',
 		selected: 0,
 		fuse: null,
-		height: '410px',
-		entriesScrolled: Math.round(document.getElementsByClassName('entries-scroll')[0].scrollTop/41)
+		height: 10,
+		scrolled: Math.round(document.getElementsByClassName('entries-scroll')[0].scrollTop/41)
 	},
 	computed: {
 		display: function() { return menu.auth && menu.tab === 'home'; },
+		heightpx: function() { return this.height*41 + 'px' }
 	},
 	updated: function() {
 		var diff = window.innerHeight -
 			(this.$refs.homelist.getBoundingClientRect().top + window.pageYOffset || document.documentElement.scrollTop) -
 			(document.body.getBoundingClientRect().bottom - select.$refs.homelist.getBoundingClientRect().bottom);
 		if (diff > 410) {
-			this.height = (Math.floor(diff / 41) * 41) + 'px';
+			this.height = Math.floor(diff / 41);
 		} else {
-			this.height = '410px';
-		}
-		document.getElementById("entriesList").onscroll = function() {
-			var exact = document.getElementsByClassName('entries-scroll')[0].scrollTop/41;
-			var rounded = Math.round(exact)
-			select.entriesScrolled = rounded-exact < 0.05 && rounded-exact >= 0 || exact-rounded < 0.03 && exact-rounded >= 0 ? rounded : 1e+200
+			this.height = 10;
 		}
 	},
 	methods: {
@@ -115,7 +111,21 @@ var select = new Vue({
 			} else {
 				this.shown = this.all;
 			}
-			this.maintain();
+			if (event) {
+				this.select(0);
+			} else {
+				this.maintain();
+			}
+		},
+		scroll: function(event) {
+			var exact = select.$refs.homelist.scrollTop / 41;
+			var rounded = Math.round(exact);
+			var diff = Math.abs(rounded-exact);
+			if (diff < .03) {
+				select.scrolled = rounded;
+			} else {
+				select.scrolled = NaN;
+			}
 		}
 	}
 });

@@ -21,7 +21,7 @@ var archive = new Vue({
 				var entry = select.all.filter(function (entry) { return entry.id === archive.active.id })[0]
 				if (!entry) { return true }
 				for (prop in this.active) {
-					if (['status', 'timestamp', 'id', 'display'].indexOf(prop) === -1 && this.active[prop] !== entry[prop]) {
+					if (['status', 'timestamp', 'id', 'display'].includes(prop) && this.active[prop] !== entry[prop]) {
 						return false
 					}
 				}
@@ -33,7 +33,7 @@ var archive = new Vue({
 		edits: function() {
 			var edits = [];
 			for (x in this.active) {
-				if (['display', 'status', 'timestamp', 'id'].indexOf(x) === -1) {
+				if (['display', 'status', 'timestamp', 'id'].includes(x)) {
 					edits.push([x, this.active[x]]);
 				}
 			}
