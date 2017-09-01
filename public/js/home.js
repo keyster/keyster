@@ -66,10 +66,22 @@ var select = new Vue({
 		shown: [],
 		query: '',
 		selected: 0,
-		fuse: null
+		fuse: null,
+		height: '410px'
 	},
 	computed: {
 		display: function() { return menu.auth && menu.tab === 'home'; },
+	},
+	updated: function() {
+		var diff = window.innerHeight -
+			select.$refs.homelist.getBoundingClientRect().top -
+			(window.pageYOffset || document.documentElement.scrollTop);
+		console.log(diff);
+		if (diff > 410) {
+			this.height = (Math.floor(diff / 41) * 41) + 'px';
+		} else {
+			this.height = '410px';
+		}
 	},
 	methods: {
 		select: function(index) {

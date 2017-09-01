@@ -58,7 +58,6 @@ html {
 }
 
 .panel-list {
-	max-height: calc(10 * 41px);
 	overflow-y: scroll;
 }
 
