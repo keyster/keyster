@@ -44,7 +44,7 @@ html {
 	}
 
 	::-webkit-scrollbar-thumb {
-		background-color: #444;
+		background-color: #0d3856;
 		border-radius: 5000000px;
 	}
 }
