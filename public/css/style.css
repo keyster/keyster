@@ -15,6 +15,23 @@ html {
 	white-space: nowrap;
 }
 
+@media (min-width: 1025px) {
+	::-webkit-scrollbar {
+		background-color: rgba(0, 0, 0, 0);
+		width: 0.8rem;
+		padding-right: 100px;
+	}
+
+	body {
+		padding-left: 0.8rem;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: #444;
+		border-radius: 5000000px;
+	}
+}
+
 .x-scroll::-webkit-scrollbar {
 	display: none;
 }
@@ -27,6 +44,17 @@ html {
 
 .custom-scroll::-webkit-scrollbar-thumb {
 	background-color: #444;
+}
+
+.entries-scroll::-webkit-scrollbar {
+	background-color: rgba(0, 0, 0, 0);
+	width: 0.4em;
+	border-right: 1px solid #4a4a4a;
+}
+
+.entries-scroll::-webkit-scrollbar-thumb {
+	background-color: #444;
+	border-radius: 0;
 }
 
 .panel-list {
