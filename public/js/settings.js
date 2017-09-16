@@ -10,7 +10,7 @@ var settings = new Vue({
 		}
 	},
 	computed: {
-		display: function() { return menu.tab === 'settings'; }
+		display: function() { return menu.tab === 'settings' && menu.auth; }
 	},
 	methods: {
 		change: function(name, value) {

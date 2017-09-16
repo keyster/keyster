@@ -30,7 +30,7 @@ var archive = new Vue({
 		}
 	},
 	computed: {
-		display: function() { return menu.tab === 'archive'; },
+		display: function() { return menu.tab === 'archive' && menu.auth; },
 		disabled: function() {
 			if (this.active.status !== 'deletion') {
 				var entry = select.all.filter(function (entry) { return entry.id === archive.active.id })[0]
