@@ -5,7 +5,7 @@ var profile = new Vue({
 		raw: null
 	},
 	computed: {
-		display: function() { return menu.tab === 'profile'; }
+		display: function() { return menu.tab === 'profile' && menu.auth; }
 	},
 	methods: {
 		logout: function(event) {

@@ -14,7 +14,7 @@ var create = new Vue({
 		advanced: false
 	},
 	computed: {
-		display: function() { return menu.tab === 'create'; }
+		display: function() { return menu.tab === 'create' && menu.auth; }
 	},
 	methods: {
 		change: function(name, value) {
