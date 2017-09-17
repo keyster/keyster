@@ -1,64 +1,3 @@
-var generate = new Vue({
-	el: '#generate',
-	data: {
-		entry: null,
-		new: {},
-		master: '',
-		password: '',
-		notify: false,
-		edit: false,
-		type: 'password'
-	},
-	computed: {
-		display: function() { return menu.auth && select.shown.length > 0 && menu.tab === 'home'; },
-	},
-	methods: {
-		generate: function(event) {
-			this.password = hash(this.entry, this.master);
-			this.master = '';
-			this.type = 'password';
-			this.notify = true;
-			setTimeout(()=>{
-				this.reset();
-			}, 5000);
-		},
-		reset: function(event) {
-			this.password = '';
-			this.master = '';
-			this.type = 'password';
-			this.notify = false;
-		},
-		change: function(name, value) {
-			this.new[name] = value;
-		},
-		toggle: function(event) {
-			if (this.type === 'password') {
-				this.type = 'text';
-			} else {
-				this.type = 'password';
-			}
-		},
-		update: function(event) {
-			var updated = {};
-			Object.assign(updated, this.entry);
-			Object.assign(updated, this.new);
-			delete updated.id;
-			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).set(updated);
-			this.edit = false;
-		},
-		archive: function(event) {
-			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).remove();
-			select.reset();
-			this.edit = false;
-		},
-		confirmArchive: function(event) {
-			confirm.call('Archive Entry',
-				'Are you sure you want to archive this entry? You will have 30 days to revert changes.',
-				this.archive);
-		}
-	}
-});
-
 var select = new Vue({
 	el: '#select',
 	data: {
@@ -136,6 +75,67 @@ var select = new Vue({
 					select.scrolled = NaN;
 				}
 			}
+		}
+	}
+});
+
+var generate = new Vue({
+	el: '#generate',
+	data: {
+		entry: null,
+		new: {},
+		master: '',
+		password: '',
+		notify: false,
+		edit: false,
+		type: 'password'
+	},
+	computed: {
+		display: function() { return menu.auth && select.shown.length > 0 && menu.tab === 'home'; },
+	},
+	methods: {
+		generate: function(event) {
+			this.password = hash(this.entry, this.master);
+			this.master = '';
+			this.type = 'password';
+			this.notify = true;
+			setTimeout(()=>{
+				this.reset();
+			}, 5000);
+		},
+		reset: function(event) {
+			this.password = '';
+			this.master = '';
+			this.type = 'password';
+			this.notify = false;
+		},
+		change: function(name, value) {
+			this.new[name] = value;
+		},
+		toggle: function(event) {
+			if (this.type === 'password') {
+				this.type = 'text';
+			} else {
+				this.type = 'password';
+			}
+		},
+		update: function(event) {
+			var updated = {};
+			Object.assign(updated, this.entry);
+			Object.assign(updated, this.new);
+			delete updated.id;
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).set(updated);
+			this.edit = false;
+		},
+		archive: function(event) {
+			firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/services/'+this.entry.id).remove();
+			select.reset();
+			this.edit = false;
+		},
+		confirmArchive: function(event) {
+			confirm.call('Archive Entry',
+				'Are you sure you want to archive this entry? You will have 30 days to revert changes.',
+				this.archive);
 		}
 	}
 });
