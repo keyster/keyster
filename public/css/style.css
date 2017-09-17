@@ -54,3 +54,16 @@
 		display: inline;
 	}
 }
+
+@media (max-height: 650px) {
+	[data-balloon]:hover:before, [data-balloon]:hover:after, [data-balloon][data-balloon-visible]:before, [data-balloon][data-balloon-visible]:after {
+		opacity: 0;
+	}
+	.section {
+		padding-top: 0.8rem;
+	}
+
+	.mobile-break {
+		display: inline;
+	}
+}
