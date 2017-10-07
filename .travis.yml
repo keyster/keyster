@@ -1,4 +1,7 @@
 language: android
+android:
+  components:
+    - android-26
 install:
   - nvm install 6.9.4
   - sudo apt-get install ruby-full -y
