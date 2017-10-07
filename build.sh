@@ -29,7 +29,7 @@ echo "=== Building Electron app... ==="
 cp -r desktop build/desktop
 cp build/css/* build/desktop/css
 cp -r build/lib build/desktop/lib
-cd build/desktop && sudo npm install --unsafe-perm=true && cd ../..
+cd build/desktop && npm install && cd ../..
 electron-packager build/desktop --platform linux --arch x64 --out build/src/
 electron-installer-debian --src build/src/Keyster-linux-x64/ --dest build/out/ --arch amd64
 electron-packager build/desktop --platform darwin --arch x64 --out build/src/
