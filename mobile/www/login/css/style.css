@@ -1,0 +1,32 @@
+[v-cloak] {
+	display: none;
+}
+
+.columns-flex {
+	display: flex;
+}
+
+.column-mini {
+	flex: none;
+	width: 16.6666666667%;
+	min-width: 100px;
+}
+
+body, html, #login
+{
+		margin: 0; padding: 0; height: 100%; overflow: hidden;
+}
+
+@media (max-width: 390px) {
+	#recaptcha {
+		-webkit-transform: scale(0.78);
+		transform: scale(0.78);
+		-webkit-transform-origin: left center;
+		transform-origin: left center;
+	}
+
+	#recaptcha div {
+		width: 237px !important;
+		height: 61px !important;
+	}
+}
