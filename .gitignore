@@ -3,3 +3,4 @@ firebase-debug.log
 .sass-cache
 mobile/platforms
 /build/*
+localbuild.sh
