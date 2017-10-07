@@ -4,7 +4,7 @@ install:
   - sudo apt-get install ruby-dev -y
   - gem install sass --no-user-install
   - npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
-build:
+script:
   - chmod +x build.sh && ./build.sh
 cache:
   directories:
