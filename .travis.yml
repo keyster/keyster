@@ -1,19 +1,27 @@
 language: android
 android:
   components:
-    - android-26
+  - android-26
 install:
-  - nvm install 6.9.4
-  - sudo apt-get install ruby-full -y
-  - sudo apt-get install ruby-dev -y
-  - gem install sass --no-user-install
-  - npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
-  - npm install -g cordova
-  - npm install -g electron-packager
-  - npm install -g electron-installer-debian
+- nvm install 6.9.4
+- sudo apt-get install ruby-full -y
+- sudo apt-get install ruby-dev -y
+- gem install sass --no-user-install
+- npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
+- npm install -g cordova
+- npm install -g electron-packager
+- npm install -g electron-installer-debian
 script:
-  - chmod +x build.sh && ./build.sh
+- chmod +x build.sh && ./build.sh
 cache:
   directories:
-    - $(npm root -g)
-    - $(npm config get prefix)/bin
+  - "$(npm root -g)"
+  - "$(npm config get prefix)/bin"
+deploy:
+  provider: releases
+  api_key:
+    secure: bofOYhPJPzoZK9mTaOAl8hJ0Mo+Hx/YccwD1SzyRxHRHByP3VK7II86HBfkVjswweYZEfUOArgVcsl+5+HCa+dgIZ7kRiJb2DfAqS8haGfXRSDRy55UhGCYEqcIiHaUxlhXSz6FvyqQT34LzR/QGZhnF0vPku4/NO1+/kyyPsn4XODOlyvuRKxZMyxYNFZYJjAsLVjNwCegL4pVzxPMPM4Hu6bqp1hp/aREgvcqOIWE6GHsIQYownuVzXEGiym6rIFrc7GlBTn2LrddTtPjsJuQuGKZ1iFZSewlFgBLyxo48nEavKurLTAMdx9I42k10WpdacE9mXfeF4tHPDVjdZ/q2T5UsmNB0ebjQSP4AYg6GgO/+cb0E4XeL9zX4SQewXLKt2E31n8XbA184GaduazMySZXrovBzOn7u+/m4v3c/PRJb8kut1nVCgBdBo81OBItmRnlu1dp9+dJbqblM/c43S5+kIV+00M8IA20hV2fH9sNt/aszbfe9qec2UwhDthegmDl177k0chDHe4/JjBC7y5zc98tbTUb6SAuhNorKUv6GPAnKD1C5PFf/bb8uTNcUd7xko/8fZ0rygmQJWoKgqr3vF8BL8Zv15pSfOjhuz/+UzEKicLQkgoosQxxlj4BbsaiddY60Yi3SBSgd2An0wFf6gI76w8lmoO6H+L4=
+  file_glob: true
+  file: build/out/*
+  on:
+    repo: keyster/keyster
