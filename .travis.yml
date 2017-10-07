@@ -4,8 +4,13 @@ android:
   - android-26
 install:
 - nvm install 6.9.4
-- sudo apt-get install ruby-full -y
-- sudo apt-get install ruby-dev -y
+- sudo apt-get install ruby-full ruby-dev -y
+- sudo dpkg --add-architecture i386 -y
+- wget -nc https://dl.winehq.org/wine-builds/Release.key
+- sudo apt-key add Release.key -y
+- sudo apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ -y
+- sudo apt-get update -y
+- sudo apt-get install --install-recommends winehq-stable -y
 - gem install sass --no-user-install
 - npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
 - npm install -g cordova
