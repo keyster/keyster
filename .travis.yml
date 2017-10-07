@@ -27,9 +27,7 @@ deploy:
   api_key:
     secure: d8BO5HVGEYkm3xZht5MFjbsA4Qwjz5xwfoeEQbX/uFkRMBwkgqn4DZVEiz/JcRgNkmnNMp2d+emM9JIxsOwfZm4qhBjnzD9nLae0vdZwHDcYpbcM77XAYifqebV1Ge1Glt2pGmHhoQ6bgbZZTuK1MTT3KsA7Mt1npW9O+6S2nXr/Y1o3dK6pPxl9ojhIQERJ7gMul7jKD5ubJzJlWYmzy0s/5a+2ph3WcOlk61sXlWzxbks6OzN/dhMAwZCbgvPm/YAC5NwnNEE8MG38GWIvfvGwtyBU+y6faqM+HPME93V8NoYHZpSggxK1x4+OdScUE2pef6E+sLyo1QWqCxFOfF4kaDYEvFAl3/MeTRYVKvYMM6ilHxJ45fGK8lyKkxrIU5lD22cyhk7b/suzCG/v0y0z+huNkZFC3ibmRuaxqN2uTtfdOCc+GqWgkJqlMhOFQmxVjG6KIWgRCgtbkQnE9x1cTgvJi+wsflkZgagj+ungmGwTTa3hBEba/kp0LKSth9C4J0738MhZxZswtyGGjFQvr17441vi7zQJY7u+mP1SdhIw3zv9LWUhV9FW0UBeMe2FtqnUEvkmtxOCBU/jf8B8vJtzMoDhy5fq4A5+7RnO2iMcy2tgJUOF45+xvjaTmAeq9aVV9cTBMf+IJURVubuwuIdnpHGV9d1zlFt0aWM=
   file_glob: true
-  file:
-    - build/out/KeysterSetup.exe
-    - build/out/*.deb
+  file: build/out/*
   skip_cleanup: true
   on:
     repo: keyster/keyster
