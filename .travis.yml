@@ -31,3 +31,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: keyster/keyster
+    tags: false
