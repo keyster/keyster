@@ -4,7 +4,7 @@ android:
   - android-26
 install:
 - nvm install 6.9.4
-- sudo apt-get install ruby-full ruby-dev -y
+- sudo apt-get install ruby-full ruby-dev mono-complete -y
 - sudo dpkg --add-architecture i386 -y
 - wget -nc https://dl.winehq.org/wine-builds/Release.key
 - sudo apt-key add Release.key
