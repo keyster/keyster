@@ -1,6 +1,7 @@
-language: sass
+language: android
 install:
   - nvm install 6.9.4
+  - sudo apt-get install ruby-full -y
   - sudo apt-get install ruby-dev -y
   - gem install sass --no-user-install
   - npm list -g firebase-tools --depth=0 || npm install -g firebase-tools
