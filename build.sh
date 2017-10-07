@@ -33,7 +33,7 @@ cd build/desktop && npm install && cd ../..
 electron-packager build/desktop --platform linux --arch x64 --out build/src/
 electron-installer-debian --src build/src/Keyster-linux-x64/ --dest build/out/ --arch amd64
 electron-packager build/desktop --platform darwin --arch x64 --out build/src/
-cp -r build/src/Keyster-darwin-x64/Keyster.app build/out/Keyster.app
+zip -r build/src/Keyster-darwin-x64/Keyster.app build/out/KeysterMac.zip
 electron-packager build/desktop --platform win32 --arch x64 --out build/src
 cd scripts && npm install && cd ..
 node scripts/windows-installer.js
