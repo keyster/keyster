@@ -1,3 +1,4 @@
+rm -r build
 mkdir -p build/out build/css build/src
 scss --sourcemap=none resources/bulma/sass/keyster.scss build/css/bulma.min.css --style compressed
 cp -r resources/lib build/lib
