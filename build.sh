@@ -1,4 +1,4 @@
-mkdir -p build/out build/css
+mkdir -p build/out build/css build/src
 scss --sourcemap=none resources/bulma/sass/keyster.scss build/css/bulma.min.css --style compressed
 cp -r resources/lib build/lib
 echo "=== Deploying database and functions to Firebase... ==="
@@ -27,4 +27,15 @@ cd ../..
 cp build/mobile/platforms/android/build/outputs/apk/android-release-unsigned.apk build/out/keyster.apk
 rm -r build/mobile
 echo "=== Mobile build complete. ==="
-rm -r build/lib
+echo "=== Building Electron app... ==="
+cp -r desktop build/desktop
+cp build/css/* build/desktop/css
+cp -r build/lib build/desktop/lib
+cd build/desktop && npm install && cd ../..
+electron-packager build/desktop --platform linux --arch x64 --out build/src/
+electron-installer-debian --src build/src/Keyster-linux-x64/ --dest build/out/ --arch amd64
+electron-packager build/desktop --platform darwin --arch x64 --out build/src/
+cp -r build/src/Keyster-darwin-x64/Keyster.app build/out/Keyster.app
+rm -r build/desktop build/src
+echo "=== Electron build complete. ==="
+rm -r build/lib build/css
