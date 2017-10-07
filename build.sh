@@ -34,6 +34,9 @@ electron-packager build/desktop --platform linux --arch x64 --out build/src/
 electron-installer-debian --src build/src/Keyster-linux-x64/ --dest build/out/ --arch amd64
 electron-packager build/desktop --platform darwin --arch x64 --out build/src/
 cp -r build/src/Keyster-darwin-x64/Keyster.app build/out/Keyster.app
+electron-packager build/desktop --platform win32 --arch x64 --out build/src
+node scripts/windows-installer.js
+cp build/src/Setup.exe build/out/KeysterSetup.exe
 rm -r build/src
 echo "=== Electron build complete. ==="
 rm -r build/lib build/css

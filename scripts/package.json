@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "electron-winstaller": "^2.6.3"
+  }
+}
