@@ -1,5 +1,5 @@
 [ -d build ] && rm -r build
-mkdir -p build/css
+mkdir -p build/css build/out build/src
 scss --sourcemap=none resources/bulma/sass/keyster.scss build/css/bulma.min.css --style compressed
 cp resources/css/* build/css
 cp -r resources/lib build/lib
@@ -9,7 +9,7 @@ cp build/css/* build/mobile/www/css
 cp -r build/lib build/mobile/www/lib
 cd build/mobile
 cordova platforms add android
-cordova build --release
+cordova build
 cd ../..
 cp build/mobile/platforms/android/build/outputs/apk/*.apk build/out/keyster.apk
 echo "=== Mobile build complete. ==="
