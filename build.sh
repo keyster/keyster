@@ -1,3 +1,8 @@
+[ -d build ] && rm -r build
+mkdir -p build/css
+scss --sourcemap=none resources/bulma/sass/keyster.scss build/css/bulma.min.css --style compressed
+cp resources/css/* build/css
+cp -r resources/lib build/lib
 echo "=== Building mobile app... ==="
 cp -r mobile build/mobile
 cp build/css/* build/mobile/www/css
