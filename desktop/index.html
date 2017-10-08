@@ -64,7 +64,7 @@
             </div><br>
             <a class="button is-primary is-fullwidth" @click="generate" v-show="!notify">Generate</a>
             <div v-show="notify">
-              <a class="button is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a><br>
+              <a class="button is-danger is-fullwidth" v-clipboard:copy="password" v-show="notify">Copy</a><br>
               <div class="notification" v-show="notify">
                 Success! You have 5 seconds to copy the hash to your clipboard. Of course, if you didn't enter the right master key, this won't be the real password.
               </div>
@@ -199,13 +199,13 @@
             </div><br>
             <div v-if="active">
               {{ message }}<br><br>
-              <div class="code-block archive-changes custom-scroll">
+              <div class="archive-changes custom-scroll">
                 <span v-for="edit in edits">
                   <b>{{ edit[0] }}</b>:&nbsp;
                   {{ edit[1] }}<br>
                 </span>
-              </div><hr>
-            </div>
+              </div>
+            </div><br>
             <nav class="panel">
               <div v-if="all.length === 0">
                 Nothing here!

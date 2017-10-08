@@ -23,7 +23,7 @@
 }
 
 .panel-line {
-	border-top: 1px solid #4a4a4a;
+	border-top: 1px solid #dbdbdb;
 }
 
 .mobile-break {
@@ -36,7 +36,6 @@
 }
 
 .archive-changes {
-	min-height: 14em;
 	overflow: auto;
 	white-space: nowrap;
 }
@@ -45,7 +44,6 @@
 	[data-balloon]:hover:before, [data-balloon]:hover:after, [data-balloon][data-balloon-visible]:before, [data-balloon][data-balloon-visible]:after {
 		opacity: 0;
 	}
-	
 	.section {
 		padding-top: 0.8rem;
 	}
@@ -67,3 +65,5 @@
 		display: inline;
 	}
 }
+
+

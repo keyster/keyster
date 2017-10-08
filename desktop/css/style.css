@@ -23,7 +23,7 @@
 }
 
 .panel-line {
-	border-top: 1px solid #4a4a4a;
+	border-top: 1px solid #dbdbdb;
 }
 
 .mobile-break {
@@ -36,7 +36,6 @@
 }
 
 .archive-changes {
-	min-height: 14em;
 	overflow: auto;
 	white-space: nowrap;
 }
