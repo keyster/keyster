@@ -11,7 +11,7 @@ cd build/mobile
 cordova platforms add android
 cordova build
 cd ../..
-cp build/mobile/platforms/android/build/outputs/apk/*.apk build/out/keyster.apk
+cp build/mobile/platforms/android/build/outputs/apk/*.apk build/out/Keyster.apk
 echo "=== Mobile build complete. ==="
 echo "=== Building Electron app... ==="
 cp -r desktop build/desktop
