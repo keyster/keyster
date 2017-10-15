@@ -48,6 +48,10 @@
 		padding-top: 0.8rem;
 	}
 
+	#generate .box {
+		margin-bottom: 0;
+	}
+
 	.mobile-break {
 		display: inline;
 	}
@@ -65,5 +69,3 @@
 		display: inline;
 	}
 }
-
-
