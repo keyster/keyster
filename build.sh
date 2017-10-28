@@ -15,6 +15,8 @@ cp build/mobile/platforms/android/build/outputs/apk/*.apk build/out/Keyster.apk
 echo "=== Mobile build complete. ==="
 echo "=== Building Electron app... ==="
 cp -r desktop build/desktop
+mkdir build/desktop/img
+cp -r resources/img/logo.png build/desktop/img/logo.png
 cp build/css/* build/desktop/css
 cp -r build/lib build/desktop/lib
 cd build/desktop && npm install && cd ../..
