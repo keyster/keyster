@@ -1,0 +1,54 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1074.78 1074.78">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        stroke: #c9c9c9;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 40px;
+      }
+
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: none;
+      }
+
+      .cls-3 {
+        stroke-width: 16px;
+      }
+
+      .cls-4 {
+        stroke: #6cd2ea;
+        stroke-width: 11px;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="20" y1="537.39" x2="1054.78" y2="537.39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f6f6f6"/>
+      <stop offset="1" stop-color="#dbdbdb"/>
+    </linearGradient>
+  </defs>
+  <title>logo</title>
+  <circle class="cls-1" cx="537.39" cy="537.39" r="517.39"/>
+  <circle class="cls-2" cx="537.39" cy="537.39" r="198.46"/>
+  <rect class="cls-3" x="524.07" y="106.62" width="38.65" height="168.02" rx="16" ry="16"/>
+  <rect class="cls-3" x="349.88" y="150.07" width="38.65" height="168.02" rx="16" ry="16" transform="translate(-67.58 215.96) rotate(-30)"/>
+  <rect class="cls-3" x="220.76" y="274.8" width="38.65" height="168.02" rx="16" ry="16" transform="translate(-190.7 387.32) rotate(-60)"/>
+  <rect class="cls-3" x="171.3" y="447.38" width="38.65" height="168.02" rx="16" ry="16" transform="translate(-340.77 722.02) rotate(-90)"/>
+  <rect class="cls-3" x="214.76" y="621.57" width="38.65" height="168.02" rx="16" ry="16" transform="translate(-259.93 1261.09) rotate(-120)"/>
+  <rect class="cls-3" x="339.49" y="750.69" width="38.65" height="168.02" rx="16" ry="16" transform="translate(252.2 1736.98) rotate(-150)"/>
+  <rect class="cls-3" x="512.07" y="800.15" width="38.65" height="168.02" rx="16" ry="16" transform="translate(1062.78 1768.32) rotate(-180)"/>
+  <rect class="cls-3" x="686.25" y="756.69" width="38.65" height="168.02" rx="16" ry="16" transform="translate(1736.98 1215.98) rotate(150)"/>
+  <rect class="cls-3" x="815.37" y="631.96" width="38.65" height="168.02" rx="16" ry="16" transform="matrix(-0.5, 0.87, -0.87, -0.5, 1872.1, 351.08)"/>
+  <rect class="cls-3" x="864.83" y="459.38" width="38.65" height="168.02" rx="16" ry="16" transform="translate(1427.55 -340.77) rotate(90)"/>
+  <rect class="cls-3" x="821.37" y="285.2" width="38.65" height="168.02" rx="16" ry="16" transform="translate(740.09 -543.47) rotate(60)"/>
+  <rect class="cls-3" x="696.65" y="156.07" width="38.65" height="168.02" rx="16" ry="16" transform="translate(215.96 -325.82) rotate(30)"/>
+  <circle class="cls-4" cx="538.39" cy="538.39" r="179.58"/>
+</svg>
