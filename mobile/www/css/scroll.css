@@ -46,10 +46,6 @@ html {
 	border-radius: 1em;
 }
 
-body {
-	padding-left: 0.5rem;
-}
-
 ::-webkit-scrollbar {
 	background-color: rgba(0, 0, 0, 0);
 	width: 0.5rem;
