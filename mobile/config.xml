@@ -4,6 +4,7 @@
     <description>
         A password manager with tact.
     </description>
+    <icon src="res/icon.png" />
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
