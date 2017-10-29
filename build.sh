@@ -17,12 +17,12 @@ echo "=== Mobile build complete. ==="
 echo "=== Building Electron app... ==="
 cp -r desktop build/desktop
 mkdir build/desktop/img
-cp -r resources/img/logo.png build/desktop/img/logo.png
+cp -r resources/img/logo128.png build/desktop/img/logo128.png
 cp build/css/* build/desktop/css
 cp -r build/lib build/desktop/lib
 cd build/desktop && npm install && cd ../..
 electron-packager build/desktop --platform linux --arch x64 --out build/src/
-electron-installer-debian --src build/src/Keyster-linux-x64/ --dest build/out/ --arch amd64
+electron-installer-debian --src build/src/Keyster-linux-x64/ --dest build/out/ --arch amd64 --options.icon "build/desktop/img/logo128.png"
 electron-packager build/desktop --platform darwin --arch x64 --out build/src/
 electron-installer-dmg build/src/Keyster-darwin-x64/Keyster.app Keyster --out build/out/
 electron-packager build/desktop --platform win32 --arch x64 --out build/src

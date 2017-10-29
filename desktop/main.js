@@ -1,7 +1,6 @@
-if (require('electron-squirrel-startup')) return;
-
 const electron = require('electron')
 const app = electron.app
+if(require('electron-squirrel-startup')) return;
 const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
@@ -10,7 +9,8 @@ const url = require('url')
 let mainWindow
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 600, icon:__dirname+"/img/logo.png"})
+  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow.setIcon(path.join(__dirname,"img/logo128.png"))
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
