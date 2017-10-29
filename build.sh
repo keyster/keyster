@@ -7,7 +7,7 @@ echo "=== Building mobile app... ==="
 cp -r mobile build/mobile
 cp build/css/* build/mobile/www/css
 cp -r build/lib build/mobile/www/lib
-cp resources/img/logo.png build/mobile/res/icon.png
+cp resources/img/logo128.png build/mobile/res/icon.png
 cd build/mobile
 cordova platforms add android
 cordova build
